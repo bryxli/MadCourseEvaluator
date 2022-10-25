@@ -1,38 +1,177 @@
-.App {
-  text-align: center;
+html,
+body,
+#root {
+  height: 100%;
+  font-family: Inter;
+  overflow: scroll;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.white-box {
+  height: 4%;
+  background-color: #ffffff;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  color: #000000;
+  line-height: 100%;
+  font-size: xx-large;
+  gap: 65%;
+  margin-top: 0.3%;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.grey-box {
+  background-image: linear-gradient(180deg, #d9d9d9 0%, #bcbbbb 100%);
+  height: 95%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: scroll;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.pink-box {
+  background-image: linear-gradient(239.54deg, #d9d9d9 12.81%, #ff7787 100.59%);
+  height: 96%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  gap: 3%;
+  padding-bottom: 10%;
 }
 
-.App-link {
-  color: #61dafb;
+.graph-box {
+  width: 45%;
+  border-radius: 3%;
+  background-color: white;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.reddit-box {
+  width: 50%;
+  background-color: white;
+  border-radius: 3%;
+  display: flex;
+  flex-direction: column;
+}
+
+.reddit-box-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  margin-left: 3%;
+}
+
+.reddit-box-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: scroll;
+}
+
+.course-list {
+  background-color: white;
+  border-radius: 3%;
+  display: flex;
+  flex-direction: column;
+  overflow: scroll;
+  width: 50%;
+  margin-top: 3%;
+  margin-bottom: 5%;
+  margin-left: 3%;
+  padding: 1%;
+}
+
+.course-list-item {
+  border-bottom: 4px solid #d9d9d9;
+  flex-direction: row;
+  display: flex;
+  gap: 3%;
+}
+
+.reddit-list-item {
+  padding: 10px;
+  border-bottom: 4px solid #d9d9d9;
+  margin-bottom: 2%;
+  cursor: pointer;
+}
+
+.course-name {
+  font-weight: 400;
+  line-height: 100px;
+}
+
+.search-box {
+  width: 30%;
+  color: black;
+  outline: none;
+  display: flex;
+  padding: 2px;
+  border: 1px solid currentColor;
+  border-radius: 5px;
+}
+
+.search-box input[type="search"] {
+  border: none;
+  background: transparent;
+  margin: 0;
+  padding: 7px 8px;
+  font-size: 14px;
+  color: inherit;
+  border: 1px solid transparent;
+  border-radius: inherit;
+  width: 90%;
+}
+
+.search-box button[type="submit"] {
+  text-indent: -999px;
+  overflow: hidden;
+  width: 40px;
+  padding: 0;
+  margin: 0;
+  border: 1px solid transparent;
+  border-radius: inherit;
+  background: transparent
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' class='bi bi-search' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z'%3E%3C/path%3E%3C/svg%3E")
+    no-repeat center;
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.search-box button[type="submit"]:hover {
+  opacity: 1;
+}
+
+.search-box button[type="submit"]:focus,
+.search-box input[type="search"]:focus {
+  outline: none !important;
+}
+
+.pink-box h1,
+.pink-box h4 {
+  font-weight: 400;
+}
+
+.white-box p {
+  width: 50%;
+}
+
+.professor-list {
+  display: flex;
+  flex-direction: row;
+  overflow-x: scroll;
+  gap: 2%;
+  margin-top: 4%;
+}
+
+.professor-list-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.row1 {
+  height: 50%;
+  display: flex;
+  flex-direction: row;
+  gap: 5%;
 }

@@ -7,17 +7,17 @@ import Course from "./components/Course";
 import Instructor from "./components/Instructor";
 
 function App() {
-    return (
-        <>
-            <Router>
-                <Routes>
-                    <Route exact path="/" element={<Home />} />
-                    <Route path="/course" element={<Course />} />
-                    <Route path="/instructor" element={<Instructor />} />
-                </Routes>
-            </Router>
-        </>
-    );
+  return (
+    <>
+      <Router>
+        <Routes>
+          <Route exact path="/" element={<Home />} />
+          <Route path="/course" element={<Course />} />
+          <Route path="/instructor" element={<Instructor />} />
+        </Routes>
+      </Router>
+    </>
+  );
 }
 
 export default App;

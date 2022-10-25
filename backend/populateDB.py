@@ -89,6 +89,8 @@ def PopProfessors():
     """
     uni = api.scrape_professors()
 
+    cursor = conn.cursor() # Create a cursor object to execute SQL queries
+
     # Iterating through every UW professor on RMP
     for key in uni:
         prof_json = {}                                           # Create a new JSON object for each professor
@@ -100,13 +102,20 @@ def PopProfessors():
         prof_json['RMPRating'] = professor.overall_rating        # Get the professor's RMP rating
         prof_json['RMPTotalRatings'] = professor.num_of_ratings  # Get the professor's total number of RMP ratings
         prof_json['RMPRatingClass'] = professor.rating_class
+        pData = json.dumps(prof_json)                            # Convert the JSON object to a string
 
         # TODO: Insert each professor into the database's professors table
 
-        print(prof_json)
-
-
-    return True
+        try:
+            # Insert course into the database's courses table
+            cursor.execute("INSERT INTO professors (pFName, pLName, pData) VALUES (%s, %s, %s)", (prof_json['Fname'], prof_json['Lname'], pData))
+            conn.commit()
+        except:
+            print("Error inserting course into database")
+      
+    cursor.close()
+    conn.close()
+    pass
 
 def PopRedditComments():
     """
@@ -174,7 +183,7 @@ def MadGrades(courseName):
     return(courses)
 
 if __name__ == '__main__':
-    PopCourses()
-    # PopProfessors()
+    # PopCourses()
+    PopProfessors()
     # PopRedditComments()
     # PopTeaches("Introduction to Algorithms")

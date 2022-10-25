@@ -14,9 +14,6 @@ conn = mysql.connector.connect(
     database = config.database
 )
 
-#Creating a cursor object using the cursor() method
-cursor = conn.cursor()
-
 # Instantiate an instance of PRAW's Reddit class
 reddit = praw.Reddit(client_id = config.PRAW_client_id, 
                     client_secret = config.PRAW_client_secret,
@@ -32,8 +29,12 @@ madgrades_api_token = config.madgrades_api_token
 auth_header = {'Authorization': 'Token ' + madgrades_api_token} # Authorization header, required for API call
 
 # Instantiate UW-Madison RateMyProfesso Object
-uwm_rmp_sid = "1256" # RMP School ID
-api = RateMyProfApi(uwm_rmp_sid, testing = True)
+uwm_rmp_sid_1 = "1256"  # RMP School ID #1
+uwm_rmp_sid_2 = "18418" # RMP School ID #2
+
+api_1 = RateMyProfApi(uwm_rmp_sid_1, testing = True)
+api_2 = RateMyProfApi(uwm_rmp_sid_2, testing = True)
+
 
 # URL Constants
 madGrades_course_url = 'https://api.madgrades.com/v1/courses/'
@@ -79,22 +80,18 @@ def PopCourses():
       
     pass
 
-
-def PopProfessors():
+def PopProfessorsHelper(endpoint):
     """
-    Function to populate the professors table with all professors at UW-Madison.
-    Entries contain a pUID, the professor's first name, last name, and data (where data is a dictionary of all rate my professor data).
+    Helper function to populate the professors table with all professors at UW-Madison.
 
-    SAMPLE DATA: {'Fname': 'Peter', 'Lname': 'Adamczyk', 'dept': 'Mechanical Engineering', 'RMPID': 2215832, 'RMPRating': 4.9, 'RMPTotalRatings': 12, 'RMPRatingClass': 'good'}
     """
-    uni = api.scrape_professors()
 
     cursor = conn.cursor() # Create a cursor object to execute SQL queries
 
     # Iterating through every UW professor on RMP
-    for key in uni:
+    for key in endpoint:
         prof_json = {}                                           # Create a new JSON object for each professor
-        professor = uni[key]                                     # Get the professor object
+        professor = endpoint[key]                                     # Get the professor object
         prof_json['Fname'] = professor.first_name                # Get the professor's first name
         prof_json['Lname'] = professor.last_name                 # Get the professor's last name
         prof_json['dept'] = professor.department                 # Get the professor's department
@@ -114,7 +111,23 @@ def PopProfessors():
             print("Error inserting course into database")
       
     cursor.close()
-    conn.close()
+
+    pass
+
+def PopProfessors():
+    """
+    Function to populate the professors table with all professors at UW-Madison. Iterates over the two RMP school IDs and calls the helper function to populate the table.
+    Entries contain a pUID, the professor's first name, last name, and data (where data is a dictionary of all rate my professor data).
+
+    SAMPLE DATA: {'Fname': 'Peter', 'Lname': 'Adamczyk', 'dept': 'Mechanical Engineering', 'RMPID': 2215832, 'RMPRating': 4.9, 'RMPTotalRatings': 12, 'RMPRatingClass': 'good'}
+    """
+    endpoints = []
+
+    endpoints.append(api_1.scrape_professors())
+    endpoints.append(api_2.scrape_professors())
+
+    for endpoint in endpoints:
+        PopProfessorsHelper(endpoint)
     pass
 
 def PopRedditComments():

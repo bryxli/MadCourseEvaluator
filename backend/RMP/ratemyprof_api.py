@@ -28,7 +28,7 @@ class ProfessorNotFound(Exception):
 
 
 class RateMyProfApi:
-    def __init__(self, school_id: str = "1256", testing: bool = False):
+    def __init__(self, school_id, testing: bool = False):
         self.UniversityId = school_id
         if not os.path.exists("SchoolID_" + str(self.UniversityId)):
             os.mkdir("SchoolID_" + str(self.UniversityId))
@@ -53,13 +53,6 @@ class RateMyProfApi:
                 + str(self.UniversityId)
             )
             
-            # page = requests.get(
-            #     "http://www.ratemyprofessors.com/filter/professor/?&page="
-            #     + str(i)
-            #     + "&queryoption=TEACHER&queryBy=schoolId&sid="
-            #     + "1256"
-            # )
-
             json_response = json.loads(page.content)
 
 

@@ -7,12 +7,12 @@ import json
 import mysql.connector
 
 # Establish connection to the database
-conn = mysql.connector.connect(
-    user = config.user,
-    password = config.password, 
-    host = config.host,
-    database = config.database
-)
+#conn = mysql.connector.connect(
+#    user = config.user,
+#    password = config.password, 
+#    host = config.host,
+#    database = config.database
+#)
 
 # Instantiate an instance of PRAW's Reddit class
 reddit = praw.Reddit(client_id = config.PRAW_client_id, 
@@ -186,17 +186,30 @@ def MadGrades(courseName):
     """
     search = courseName
     response = requests.get(madGrades_query_url + search, headers=auth_header) # API call to access list of courses matching search query
-    course_listings = response.json()                                                  
-    course_url = course_listings['results'][0]['url']                          # Get API Endpoint URL of first course in list
+    course_listings = response.json()
+    try:
+        course_url = course_listings['results'][0]['url']                          # Get API Endpoint URL of first course in list
+    except IndexError:
+        return
     response = requests.get(course_url, headers=auth_header)                   # API call to get course data associated with select course
     full_course_data = response.json()                                  
     grades_url = full_course_data['gradesUrl']                                 # Get API Endpoint URL of grade distribution data                                            
     response = requests.get(grades_url, headers=auth_header)                   # API call to access grade distribution data
     courses = response.json()                                                  # Course offerings dictionary, with a list of dictionaries for each 
+    print(courses)
     return(courses)
 
 if __name__ == '__main__':
     # PopCourses()
-    PopProfessors()
+    # PopProfessors()
     # PopRedditComments()
     # PopTeaches("Introduction to Algorithms")
+    with open('sample.json') as data_file:    
+        data = json.load(data_file)
+        for v in data.values():
+            print(v['code'])
+            MadGrades(v['code'])
+     #MadGrades("AFRICAN/FRENCH  216")
+
+
+    

@@ -7,12 +7,12 @@ import json
 import mysql.connector
 
 # Establish connection to the database
-#conn = mysql.connector.connect(
-#    user = config.user,
-#    password = config.password, 
-#    host = config.host,
-#    database = config.database
-#)
+conn = mysql.connector.connect(
+   user = config.user,
+   password = config.password, 
+   host = config.host,
+   database = config.database
+)
 
 # Instantiate an instance of PRAW's Reddit class
 reddit = praw.Reddit(client_id = config.PRAW_client_id, 
@@ -52,7 +52,7 @@ def PopCourses():
     Entries contain a cUID, the course's name, the course's subject, the course's code, the course's credits, and the course's description.
     """
 
-    file = open('fake.json', 'r') # Open the JSON file containing all UW-Madison courses, TODO replace with the full list of courses
+    file = open('sample.json', 'r') # Open the JSON file containing all UW-Madison courses
 
     data = json.load(file) # Load the JSON file into a dictionary
 
@@ -61,23 +61,22 @@ def PopCourses():
     # For each course in the dictionary, get all the courses fields and insert into the table
     for key in data.keys():
         cName = data[key]['name']
-        # cSubject =  data[key]['subject']
-        # cCode = data[key]['code']
-        cSubject =  'CS' # TODO: Remove this line when the full list of courses is used
-        cCode = '123'    # TODO: Remove this line when the full list of courses is used
+        cSubject =  data[key]['subject']
+        cCode = data[key]['code']
         cCredits = data[key]['credits']
         cDescription = data[key]['description'] 
+        cReq = data[key]['requisite']
 
         try:
             # Insert course into the database's courses table
-            cursor.execute("INSERT INTO courses (cName, cSubject, cCode, cCredits, cDescription) VALUES (%s, %s, %s, %s, %s)", (cName, cSubject, cCode, cCredits, cDescription, ))
+            cursor.execute("INSERT INTO courses (cName, cSubject, cCode, cCredits, cDescription, cReq) VALUES (%s, %s, %s, %s, %s, %s)", (cName, cSubject, cCode, cCredits, cDescription, cReq,))
             conn.commit()
-        except:
+        except Exception as e:
+            print(e)
             print("Error inserting course into database")
             
     cursor.close()
     conn.close()
-      
     pass
 
 def PopProfessorsHelper(endpoint):
@@ -91,7 +90,7 @@ def PopProfessorsHelper(endpoint):
     # Iterating through every UW professor on RMP
     for key in endpoint:
         prof_json = {}                                           # Create a new JSON object for each professor
-        professor = endpoint[key]                                     # Get the professor object
+        professor = endpoint[key]                                # Get the professor object
         prof_json['Fname'] = professor.first_name                # Get the professor's first name
         prof_json['Lname'] = professor.last_name                 # Get the professor's last name
         prof_json['dept'] = professor.department                 # Get the professor's department
@@ -101,14 +100,13 @@ def PopProfessorsHelper(endpoint):
         prof_json['RMPRatingClass'] = professor.rating_class
         pData = json.dumps(prof_json)                            # Convert the JSON object to a string
 
-        # TODO: Insert each professor into the database's professors table
-
         try:
             # Insert course into the database's courses table
             cursor.execute("INSERT INTO professors (pFName, pLName, pData) VALUES (%s, %s, %s)", (prof_json['Fname'], prof_json['Lname'], pData))
             conn.commit()
-        except:
-            print("Error inserting course into database")
+        except Exception as e:
+            print(e)
+            print("Error inserting professor into database")
       
     cursor.close()
 
@@ -135,19 +133,66 @@ def PopRedditComments():
     Function to populate the rc (reddit comments) table with all comments that contain a specific keyword and are posted to r/UWMadison.
     Entries contain a commend ID, the comment's text, a link to the comment, the comment's upvotes, and the cUID of the course the comment is about.
     """
-    search = '577'
-    comments_json = []
-    # # Search for comments that mention the substring provided by the user in r/UWMadison
-    for submission in uwmadison_subreddit.search(search, limit=25):
-        for comment in submission.comments:
-            if search in comment.body:
-                # Turn comment link, commend body, and number of upvotes into a dictionary
-                comment_dict = {'link': reddit_url+comment.permalink, 'body': comment.body, 'upvotes': comment.score}
-                # Add the dictionary to the list of comments
-                comment_json = json.dumps(comment_dict)
-                comments_json.append(comment_json)
 
-    print(comments_json)
+    cursor = conn.cursor() # Create a cursor object to execute SQL queries
+
+    # Query the courses table for the cCode and cUID of all courses
+    cursor.execute("SELECT cUID, cName, cCode FROM courses WHERE cName Like 'Introduction to Algorithms'") # Get the cUID, cName, and cCode of all courses
+    # cursor.execute("SELECT cUID, cName, cCode FROM courses WHERE cName Like 'PRINCIPLES OF BIOLOGICAL ANTHROPOLOGY'") # Get the cUID, cName, and cCode of all courses
+    courses = cursor.fetchall() 
+
+    # Iterate through every entry in courses
+    for course in courses:
+
+        cNum = ''.join(filter(str.isdigit, course[2]))  # Extract all numeric characters from the course's code
+        search = course[2]
+
+        # Extract the first letter of all alphabetical characters in the course's code
+        acronym = ''
+        for word in course[2].split():
+            if word[0].isalpha():
+                acronym += word[0]
+
+        # print(acronym)
+        # print(search)
+        # search = cNum
+
+        # NEW METHOD: Searching for posts thathave either the full course code, or the courses acronym + course number (e.g. CS506 or CS 506)
+        # TODO: Will need to continually refine how we choose comments to populate the DB with
+        # Search for submissions that contain the course's code
+        for submission in uwmadison_subreddit.search(search, limit=50):
+            if search.lower() in submission.title.lower() or acronym + cNum in submission.title or acronym + ' ' + cNum in submission.title: # If the course's code is in the submission's title
+                # print(submission.title) # Print the submission's title
+                submission.comments.replace_more(limit=5) # Return only the top three comments from the comment tree
+                for comment in submission.comments.list():
+                    if (comment.score > 2 or cNum in comment.body) and len(comment.body) < 1000:
+                        try:
+                            # Insert reddit comment into the database's rc table
+                            cursor.execute("INSERT INTO rc (cUID, comBody, comLink, comVotes) VALUES (%s, %s, %s, %s)", (course[0], comment.body, reddit_url+comment.permalink, comment.score,))
+                            conn.commit()
+                        except Exception as e:
+                            print(e)
+                            print("Error inserting reddit comment into database")
+
+
+        # OLD METHOD: Our old plan was to search for comments that mentioned the course code/number. This is ineffective because a lot of posts have the course code 
+        # in the title but not in the course comment body.
+
+        # Search for comments that mention the substring provided by the user in r/UWMadison
+        # for submission in uwmadison_subreddit.search(search, limit=25):
+        #     for comment in submission.comments:
+        #         if search in comment.body and comment.score > 5 and len(comment.body) < 1000:
+
+        #             try:
+        #                 # Insert reddit comment into the database's rc table
+        #                 cursor.execute("INSERT INTO rc (cUID, comBody, comLink, comVotes) VALUES (%s, %s, %s, %s)", (course[0], comment.body, reddit_url+comment.permalink, comment.score,))
+        #                 conn.commit()
+        #             except Exception as e:
+        #                 print(e)
+        #                 print("Error inserting reddit comment into database")
+            
+    cursor.close()
+
     pass
 
 def PopTeaches(cName):
@@ -202,14 +247,14 @@ def MadGrades(courseName):
 if __name__ == '__main__':
     # PopCourses()
     # PopProfessors()
-    # PopRedditComments()
+    PopRedditComments()
     # PopTeaches("Introduction to Algorithms")
-    with open('sample.json') as data_file:    
-        data = json.load(data_file)
-        for v in data.values():
-            print(v['code'])
-            MadGrades(v['code'])
-     #MadGrades("AFRICAN/FRENCH  216")
+    # with open('sample.json') as data_file:    
+    #     data = json.load(data_file)
+    #     for v in data.values():
+    #         print(v['code'])
+    #         MadGrades(v['code'])
+    # print(MadGrades("ACCT I S 301"))
 
 
     

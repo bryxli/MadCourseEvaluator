@@ -11,7 +11,7 @@ const Search = () => {
       id="basic-example"
       onChange={setSelected}
       options={options}
-      placeholder="Choose a state..."
+      placeholder="Course or Instructor name"
       selected={selected}
     />
   );

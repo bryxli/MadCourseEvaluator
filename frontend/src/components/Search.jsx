@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Typeahead } from "react-bootstrap-typeahead";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import { useNavigate } from "react-router-dom";
+import { createSearchParams, useNavigate } from "react-router-dom";
 
 const Search = () => {
   // Initialize class list
@@ -19,9 +19,14 @@ const Search = () => {
   const options = classList;
 
   // Submit button navigation
-  let navigate = useNavigate();
-  const submit = function submit() {
-    navigate(`/course?id=${encodeURIComponent(selected[0].id)}`);
+  const navigate = useNavigate();
+  const submit = () => {
+    navigate({
+      pathname: "/course",
+      search: createSearchParams({
+        id: selected[0].id,
+      }).toString(),
+    });
   };
 
   return (

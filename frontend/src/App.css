@@ -1,9 +1,26 @@
 html,
 body,
 #root {
-  height: 100%;
   font-family: Inter;
-  overflow: scroll;
+}
+
+.container {
+  max-width: 100%;
+}
+
+.full {
+  width: 100%;
+  height: 100%;
+}
+
+.header-text {
+  display: flex;
+  flex-direction: column;
+  color: #000000;
+  line-height: 100%;
+  font-size: xx-large;
+  gap: 65%;
+  margin-top: 0.3%;
 }
 
 .white-box {
@@ -21,16 +38,15 @@ body,
 
 .grey-box {
   background-image: linear-gradient(180deg, #d9d9d9 0%, #bcbbbb 100%);
-  height: 95%;
+  height: 100%;
   width: 100%;
   display: flex;
   flex-direction: column;
-  overflow: scroll;
 }
 
 .pink-box {
   background-image: linear-gradient(239.54deg, #d9d9d9 12.81%, #ff7787 100.59%);
-  height: 96%;
+  height: 100%;
   width: 100%;
   display: flex;
   flex-direction: column;

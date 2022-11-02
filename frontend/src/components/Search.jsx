@@ -8,26 +8,15 @@ const Search = () => {
   // Initialize class list
   const [classList, setClassList] = useState([]);
   useEffect(() => {
-    fetch("/", {
-      method: "GET",
-    }).then(
-      (
-        response // needs to be tested (make sure GET request receives the list)
-      ) =>
-        response.json().then((data) => {
-          setClassList(data);
-        })
+    fetch("/courselist").then((response) =>
+      response.json().then((data) => {
+        setClassList(data);
+      })
     );
   }, []);
 
   const [selected, setSelected] = useState([]);
-  classList;
-  // const options = classList;
-  const options = [
-    // Temp course data
-    { id: "CS506", name: "Software Engineering" },
-    { id: "CS577", name: "Introduction to Algorithms" },
-  ];
+  const options = classList;
 
   // Submit button navigation
   let navigate = useNavigate();

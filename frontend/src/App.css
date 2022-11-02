@@ -175,7 +175,3 @@ body,
   flex-direction: row;
   gap: 5%;
 }
-
-.hideSubmit {
-  visibility: hidden;
-}

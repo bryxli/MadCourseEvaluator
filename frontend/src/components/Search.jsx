@@ -37,7 +37,7 @@ const Search = () => {
           onChange={setSelected}
           labelKey={(option) => `${option.id} - ${option.name}`}
           options={options}
-          placeholder="Course (Ex: CS 300)"
+          placeholder="Course (Ex: CS300)"
           selected={selected}
         />
       </Form.Group>

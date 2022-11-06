@@ -1,11 +1,13 @@
 import React from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 import Header from "./Header";
 import { useSearchParams } from "react-router-dom";
 import ProfessorList from "./ProfessorList";
 import GPAGraph from "./GPAGraph";
 import Reddit from "./Reddit";
+
 const Course = () => {
   const [searchparams] = useSearchParams();
   const course = searchparams.get("id");
@@ -19,12 +21,12 @@ const Course = () => {
       <Container className="grey-box">
         <h1 className="course-name">{course}</h1>
         <Row className="row1">
-          <div className="graph-box">
+          <Col className="graph-box">
             <GPAGraph />
-          </div>
-          <div className="reddit-box">
+          </Col>
+          <Col className="reddit-box">
             <Reddit />
-          </div>
+          </Col>
         </Row>
         <Row>
           <ProfessorList />

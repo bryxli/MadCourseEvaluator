@@ -21,6 +21,7 @@ const Search = () => {
   // Submit button navigation
   const navigate = useNavigate();
   const submit = () => {
+    event.preventDefault();
     navigate({
       pathname: "/course",
       search: createSearchParams({

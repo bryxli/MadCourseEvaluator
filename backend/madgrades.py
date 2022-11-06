@@ -10,11 +10,11 @@ madGrades_course_url = 'https://api.madgrades.com/v1/courses/'
 madGrades_query_url = madGrades_course_url +'?query='
 reddit_url = 'https://www.reddit.com'
 
-def MadGrades(courseName):
+def MadGrades(courseCode):
     """
     Pulls grade distributions from every course at UW-Madison and populates the grade-distributions table
     """
-    search = courseName
+    search = courseCode
     response = requests.get(madGrades_query_url + search, headers=auth_header) # API call to access list of courses matching search query
     course_listings = response.json()
     try:

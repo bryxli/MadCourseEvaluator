@@ -168,9 +168,46 @@ def coursePage(cUID):
 @app.route('/professor/<pUID>', methods=['GET','POST'])
 def professorPage(pUID):
     """
+    Specific Professor endpoint: returns all data associated with a specific professor page.
+    Data per Professor -> 1. All professor information from professors table.
+                          2. List of courses taught by the professor.
     """
-    search = pUID # TODO
-    pass
+    cursor = conn.cursor() # Create a cursor object to execute SQL queries
+    search = pUID
+    full_professor_data_json = {}
+    all_course_json_data = {}
+
+    # 1. Get professor data from professors table,
+    cursor.execute("SELECT pData FROM professors WHERE pUID = %s", (search,)) # Execute SQL query
+
+    # Fetch all the professor data from the database
+    prof_data = cursor.fetchall()[0][0]
+
+    # Store professor data in the full professor data json that will be returned
+    full_professor_data_json['professor_data'] = json.loads(prof_data)
+
+    # 2. Get all courses taught by the professor
+    cursor.execute("SELECT cUID, cName, cSubject, cCode, cCredits, cDescription, cReq FROM courses WHERE cUID IN (SELECT cUID FROM teaches WHERE pUID = %s)", (search,)) # Execute SQL query
+
+    # Fetch all the rows from courses table
+    all_courses = cursor.fetchall()
+
+    for course in all_courses:
+        course_json_data = {'cUID': None, 'cName': None, 'cSubject': None, 'cCode': None, 'cCredits': None, 'cDescription': None, 'cReq': None} # Create a dictionary to store course data
+        # Store course data in dictionary
+        course_json_data['cUID'] = course[0]
+        course_json_data['cName'] = course[1]
+        course_json_data['cSubject'] = course[2]
+        course_json_data['cCode'] = course[3]
+        course_json_data['cCredits'] = course[4]
+        course_json_data['cDescription'] = course[5]
+        course_json_data['cReq'] = course[6]
+        all_course_json_data[course_json_data['cUID']] = course_json_data
+
+    # Store all courses taught by the professor in the full professor data json that will be returned
+    full_professor_data_json['courses-taught'] = all_course_json_data
+
+    return full_professor_data_json
 
 
 if __name__ == '__main__':

@@ -164,7 +164,6 @@ def PopRedditComments():
                             print(e)
                             print("Error inserting reddit comment into database")
 
-
         # OLD METHOD: Our old plan was to search for comments that mentioned the course code/number. This is ineffective because a lot of posts have the course code 
         # in the title but not in the course comment body.
 
@@ -195,6 +194,8 @@ def PopTeaches():
     cursor = conn.cursor() # Create a cursor object to execute SQL queries
 
     cursor.execute("SELECT cUID, cCode FROM courses WHERE cName Like 'Introduction to Algorithms'") # Get the cUID, and cCode of all courses
+    # cursor.execute("SELECT cUID, cCode FROM courses") # Get the cUID, and cCode of all courses
+
     courses = cursor.fetchall() 
     
     for course in courses:
@@ -236,17 +237,17 @@ def PopTeaches():
     cursor.close()
     pass
 
-if __name__ == '__main__':
-    # PopCourses()
-    # PopProfessors()
-    # PopRedditComments()
+def PopDB():
+    """
+    Function that populated the entire database by calling all Pop Functions.
+    """
+    PopCourses()
+    PopProfessors()
+    PopRedditComments()
     PopTeaches()
-    # with open('sample.json') as data_file:    
-    #     data = json.load(data_file)
-    #     for v in data.values():
-    #         print(v['code'])
-    #         mg.MadGrades(v['code'])
-    # print(mg.MadGrades("ACCT I S 301"))
+    return
 
-
-    
+if __name__ == '__main__':
+    # PopDB() # Run all Pop Functions
+    # For Testing
+    PopTeaches()

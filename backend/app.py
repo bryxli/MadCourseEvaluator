@@ -44,7 +44,7 @@ def AllCourses():
     all_course_json_data = {}
     for course in all_courses:
         course_json_data = {'cUID': None, 'cName': None, 'cSubject': None, 'cCode': None, 'cCredits': None, 'cDescription': None, 'cReq': None}
-        if i == 5:
+        if i == 3:
             break
         course_json_data['cUID'] = course[0]
         course_json_data['cName'] = course[1]

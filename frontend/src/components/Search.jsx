@@ -16,12 +16,13 @@ const Search = () => {
         for (var key in json) {
           const code = json[key].cCode;
           const name = json[key].cName;
-          const classFull = {};
-          classFull[code] = name;
+          const classFull = {
+            id: code,
+            name: name,
+          };
           classes.push(classFull);
         }
         setClassList(classes);
-        console.log(classList);
       })
     );
   }, []);

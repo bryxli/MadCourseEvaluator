@@ -13,6 +13,7 @@ const Course = () => {
   const course = searchparams.get("id");
 
   // todo:create a GET request using course for course data, then pass in as props
+  // todo:after retrieving data, fill our course-name, GPAGraph, Reddit, ProfessorList with props
   return (
     <Container className="full">
       <Row>

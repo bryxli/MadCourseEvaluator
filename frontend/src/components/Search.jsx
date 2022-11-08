@@ -16,9 +16,11 @@ const Search = () => {
         for (var key in json) {
           const code = json[key].cCode;
           const name = json[key].cName;
+          const id = json[key].cUID;
           const classFull = {
-            id: code,
+            code: code,
             name: name,
+            id: id,
           };
           classes.push(classFull);
         }
@@ -48,7 +50,7 @@ const Search = () => {
         <Typeahead
           id="search"
           onChange={setSelected}
-          labelKey={(option) => `${option.id} - ${option.name}`}
+          labelKey={(option) => `${option.code} - ${option.name}`}
           options={options}
           placeholder="Course (Ex: CS300)"
           selected={selected}

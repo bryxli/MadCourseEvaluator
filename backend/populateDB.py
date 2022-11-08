@@ -129,8 +129,8 @@ def PopRedditComments():
     """
     cursor = conn.cursor() 
 
-    cursor.execute("SELECT cUID, cName, cCode FROM courses") # Get the cUID, cName, and cCode of all courses
-    # cursor.execute("SELECT cUID, cName, cCode FROM courses WHERE cName Like 'Introduction to Algorithms'") # Get the cUID, cName, and cCode of all courses
+    # cursor.execute("SELECT cUID, cName, cCode FROM courses") # Get the cUID, cName, and cCode of all courses
+    cursor.execute("SELECT cUID, cName, cCode FROM courses WHERE cName Like 'Introduction to Algorithms'") # Get the cUID, cName, and cCode of all courses
     # cursor.execute("SELECT cUID, cName, cCode FROM courses WHERE cName Like 'PRINCIPLES OF BIOLOGICAL ANTHROPOLOGY'") # Get the cUID, cName, and cCode of all courses
     courses = cursor.fetchall() # Store all course datac
 
@@ -227,8 +227,8 @@ def PopDB():
     """
     # PopCourses()
     # PopProfessors()
-    PopRedditComments()
-    # PopTeaches()
+    # PopRedditComments()
+    PopTeaches()
     return
 
 if __name__ == '__main__':

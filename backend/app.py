@@ -46,7 +46,7 @@ def AllCourses():
             break
         course_json_data['cUID'] = course[0]
         course_json_data['cName'] = course[1]
-        course_json_data['cCode'] = course[3]
+        course_json_data['cCode'] = course[3] 
         # course_json_data['cSubject'] = course[2]
         # course_json_data['cCode'] = course[3]
         # course_json_data['cCredits'] = course[4]
@@ -104,7 +104,7 @@ def coursePage(cUID):
     cursor.execute("SELECT * FROM courses WHERE cUID = %s", (cUID,)) # Execute SQL query
 
     # Fetch all the course data from the database
-    course_data = cursor.fetchall()[0]
+    course_data = cursor.fetchall()[0]  
 
     course_json_data = {'cUID': None, 'cName': None, 'cSubject': None, 'cCode': None, 'cCredits': None, 'cDescription': None, 'cReq': None} # Create a dictionary to store course data
 

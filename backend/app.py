@@ -1,24 +1,26 @@
-from flask import Flask, render_template, request, flash, redirect, url_for, session
+# Needed Python Libraries
 import requests
-import mysql.connector
-from datetime import datetime, tzinfo
 import json
-import config # Move to gitignore
+import mysql.connector
+# Flask Imports
+from flask import Flask, render_template, request, flash, redirect, url_for, session
+# Custom MadGrades Script for Grade Distributions
 import madgrades as mg
+# Application Configuration (Private) Information
+import config
 
 
 app = Flask(__name__)
-app.secret_key = config.secret
+app.secret_key = config.secret 
 
 # Config DB
-app.config['MYSQL_HOST'] = 'host'
-app.config['MYSQL_USER'] = 'user'
-app.config['MYSQL_PASSWORD'] = 'pw'
-app.config['MYSQL_DB'] = 'db'
-app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
+# app.config['MYSQL_HOST'] = 'host'
+# app.config['MYSQL_USER'] = 'user'
+# app.config['MYSQL_PASSWORD'] = 'pw'
+# app.config['MYSQL_DB'] = 'db'
+# app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
-
-# Establish connection to the database
+# Establish connection to the DB
 conn = mysql.connector.connect(
    user = config.user,
    password = config.password, 
@@ -30,14 +32,9 @@ conn = mysql.connector.connect(
 def AllCourses():
     """
     All Courses endpoint: Returns JSON of all courses at the university along with all fields associated with each course.
-
-    ex. Course Data => cUID, cName, cSubject, cCode, cCredits, cDescription, cReq
     """
-    cursor = conn.cursor() # Create a cursor object to execute SQL queries
-
-    cursor.execute("SELECT * FROM courses") # Execute SQL query
-
-    # Fetch all the rows from the database as json
+    cursor = conn.cursor() 
+    cursor.execute("SELECT * FROM courses") # Store all data on all courses
     all_courses = cursor.fetchall()
 
     i = 0

@@ -39,6 +39,8 @@ uwm_rmp_sid_2 = "18418" # RMP School ID #2
 api_1 = RateMyProfApi(uwm_rmp_sid_1, testing = True) # (DOCS: 1.1.2.2)
 api_2 = RateMyProfApi(uwm_rmp_sid_2, testing = True)
 
+reddit_url = 'https://www.reddit.com'
+
 # TODO: PopCourses() is finished!
 # (DOCS: 1.1.1.1)
 def PopCourses():
@@ -127,9 +129,10 @@ def PopRedditComments():
     """
     cursor = conn.cursor() 
 
-    cursor.execute("SELECT cUID, cName, cCode FROM courses WHERE cName Like 'Introduction to Algorithms'") # Get the cUID, cName, and cCode of all courses
+    cursor.execute("SELECT cUID, cName, cCode FROM courses") # Get the cUID, cName, and cCode of all courses
+    # cursor.execute("SELECT cUID, cName, cCode FROM courses WHERE cName Like 'Introduction to Algorithms'") # Get the cUID, cName, and cCode of all courses
     # cursor.execute("SELECT cUID, cName, cCode FROM courses WHERE cName Like 'PRINCIPLES OF BIOLOGICAL ANTHROPOLOGY'") # Get the cUID, cName, and cCode of all courses
-    courses = cursor.fetchall() # Store all course data
+    courses = cursor.fetchall() # Store all course datac
 
     # TODO: FIGURE OUT WHAT SEARCHES TO DO
 
@@ -147,15 +150,13 @@ def PopRedditComments():
         # print(search)
         # search = cNum
 
-        # NEW METHOD: Searching for posts that have either the full course code, or the courses acronym + course number (e.g. CS506 or CS 506)
-       
-        # Search for submissions that contain the course's code
+        # Searching for posts that have either the full course code, or the courses acronym + course number (e.g. CS506 or CS 506)
         for submission in uwmadison_subreddit.search(search, limit=50):
-            if search.lower() in submission.title.lower() or acronym + cNum in submission.title or acronym + ' ' + cNum in submission.title: # If the course's code is in the submission's title
+            if (search.lower() in submission.title.lower()) or (acronym + cNum in submission.title) or (acronym + ' ' + cNum in submission.title): 
                 # print(submission.title) # Print the submission's title
-                submission.comments.replace_more(limit=5) # Return only the top three comments from the comment tree
+                submission.comments.replace_more(limit=10) # Return only the top three comments from the comment tree
                 for comment in submission.comments.list():
-                    if (comment.score > 2 or cNum in comment.body) and len(comment.body) < 1000:
+                    if ((comment.score > 2) and (25 < len(comment.body) < 1000)) or (cNum in comment.body):
                         try:
                             # Insert reddit comment into the database's rc table
                             cursor.execute("INSERT INTO rc (cUID, comBody, comLink, comVotes) VALUES (%s, %s, %s, %s)", (course[0], comment.body, reddit_url+comment.permalink, comment.score,))
@@ -163,25 +164,7 @@ def PopRedditComments():
                         except Exception as e:
                             print(e)
                             print("Error inserting reddit comment into database")
-
-        # OLD METHOD: Our old plan was to search for comments that mentioned the course code/number. This is ineffective because a lot of posts have the course code 
-        # in the title but not in the course comment body.
-
-        # Search for comments that mention the substring provided by the user in r/UWMadison
-        # for submission in uwmadison_subreddit.search(search, limit=25):
-        #     for comment in submission.comments:
-        #         if search in comment.body and comment.score > 5 and len(comment.body) < 1000:
-
-        #             try:
-        #                 # Insert reddit comment into the database's rc table
-        #                 cursor.execute("INSERT INTO rc (cUID, comBody, comLink, comVotes) VALUES (%s, %s, %s, %s)", (course[0], comment.body, reddit_url+comment.permalink, comment.score,))
-        #                 conn.commit()
-        #             except Exception as e:
-        #                 print(e)
-        #                 print("Error inserting reddit comment into database")
-            
     cursor.close()
-
     pass
 
 # TODO: PopTeaches() is unfinished. All we have to do it remove "WHERE cName Like 'Introduction to Algorithms'" from first query to populate teaches with all courses!
@@ -242,13 +225,11 @@ def PopDB():
     """
     Function that populated the entire database by calling all Pop Functions.
     """
-    PopCourses()
-    PopProfessors()
+    # PopCourses()
+    # PopProfessors()
     PopRedditComments()
-    PopTeaches()
+    # PopTeaches()
     return
 
 if __name__ == '__main__':
-    # PopDB() # Run all Pop Functions
-    # For Testing
-    PopCourses()
+    PopDB() # Run all Pop Functions

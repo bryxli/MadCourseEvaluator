@@ -40,16 +40,18 @@ def AllCourses():
     i = 0
     all_course_json_data = {}
     for course in all_courses:
-        course_json_data = {'cUID': None, 'cName': None, 'cSubject': None, 'cCode': None, 'cCredits': None, 'cDescription': None, 'cReq': None}
+        # course_json_data = {'cUID': None, 'cName': None, 'cSubject': None, 'cCode': None, 'cCredits': None, 'cDescription': None, 'cReq': None}
+        course_json_data = {'cUID': None, 'cName': None, 'cCode': None}
         if i == 3:
             break
         course_json_data['cUID'] = course[0]
         course_json_data['cName'] = course[1]
-        course_json_data['cSubject'] = course[2]
         course_json_data['cCode'] = course[3]
-        course_json_data['cCredits'] = course[4]
-        course_json_data['cDescription'] = course[5]
-        course_json_data['cReq'] = course[6]
+        # course_json_data['cSubject'] = course[2]
+        # course_json_data['cCode'] = course[3]
+        # course_json_data['cCredits'] = course[4]
+        # course_json_data['cDescription'] = course[5]
+        # course_json_data['cReq'] = course[6]
         all_course_json_data[course_json_data['cUID']] = course_json_data
         i+=1
 

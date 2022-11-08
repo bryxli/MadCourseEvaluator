@@ -10,7 +10,18 @@ const Search = () => {
   useEffect(() => {
     fetch("/courselist").then((response) =>
       response.json().then((data) => {
-        setClassList(data);
+        const json_str = JSON.stringify(data);
+        const json = JSON.parse(json_str);
+        var classes = [];
+        for (var key in json) {
+          const code = json[key].cCode;
+          const name = json[key].cName;
+          const classFull = {};
+          classFull[code] = name;
+          classes.push(classFull);
+        }
+        setClassList(classes);
+        console.log(classList);
       })
     );
   }, []);

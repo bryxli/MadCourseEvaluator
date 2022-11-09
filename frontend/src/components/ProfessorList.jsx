@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const data = [
   {
@@ -48,7 +48,20 @@ const data = [
   },
 ];
 
-const ProfessorList = () => {
+const ProfessorList = (props) => {
+  const course = props.id;
+
+  const [professorList, setProfessorList] = useState([]);
+  useEffect(() => {
+    fetch("/proflist/" + course).then((response) =>
+      response.json().then((data) => {
+        setProfessorList(data);
+      })
+    );
+  }, []);
+
+  professorList;
+
   return (
     <div className="professor-list">
       {data.map((prof) => (

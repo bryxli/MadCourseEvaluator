@@ -23,14 +23,14 @@ const Course = () => {
         <h1 className="course-name">{course}</h1>
         <Row className="row1">
           <Col className="graph-box">
-            <GPAGraph />
+            <GPAGraph id={course} />
           </Col>
           <Col className="reddit-box">
-            <Reddit />
+            <Reddit id={course} />
           </Col>
         </Row>
         <Row>
-          <ProfessorList />
+          <ProfessorList id={course} />
         </Row>
       </Container>
     </Container>

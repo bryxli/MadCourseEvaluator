@@ -227,8 +227,8 @@ def PopDB():
     """
     # PopCourses()
     # PopProfessors()
-    # PopRedditComments()
-    PopTeaches()
+    PopRedditComments()
+    # PopTeaches()
     return
 
 if __name__ == '__main__':

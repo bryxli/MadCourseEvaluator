@@ -1,24 +1,26 @@
-from flask import Flask, render_template, request, flash, redirect, url_for, session
+# Needed Python Libraries
 import requests
-import mysql.connector
-from datetime import datetime, tzinfo
 import json
-import config # Move to gitignore
+import mysql.connector
+# Flask Imports
+from flask import Flask, render_template, request, flash, redirect, url_for, session
+# Custom MadGrades Script for Grade Distributions
 import madgrades as mg
+# Application Configuration (Private) Information
+import config
 
 
 app = Flask(__name__)
-app.secret_key = config.secret
+app.secret_key = config.secret 
 
 # Config DB
-app.config['MYSQL_HOST'] = 'host'
-app.config['MYSQL_USER'] = 'user'
-app.config['MYSQL_PASSWORD'] = 'pw'
-app.config['MYSQL_DB'] = 'db'
-app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
+# app.config['MYSQL_HOST'] = 'host'
+# app.config['MYSQL_USER'] = 'user'
+# app.config['MYSQL_PASSWORD'] = 'pw'
+# app.config['MYSQL_DB'] = 'db'
+# app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
-
-# Establish connection to the database
+# Establish connection to the DB
 conn = mysql.connector.connect(
    user = config.user,
    password = config.password, 
@@ -30,29 +32,20 @@ conn = mysql.connector.connect(
 def AllCourses():
     """
     All Courses endpoint: Returns JSON of all courses at the university along with all fields associated with each course.
-
-    ex. Course Data => cUID, cName, cSubject, cCode, cCredits, cDescription, cReq
     """
-    cursor = conn.cursor() # Create a cursor object to execute SQL queries
-
-    cursor.execute("SELECT * FROM courses") # Execute SQL query
-
-    # Fetch all the rows from the database as json
+    cursor = conn.cursor() 
+    cursor.execute("SELECT * FROM courses") # Store all data on all courses
     all_courses = cursor.fetchall()
 
     i = 0
     all_course_json_data = {}
     for course in all_courses:
-        course_json_data = {'cUID': None, 'cName': None, 'cSubject': None, 'cCode': None, 'cCredits': None, 'cDescription': None, 'cReq': None}
+        course_json_data = {'cUID': None, 'cName': None, 'cCode': None}
         if i == 3:
             break
         course_json_data['cUID'] = course[0]
         course_json_data['cName'] = course[1]
-        course_json_data['cSubject'] = course[2]
-        course_json_data['cCode'] = course[3]
-        course_json_data['cCredits'] = course[4]
-        course_json_data['cDescription'] = course[5]
-        course_json_data['cReq'] = course[6]
+        course_json_data['cCode'] = course[3] 
         all_course_json_data[course_json_data['cUID']] = course_json_data
         i+=1
 
@@ -87,25 +80,18 @@ def AllProfs():
     return all_profs_json_data
 
 
-
-@app.route('/course/<cUID>', methods=['GET','POST'])
-def coursePage(cUID):
+@app.route('/course-info/<cUID>', methods=['GET','POST'])
+def courseInfo(cUID):
     """
-    Specific Course endpoint: returns all data associated with a specific course page.
-    Data per course -> 1. All course information from courses table.
-                       2. A list of all professors who have taught the course recently.
-                       3. A list of all Reddit comments associated with the course.
-                       4. Grade distribution for the course.
+    Returns all course information from courses table.
     """
-    
     cursor = conn.cursor() # Create a cursor object to execute SQL queries
-    full_course_data_json = {}
 
     # 1. Get course data from courses table, 
     cursor.execute("SELECT * FROM courses WHERE cUID = %s", (cUID,)) # Execute SQL query
 
     # Fetch all the course data from the database
-    course_data = cursor.fetchall()[0]
+    course_data = cursor.fetchall()[0]  
 
     course_json_data = {'cUID': None, 'cName': None, 'cSubject': None, 'cCode': None, 'cCredits': None, 'cDescription': None, 'cReq': None} # Create a dictionary to store course data
 
@@ -118,10 +104,16 @@ def coursePage(cUID):
     course_json_data['cDescription'] = course_data[5]
     course_json_data['cReq'] = course_data[6]
 
-    # Store course data in the full course data json that will be returned
-    full_course_data_json['course_data'] = course_json_data
+    cursor.close()
+    return course_json_data
 
-    # 2. Get all professors who have taught the course recently
+@app.route('/course-profs/<cUID>', methods=['GET','POST'])
+def courseProfs(cUID):
+    """
+    Returns all professors who have taught the course recently.
+    """
+    cursor = conn.cursor() # Create a cursor object to execute SQL queries
+
     # Get all the professors who have taught the course recently
     cursor.execute("SELECT pUID, pData FROM professors WHERE pUID IN (SELECT pUID FROM teaches WHERE cUID = %s)", (cUID,)) # Execute SQL query
 
@@ -135,10 +127,17 @@ def coursePage(cUID):
         pData = json.loads(prof[1])
         all_prof_json_data[pUID] = pData
 
-    # Store all professors who have taught the course recently in the full course data json that will be returned
-    full_course_data_json['professors'] = all_prof_json_data
+    cursor.close()
+    return all_prof_json_data
 
-    # 3. Get all Reddit comments associated with the course
+@app.route('/reddit-comments/<cUID>', methods=['GET','POST'])
+def redditComments(cUID):
+    """
+    Returns all Reddit comments associated with the course.
+    """
+    cursor = conn.cursor() # Create a cursor object to execute SQL queries
+    
+    # Get all Reddit comments associated with the course
     cursor.execute("SELECT * FROM rc WHERE cUID = %s", (cUID,)) # Execute SQL query
 
     # Fetch all the rows from rc table
@@ -154,16 +153,19 @@ def coursePage(cUID):
         comVotes = rc[3]
         all_rc_json_data[comID] = {'comBody': comBody, 'comLink': comLink, 'comVotes': comVotes}
 
-    # Store all Reddit comments associated with the course in the full course data json that will be returned
-    full_course_data_json['reddit_comments'] = all_rc_json_data
-
-    # 4. Get grade distribution for the course
-    grade_distribution = mg.MadGrades(course_json_data['cCode']) # Get grade distribution for the course using the course code
-
-    full_course_data_json['grade_distribution'] = grade_distribution
+    return all_rc_json_data
 
 
-    return full_course_data_json
+@app.route('/grade-distribution/<cUID>', methods=['GET','POST'])
+def gradeDistribution(cUID):
+    """
+    Returns grade distributions for the course.
+    """
+    cursor = conn.cursor() # Create a cursor object to execute SQL queries
+    cursor.execute("SELECT cCode FROM courses WHERE cUID = %s", (cUID,))
+    cCode = cursor.fetchall()[0][0]
+    grade_distribution = mg.MadGrades(cCode) # Get grade distribution for the course using the course code
+    return grade_distribution
 
 @app.route('/professor/<pUID>', methods=['GET','POST'])
 def professorPage(pUID):

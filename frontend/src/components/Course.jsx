@@ -1,33 +1,39 @@
 import React from "react";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Header from "./Header";
+import { useSearchParams } from "react-router-dom";
 import ProfessorList from "./ProfessorList";
 import GPAGraph from "./GPAGraph";
 import Reddit from "./Reddit";
-const Course = () => {
-  return (
-    <>
-      <div className="white-box">
-        <p style={{ fontWeight: 400 }}>Madger Courses</p>
-        <form className="search-box" style={{ height: "75%", width: "20%" }}>
-          <input type="search" />
-          <button type="submit">Search</button>
-        </form>
-      </div>
 
-      <div className="grey-box">
-        <h1 className="course-name">CS 577</h1>
-        <div className="row1">
-          <div className="graph-box">
-            <GPAGraph />
-          </div>
-          <div className="reddit-box">
-            <Reddit />
-          </div>
-        </div>
-        <div>
-          <ProfessorList />
-        </div>
-      </div>
-    </>
+const Course = () => {
+  const [searchparams] = useSearchParams();
+  const course = searchparams.get("id");
+
+  // todo:create a GET request using course for course data, then pass in as props
+  // todo:after retrieving data, fill our course-name, GPAGraph, Reddit, ProfessorList with props
+  return (
+    <Container className="full">
+      <Row>
+        <Header />
+      </Row>
+      <Container className="grey-box">
+        <h1 className="course-name">{course}</h1>
+        <Row className="row1">
+          <Col className="graph-box">
+            <GPAGraph id={course} />
+          </Col>
+          <Col className="reddit-box">
+            <Reddit id={course} />
+          </Col>
+        </Row>
+        <Row>
+          <ProfessorList id={course} />
+        </Row>
+      </Container>
+    </Container>
   );
 };
 

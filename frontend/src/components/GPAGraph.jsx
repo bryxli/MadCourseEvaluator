@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { LineChart, YAxis, XAxis, Line, ResponsiveContainer } from "recharts";
 
 const data = [
@@ -24,7 +24,21 @@ const data = [
   },
 ];
 
-const GPAGraph = () => {
+const GPAGraph = (props) => {
+  const course = props.id;
+
+  // this is the fetch command to call the endpoint /distr/cUID assuming endpoint returns pre-formatted json file
+  const [gradeDistribution, setGradeDistribution] = useState({});
+  useEffect(() => {
+    fetch("/distr/" + course).then((response) =>
+      response.json().then((data) => {
+        setGradeDistribution(data);
+      })
+    );
+  }, []);
+
+  gradeDistribution;
+
   return (
     <ResponsiveContainer width="100%" height="100%">
       <LineChart width={500} height={300} data={data}>

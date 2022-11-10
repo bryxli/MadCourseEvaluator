@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const data = [
   {
@@ -27,7 +27,20 @@ const data = [
   },
 ];
 
-const Reddit = () => {
+const Reddit = (props) => {
+  const course = props.id;
+
+  const [redditList, setRedditList] = useState([]);
+  useEffect(() => {
+    fetch("/redlist/" + course).then((response) =>
+      response.json().then((data) => {
+        setRedditList(data);
+      })
+    );
+  }, []);
+
+  redditList;
+
   return (
     <>
       <div className="reddit-box-header">

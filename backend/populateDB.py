@@ -120,7 +120,7 @@ def PopProfessors():
         PopProfessorsHelper(data)
     pass
 
- # TODO: PopRedditComments() is unfinished. We will need to continually refine how we choose comments to populate the DB with!
+ # TODO: PopRedditComments() is finished.
 # (DOCS: 1.1.1.3)
 def PopRedditComments():
     """
@@ -133,6 +133,7 @@ def PopRedditComments():
     cursor.execute("SELECT cUID, cName, cCode FROM courses WHERE cName Like 'Introduction to Algorithms'") # Get the cUID, cName, and cCode of all courses
     # cursor.execute("SELECT cUID, cName, cCode FROM courses WHERE cName Like 'PRINCIPLES OF BIOLOGICAL ANTHROPOLOGY'") # Get the cUID, cName, and cCode of all courses
     courses = cursor.fetchall() # Store all course datac
+    print(course)
 
     # TODO: FIGURE OUT WHAT SEARCHES TO DO
 
@@ -167,59 +168,71 @@ def PopRedditComments():
     cursor.close()
     pass
 
-# TODO: PopTeaches() is unfinished. All we have to do it remove "WHERE cName Like 'Introduction to Algorithms'" from first query to populate teaches with all courses!
-# (DOCS: 1.1.1.4)
+# TODO: PopTeaches() is finished.
 def PopTeaches():
     """
     Function to populate the teaches table with cUIDs and pUIDs for each course. Defining what courses each professor teaches.
     Entries contain a cUID and a pUID.
     """
+    file = open('testPopTeaches.json', 'r') # Open the JSON file containing all UW-Madison courses (pre-scraped)
+    data = json.load(file)                  # Load the JSON file into a dictionary
+    cursor = conn.cursor(buffered=True) 
+    for key in data.keys():
+        courseCode = data[key]['code'] 
+        cursor.execute("SELECT cUID, cCode FROM courses WHERE cCode Like %s", (courseCode,)) # Get the cUID, and cCode of all courses
 
-    cursor = conn.cursor() # Create a cursor object to execute SQL queries
+        courses = cursor.fetchall() 
+        for course in courses:
+  
+            cUID = course[0]
+            cCode = course[1]
+            search = cCode
+            grade_distributions = mg.MadGrades(search)
+            course_professors = []
+            all_term_data = []
 
-    cursor.execute("SELECT cUID, cCode FROM courses WHERE cName Like 'Introduction to Algorithms'") # Get the cUID, and cCode of all courses
-    # cursor.execute("SELECT cUID, cCode FROM courses") # Get the cUID, and cCode of all courses
+            # If the course has no grade distribution, we won't find any professors for that course
+            if(grade_distributions is None):
+                break
 
-    courses = cursor.fetchall() 
-    
-    for course in courses:
-        # print(course)
-        cUID = course[0]
-        cCode = course[1]
-        search = cCode
-        grade_distributions = mg.MadGrades(search)
-        course_professors = []
-        all_term_data = []
+            # Get every single semester's data for a course
+            for i in range(len(grade_distributions["courseOfferings"])):
+                single_term_data = grade_distributions["courseOfferings"][i]["sections"]
+                all_term_data.append(single_term_data)
 
-        # Iterate over all terms in the grade distribution data
-        for i in range(len(grade_distributions["courseOfferings"])):
-            single_term_data = grade_distributions["courseOfferings"][i]["sections"]
-            all_term_data.append(single_term_data)
+            num_terms = len(all_term_data) 
+            # For every semester, get the professor's name and add it to the list of professors for that course
+            for j in range(num_terms):
+                for k in range(len(all_term_data[j])):
+                    # If the course has multiple professors, add each professor to the list of professors for that course
+                    if(len(all_term_data[j][k]["instructors"]) > 1):
+                        for L in range(len(all_term_data[j][k]["instructors"])):
+                                #print(all_term_data[j][k]["instructors"][L])
+                            if all_term_data[j][k]["instructors"][L] not in course_professors:
+                                course_professors.append(all_term_data[j][k]["instructors"][L])
+                    # If the course has only one professor, add that professor to the list of professors for that course if they aren't already in the list
+                    else:
+                        if all_term_data[j][k]["instructors"][0] not in course_professors:
+                            course_professors.append(all_term_data[j][k]["instructors"][0])
 
-        # Iterate over all terms in the grade distribution data, and create a list of all professors that teach the course
-        num_terms = len(all_term_data)
-        for j in range(num_terms):
-            for k in range(len(all_term_data[j])):
-                course_professors.append(all_term_data[j][k]["instructors"])
-
-        # print(course_professors)
-
-        for professor in course_professors:
-            prof_name = professor[0]['name']
-            cursor.execute("SELECT pUID from professors where pName Like %s", (prof_name,))
-            pUID = cursor.fetchone()
-            if pUID is not None:
-                try:
-                    cursor.execute("INSERT INTO teaches (cUID, pUID) VALUES (%s, %s)", (cUID, pUID[0],))
-                    conn.commit()
-                except Exception as e:
-                    print(e)
-                    print("Error inserting into teaches table")
-            else:
-                print("Professor not found")
+            # For every professor that teaches a course, get their pUID and insert it into the teaches table for that course
+            for professor in course_professors:
+                prof_name = professor['name'] 
+                cursor.execute("SELECT pUID from professors where pName Like %s", (prof_name,))
+                pUID = cursor.fetchone()
+                if pUID is not None:
+                    try:
+                        cursor.execute("INSERT INTO teaches (cUID, pUID) VALUES (%s, %s)", (cUID, pUID[0],))
+                        conn.commit()
+                    except Exception as e:
+                        print(e)
+                        print("Error inserting into teaches table")
+                else:
+                    print("Professor not found")
 
     cursor.close()
     pass
+
 
 def PopDB():
     """
@@ -227,8 +240,8 @@ def PopDB():
     """
     # PopCourses()
     # PopProfessors()
-    PopRedditComments()
-    # PopTeaches()
+    # PopRedditComments()
+    PopTeaches()
     return
 
 if __name__ == '__main__':

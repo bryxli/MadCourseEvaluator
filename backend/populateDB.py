@@ -49,7 +49,7 @@ def PopCourses():
     Entries contain a cUID, the course's name, the course's subject, the course's code, the course's credits, and the course's description.
     """
 
-    file = open('sample.json', 'r') # Open the JSON file containing all UW-Madison courses (pre-scraped)
+    file = open('./compsci_test_sample/list_courses.json', 'r') # Open the JSON file containing all UW-Madison courses (pre-scraped)
     data = json.load(file)          # Load the JSON file into a dictionary
     cursor = conn.cursor()          # Create a cursor object to execute SQL queries
 
@@ -129,42 +129,45 @@ def PopRedditComments():
     """
     cursor = conn.cursor() 
 
-    # cursor.execute("SELECT cUID, cName, cCode FROM courses") # Get the cUID, cName, and cCode of all courses
-    cursor.execute("SELECT cUID, cName, cCode FROM courses WHERE cName Like 'Introduction to Algorithms'") # Get the cUID, cName, and cCode of all courses
-    # cursor.execute("SELECT cUID, cName, cCode FROM courses WHERE cName Like 'PRINCIPLES OF BIOLOGICAL ANTHROPOLOGY'") # Get the cUID, cName, and cCode of all courses
-    courses = cursor.fetchall() # Store all course datac
-    print(course)
+    file = open('./compsci_test_sample/list_courses.json', 'r') # Open the JSON file containing all UW-Madison courses (pre-scraped)
+    data = json.load(file)                  # Load the JSON file into a dictionary
+    cursor = conn.cursor(buffered=True) 
+    for key in data.keys():
+        courseCode = data[key]['code'] 
+        cursor.execute("SELECT cUID, cName, cCode FROM courses WHERE cCode Like %s", (courseCode,)) # Get the cUID, and cCode of all courses
 
-    # TODO: FIGURE OUT WHAT SEARCHES TO DO
+        courses = cursor.fetchall() # Store all course datac
 
-    # Create a course acronym (DOCS: 1.1.2.4)
-    for course in courses:
-        cNum = ''.join(filter(str.isdigit, course[2]))  # Extract all numeric characters from the course's code
-        search = course[2]
-        # Extract the first letter of all alphabetical characters in the course's code
-        acronym = ''
-        for word in course[2].split():
-            if word[0].isalpha():
-                acronym += word[0]
+        # TODO: FIGURE OUT WHAT SEARCHES TO DO
 
-        # print(acronym)
-        # print(search)
-        # search = cNum
+        # Create a course acronym (DOCS: 1.1.2.4)
+        for course in courses:
+            cNum = ''.join(filter(str.isdigit, course[2]))  # Extract all numeric characters from the course's code
+            search = course[2]
+            # Extract the first letter of all alphabetical characters in the course's code
+            acronym = ''
+            for word in course[2].split():
+                if word[0].isalpha():
+                    acronym += word[0]
 
-        # Searching for posts that have either the full course code, or the courses acronym + course number (e.g. CS506 or CS 506)
-        for submission in uwmadison_subreddit.search(search, limit=50):
-            if (search.lower() in submission.title.lower()) or (acronym + cNum in submission.title) or (acronym + ' ' + cNum in submission.title): 
-                # print(submission.title) # Print the submission's title
-                submission.comments.replace_more(limit=10) # Return only the top three comments from the comment tree
-                for comment in submission.comments.list():
-                    if ((comment.score > 2) and (25 < len(comment.body) < 1000)) or (cNum in comment.body):
-                        try:
-                            # Insert reddit comment into the database's rc table
-                            cursor.execute("INSERT INTO rc (cUID, comBody, comLink, comVotes) VALUES (%s, %s, %s, %s)", (course[0], comment.body, reddit_url+comment.permalink, comment.score,))
-                            conn.commit()
-                        except Exception as e:
-                            print(e)
-                            print("Error inserting reddit comment into database")
+            # print(acronym)
+            # print(search)
+            # search = cNum
+
+            # Searching for posts that have either the full course code, or the courses acronym + course number (e.g. CS506 or CS 506)
+            for submission in uwmadison_subreddit.search(search, limit=50):
+                if (search.lower() in submission.title.lower()) or (acronym + cNum in submission.title) or (acronym + ' ' + cNum in submission.title): 
+                    # print(submission.title) # Print the submission's title
+                    submission.comments.replace_more(limit=10) # Return only the top three comments from the comment tree
+                    for comment in submission.comments.list():
+                        if ((comment.score > 2) and (25 < len(comment.body) < 1000)) or (cNum in comment.body):
+                            try:
+                                # Insert reddit comment into the database's rc table
+                                cursor.execute("INSERT INTO rc (cUID, comBody, comLink, comVotes) VALUES (%s, %s, %s, %s)", (course[0], comment.body, reddit_url+comment.permalink, comment.score,))
+                                conn.commit()
+                            except Exception as e:
+                                print(e)
+                                print("Error inserting reddit comment into database")
     cursor.close()
     pass
 
@@ -174,7 +177,7 @@ def PopTeaches():
     Function to populate the teaches table with cUIDs and pUIDs for each course. Defining what courses each professor teaches.
     Entries contain a cUID and a pUID.
     """
-    file = open('testPopTeaches.json', 'r') # Open the JSON file containing all UW-Madison courses (pre-scraped)
+    file = open('./compsci_test_sample/list_courses.json', 'r') # Open the JSON file containing all UW-Madison courses (pre-scraped)
     data = json.load(file)                  # Load the JSON file into a dictionary
     cursor = conn.cursor(buffered=True) 
     for key in data.keys():
@@ -229,6 +232,7 @@ def PopTeaches():
                         print("Error inserting into teaches table")
                 else:
                     print("Professor not found")
+                    print(prof_name)
 
     cursor.close()
     pass

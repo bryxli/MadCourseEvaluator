@@ -2,9 +2,9 @@ secret = 'not so secret key'
 
 # MySQL Database Credentials (Temporary)
 user='root'
-password='Orion007' 
+password='jia4dream@' 
 host='127.0.0.1'
-database='madcourseevaluator'
+database='course'
 
 # Python Reddit API Wrapper
 PRAW_client_id = 'T6u5hwv_zwez-RrT33NCaA'

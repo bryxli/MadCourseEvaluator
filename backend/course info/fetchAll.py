@@ -12,7 +12,7 @@ my_data = []
 soup = BeautifulSoup(data.text, 'html.parser')
 articles = soup.select('p')
 weblist = []
-open("sample.json", 'w').close()
+open("all-courses.json", 'w').close()
 
 #find courses web link
 myuls = soup.findAll('ul', attrs={"class":"nav levelone"})
@@ -76,6 +76,6 @@ for webname in weblist:
             #close the file after attaching        
     webname_count_subject = webname_count_subject + 1
 
-with open("sample.json", "a") as outfile:
+with open("all-courses.json", "a") as outfile:
     json.dump(current_dict,  outfile, indent = 4)
 outfile.close()

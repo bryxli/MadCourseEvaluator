@@ -49,7 +49,7 @@ def PopCourses():
     Entries contain a cUID, the course's name, the course's subject, the course's code, the course's credits, and the course's description.
     """
 
-    file = open('./compsci_test_sample/list_courses.json', 'r') # Open the JSON file containing all UW-Madison courses (pre-scraped)
+    file = open('./compsci_test_sample/comp_sci_test_courses.json', 'r') # Open the JSON file containing all UW-Madison courses (pre-scraped)
     data = json.load(file)          # Load the JSON file into a dictionary
     cursor = conn.cursor()          # Create a cursor object to execute SQL queries
 
@@ -129,7 +129,7 @@ def PopRedditComments():
     """
     cursor = conn.cursor() 
 
-    file = open('./compsci_test_sample/list_courses.json', 'r') # Open the JSON file containing all UW-Madison courses (pre-scraped)
+    file = open('./compsci_test_sample/comp_sci_test_courses.json', 'r') # Open the JSON file containing all UW-Madison courses (pre-scraped)
     data = json.load(file)                  # Load the JSON file into a dictionary
     cursor = conn.cursor(buffered=True) 
     for key in data.keys():
@@ -149,7 +149,7 @@ def PopRedditComments():
             for word in course[2].split():
                 if word[0].isalpha():
                     acronym += word[0]
-
+                    
             # print(acronym)
             # print(search)
             # search = cNum
@@ -177,7 +177,7 @@ def PopTeaches():
     Function to populate the teaches table with cUIDs and pUIDs for each course. Defining what courses each professor teaches.
     Entries contain a cUID and a pUID.
     """
-    file = open('./compsci_test_sample/list_courses.json', 'r') # Open the JSON file containing all UW-Madison courses (pre-scraped)
+    file = open('./compsci_test_sample/comp_sci_test_courses.json', 'r') # Open the JSON file containing all UW-Madison courses (pre-scraped)
     data = json.load(file)                  # Load the JSON file into a dictionary
     cursor = conn.cursor(buffered=True) 
     for key in data.keys():
@@ -242,9 +242,9 @@ def PopDB():
     """
     Function that populated the entire database by calling all Pop Functions.
     """
-    # PopCourses()
-    # PopProfessors()
-    # PopRedditComments()
+    PopCourses()
+    PopProfessors()
+    PopRedditComments()
     PopTeaches()
     return
 

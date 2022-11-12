@@ -68,15 +68,26 @@ class TestModels(unittest.TestCase):
 class TestUtil(unittest.TestCase):
 
     def test_madgrades_api(self):
-        """Test madgrades api"""
+        """Test that madgrades.py returns the correct grade distribution data for CS 577"""
 
-        compsci_577_cCode = 'COMP SCI 577'
+        compsci_577_cCode = 'COMP SCI 577' 
         
-        grade_distributions = mg.MadGrades(compsci_577_cCode)
+        grade_distributions = mg.MadGrades(compsci_577_cCode) # Get grade distributions for COMP SCI 577
 
-        print(type(grade_distributions))
+        # Test that grade distributions are returned with correct keys
+        self.assertIsInstance(grade_distributions, dict)
+        keys = list(grade_distributions.keys())
+        self.assertEqual(keys, ['courseUuid', 'cumulative', 'courseOfferings'])
 
-        self.assertEqual(1, 1)
+        # Check that the cumulative grade distribution is returned with correct keys
+        self.assertIsInstance(grade_distributions['cumulative'], dict)
+        cumulative_cols = ['total', 'aCount', 'abCount', 'bCount', 'bcCount', 'cCount', 'dCount', 'fCount', 'sCount', 'uCount', 'crCount', 'nCount', 'pCount', 'iCount', 'nwCount', 'nrCount', 'otherCount']
+        keys = list(grade_distributions['cumulative'].keys())
+        self.assertEqual(keys, cumulative_cols)
+
+
+        # print("Good test")
     
 if __name__ == '__main__':
     unittest.main() # Run all unit tests
+    # TestUtil().test_madgrades_api() # Run specific unit test

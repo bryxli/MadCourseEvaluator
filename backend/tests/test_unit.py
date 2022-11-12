@@ -10,6 +10,7 @@ sys.path.insert(0, parentdir)
 
 from app import db
 from models.models import Courses, Professors, RC, Teaches
+import madgrades as mg
 
 """
 # Unit Tests: DB Models, Utility Functions called by View Functions
@@ -67,7 +68,14 @@ class TestModels(unittest.TestCase):
 class TestUtil(unittest.TestCase):
 
     def test_madgrades_api(self):
-        """TODO Test madgrades api"""
+        """Test madgrades api"""
+
+        compsci_577_cCode = 'COMP SCI 577'
+        
+        grade_distributions = mg.MadGrades(compsci_577_cCode)
+
+        print(type(grade_distributions))
+
         self.assertEqual(1, 1)
     
 if __name__ == '__main__':

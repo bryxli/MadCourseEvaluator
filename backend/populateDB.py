@@ -72,18 +72,19 @@ def PopCourses():
     cursor.close()
     pass
 
+professor_name_list_RMP = [] 
 def PopProfessorsHelper(professor_data):
     """
     Helper function to populate the professors table with all professors at UW-Madison.
 
     """
     cursor = conn.cursor() 
-
+    prof_json = {} 
     # Iterating through every UW professor on RMP, and store the information in a String
-    for professor in professor_data:
-        prof_json = {}                                          
+    for professor in professor_data:                                        
         professor = professor_data[professor]                               
         prof_json['name'] = professor.first_name + " " + professor.last_name 
+        professor_name_list_RMP.append(professor.first_name + " " + professor.last_name )
         prof_json['dept'] = professor.department              
         prof_json['RMPID'] = professor.ratemyprof_id          
         prof_json['RMPRating'] = professor.overall_rating        
@@ -110,16 +111,15 @@ def PopProfessorsHelper_2(professor_data):
     cursor = conn.cursor() 
 
     # Iterating through every UW professor on RMP, and store the information in a String
-    prof_json = {}                                          
+    prof_json_2 = {}                                          
     professor = professor_data['name']
-    professor = professor.replace("X / ", "").replace("S / ", "")
-    prof_json['name'] = professor
-    print(professor)
-    pData = json.dumps(prof_json)  # Convert the JSON object to a string
+    professor = professor.replace("X / ", "").replace("S / ", "").lower().title()
+    prof_json_2['name'] = professor
+    pData = json.dumps(prof_json_2)  # Convert the JSON object to a string
 
     try:
         # Insert course into the database's professors table
-        cursor.execute("INSERT INTO professors (pName, pData) VALUES (%s, %s)", (prof_json['name'], pData))
+        cursor.execute("INSERT INTO professors (pName, pData) VALUES (%s, %s)", (prof_json_2['name'], pData))
         conn.commit()
     except Exception as e:
         print(e)
@@ -144,7 +144,8 @@ def PopProfessors():
         PopProfessorsHelper(data)
 
     professors_data_1 = []
-    file = open('sample.json', 'r') # Open the JSON file containing all UW-Madison courses (pre-scraped)
+    professors_name_list_madgrade = [] #get professor name only from madgrade
+    file = open('./compsci_test_sample/list_courses.json', 'r') # Open the JSON file containing all UW-Madison courses (pre-scraped)
     data = json.load(file)                  # Load the JSON file into a dictionary
     cursor = conn.cursor(buffered=True) 
     for key in data.keys():
@@ -159,7 +160,6 @@ def PopProfessors():
                 cCode = course[1]
                 search = cCode
                 grade_distributions = mg.MadGrades(search)
-                course_professors = []
                 all_term_data = []
 
                 # If the course has no grade distribution, we won't find any professors for that course
@@ -179,12 +179,18 @@ def PopProfessors():
                         if(len(all_term_data[j][k]["instructors"]) > 1):
                             for L in range(len(all_term_data[j][k]["instructors"])):
                                 #print(all_term_data[j][k]["instructors"][L])
-                                if all_term_data[j][k]["instructors"][L] not in professors_data_1 and all_term_data[j][k]["instructors"][0] not in professors_data:
+                                professor_name = all_term_data[j][k]["instructors"][L]['name'].replace("X / ", "").replace("S / ", "").lower().title()
+                                if professor_name not in professors_name_list_madgrade and professor_name not in professor_name_list_RMP:
+                                    print(professor_name)
                                     professors_data_1.append(all_term_data[j][k]["instructors"][L])
+                                    professors_name_list_madgrade.append(professor_name)
                         # If the course has only one professor, add that professor to the list of professors for that course if they aren't already in the list
                         else:
-                            if all_term_data[j][k]["instructors"][0] not in professors_data_1 and all_term_data[j][k]["instructors"][0] not in professors_data:
+                            professor_name_2 = all_term_data[j][k]["instructors"][0]['name'].replace("X / ", "").replace("S / ", "").lower().title()
+                            if professor_name_2 not in professors_name_list_madgrade and professor_name_2 not in professor_name_list_RMP:
+                                print(professor_name_2)
                                 professors_data_1.append(all_term_data[j][k]["instructors"][0])
+                                professors_name_list_madgrade.append(professor_name_2)
 
                 # For every professor that teaches a course, get their pUID and insert it into the teaches table for that course
     for data in professors_data_1:

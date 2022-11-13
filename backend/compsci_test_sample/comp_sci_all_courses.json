@@ -1,0 +1,42 @@
+{
+    "79297": {
+        "cCode": " COMP SCI 200",
+        "cName": "PROGRAMMING I",
+        "cUID": 79297
+    },
+    "79298": {
+        "cCode": " COMP SCI 220",
+        "cName": "DATA SCIENCE PROGRAMMING I",
+        "cUID": 79298
+    },
+    "79299": {
+        "cCode": " COMP SCI 300",
+        "cName": "PROGRAMMING II",
+        "cUID": 79299
+    },
+    "79300": {
+        "cCode": "COMP SCI 320",
+        "cName": "DATA SCIENCE PROGRAMMING II",
+        "cUID": 79300
+    },
+    "79301": {
+        "cCode": " COMP SCI/E C E  354",
+        "cName": "MACHINE ORGANIZATION AND PROGRAMMING",
+        "cUID": 79301
+    },
+    "79302": {
+        "cCode": "COMP SCI 400",
+        "cName": "PROGRAMMING III",
+        "cUID": 79302
+    },
+    "79303": {
+        "cCode": "COMP SCI 537",
+        "cName": "INTRODUCTION TO OPERATING SYSTEMS",
+        "cUID": 79303
+    },
+    "79304": {
+        "cCode": "COMP SCI 577",
+        "cName": "INTRODUCTION TO ALGORITHMS",
+        "cUID": 79304
+    }
+}

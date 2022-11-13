@@ -49,7 +49,7 @@ def PopCourses():
     Entries contain a cUID, the course's name, the course's subject, the course's code, the course's credits, and the course's description.
     """
 
-    file = open('sample.json', 'r') # Open the JSON file containing all UW-Madison courses (pre-scraped)
+    file = open('./compsci_test_sample/list_courses.json', 'r') # Open the JSON file containing all UW-Madison courses (pre-scraped)
     data = json.load(file)          # Load the JSON file into a dictionary
     cursor = conn.cursor()          # Create a cursor object to execute SQL queries
 
@@ -72,18 +72,19 @@ def PopCourses():
     cursor.close()
     pass
 
+professor_name_list_RMP = [] 
 def PopProfessorsHelper(professor_data):
     """
     Helper function to populate the professors table with all professors at UW-Madison.
 
     """
     cursor = conn.cursor() 
-
+    prof_json = {} 
     # Iterating through every UW professor on RMP, and store the information in a String
-    for professor in professor_data:
-        prof_json = {}                                          
+    for professor in professor_data:                                        
         professor = professor_data[professor]                               
         prof_json['name'] = professor.first_name + " " + professor.last_name 
+        professor_name_list_RMP.append(professor.first_name + " " + professor.last_name )
         prof_json['dept'] = professor.department              
         prof_json['RMPID'] = professor.ratemyprof_id          
         prof_json['RMPRating'] = professor.overall_rating        
@@ -102,6 +103,31 @@ def PopProfessorsHelper(professor_data):
     cursor.close()
     pass
 
+def PopProfessorsHelper_2(professor_data):
+    """
+    Helper function to populate the professors table with all professors at UW-Madison.
+
+    """
+    cursor = conn.cursor() 
+
+    # Iterating through every UW professor on RMP, and store the information in a String
+    prof_json_2 = {}                                          
+    professor = professor_data['name']
+    professor = professor.replace("X / ", "").replace("S / ", "").lower().title()
+    prof_json_2['name'] = professor
+    pData = json.dumps(prof_json_2)  # Convert the JSON object to a string
+
+    try:
+        # Insert course into the database's professors table
+        cursor.execute("INSERT INTO professors (pName, pData) VALUES (%s, %s)", (prof_json_2['name'], pData))
+        conn.commit()
+    except Exception as e:
+        print(e)
+        # print("Error inserting professor into database")
+      
+    cursor.close()
+    pass
+
 # TODO: PopProfessors() is finished!
 # (DOCS: 1.1.1.2)
 def PopProfessors():
@@ -112,12 +138,66 @@ def PopProfessors():
     Sample pData : {'Fname': 'Peter', 'Lname': 'Adamczyk', 'dept': 'Mechanical Engineering', 'RMPID': 2215832, 'RMPRating': 4.9, 'RMPTotalRatings': 12, 'RMPRatingClass': 'good'}
     """
     professors_data = []
-
     professors_data.append(api_1.scrape_professors()) # (DOCS: 1.1.2.3)
     professors_data.append(api_2.scrape_professors())
-
     for data in professors_data:
         PopProfessorsHelper(data)
+
+    professors_data_1 = []
+    professors_name_list_madgrade = [] #get professor name only from madgrade
+    file = open('./compsci_test_sample/list_courses.json', 'r') # Open the JSON file containing all UW-Madison courses (pre-scraped)
+    data = json.load(file)                  # Load the JSON file into a dictionary
+    cursor = conn.cursor(buffered=True) 
+    for key in data.keys():
+            print(key)
+            courseCode = data[key]['code'] 
+            cursor.execute("SELECT cUID, cCode FROM courses WHERE cCode Like %s", (courseCode,)) # Get the cUID, and cCode of all courses
+            courses = cursor.fetchall()
+            
+            for course in courses:
+    
+                cUID = course[0]
+                cCode = course[1]
+                search = cCode
+                grade_distributions = mg.MadGrades(search)
+                all_term_data = []
+
+                # If the course has no grade distribution, we won't find any professors for that course
+                if(grade_distributions is None):
+                    break
+
+                # Get every single semester's data for a course
+                for i in range(len(grade_distributions["courseOfferings"])):
+                    single_term_data = grade_distributions["courseOfferings"][i]["sections"]
+                    all_term_data.append(single_term_data)
+
+                num_terms = len(all_term_data)
+                # For every semester, get the professor's name and add it to the list of professors for that course
+                for j in range(num_terms):
+                    for k in range(len(all_term_data[j])):
+                        # If the course has multiple professors, add each professor to the list of professors for that course
+                        if(len(all_term_data[j][k]["instructors"]) > 1):
+                            for L in range(len(all_term_data[j][k]["instructors"])):
+                                #print(all_term_data[j][k]["instructors"][L])
+                                professor_name = all_term_data[j][k]["instructors"][L]['name'].replace("X / ", "").replace("S / ", "").lower().title()
+                                if professor_name not in professors_name_list_madgrade and professor_name not in professor_name_list_RMP:
+                                    print(professor_name)
+                                    professors_data_1.append(all_term_data[j][k]["instructors"][L])
+                                    professors_name_list_madgrade.append(professor_name)
+                        # If the course has only one professor, add that professor to the list of professors for that course if they aren't already in the list
+                        else:
+                            professor_name_2 = all_term_data[j][k]["instructors"][0]['name'].replace("X / ", "").replace("S / ", "").lower().title()
+                            if professor_name_2 not in professors_name_list_madgrade and professor_name_2 not in professor_name_list_RMP:
+                                print(professor_name_2)
+                                professors_data_1.append(all_term_data[j][k]["instructors"][0])
+                                professors_name_list_madgrade.append(professor_name_2)
+
+                # For every professor that teaches a course, get their pUID and insert it into the teaches table for that course
+    for data in professors_data_1:
+        #print(data)
+        PopProfessorsHelper_2(data)
+
+    cursor.close()
     pass
 
  # TODO: PopRedditComments() is finished.
@@ -129,42 +209,45 @@ def PopRedditComments():
     """
     cursor = conn.cursor() 
 
-    # cursor.execute("SELECT cUID, cName, cCode FROM courses") # Get the cUID, cName, and cCode of all courses
-    cursor.execute("SELECT cUID, cName, cCode FROM courses WHERE cName Like 'Introduction to Algorithms'") # Get the cUID, cName, and cCode of all courses
-    # cursor.execute("SELECT cUID, cName, cCode FROM courses WHERE cName Like 'PRINCIPLES OF BIOLOGICAL ANTHROPOLOGY'") # Get the cUID, cName, and cCode of all courses
-    courses = cursor.fetchall() # Store all course datac
-    print(course)
+    file = open('./compsci_test_sample/list_courses.json', 'r') # Open the JSON file containing all UW-Madison courses (pre-scraped)
+    data = json.load(file)                  # Load the JSON file into a dictionary
+    cursor = conn.cursor(buffered=True) 
+    for key in data.keys():
+        courseCode = data[key]['code'] 
+        cursor.execute("SELECT cUID, cName, cCode FROM courses WHERE cCode Like %s", (courseCode,)) # Get the cUID, and cCode of all courses
 
-    # TODO: FIGURE OUT WHAT SEARCHES TO DO
+        courses = cursor.fetchall() # Store all course datac
 
-    # Create a course acronym (DOCS: 1.1.2.4)
-    for course in courses:
-        cNum = ''.join(filter(str.isdigit, course[2]))  # Extract all numeric characters from the course's code
-        search = course[2]
-        # Extract the first letter of all alphabetical characters in the course's code
-        acronym = ''
-        for word in course[2].split():
-            if word[0].isalpha():
-                acronym += word[0]
+        # TODO: FIGURE OUT WHAT SEARCHES TO DO
 
-        # print(acronym)
-        # print(search)
-        # search = cNum
+        # Create a course acronym (DOCS: 1.1.2.4)
+        for course in courses:
+            cNum = ''.join(filter(str.isdigit, course[2]))  # Extract all numeric characters from the course's code
+            search = course[2]
+            # Extract the first letter of all alphabetical characters in the course's code
+            acronym = ''
+            for word in course[2].split():
+                if word[0].isalpha():
+                    acronym += word[0]
 
-        # Searching for posts that have either the full course code, or the courses acronym + course number (e.g. CS506 or CS 506)
-        for submission in uwmadison_subreddit.search(search, limit=50):
-            if (search.lower() in submission.title.lower()) or (acronym + cNum in submission.title) or (acronym + ' ' + cNum in submission.title): 
-                # print(submission.title) # Print the submission's title
-                submission.comments.replace_more(limit=10) # Return only the top three comments from the comment tree
-                for comment in submission.comments.list():
-                    if ((comment.score > 2) and (25 < len(comment.body) < 1000)) or (cNum in comment.body):
-                        try:
-                            # Insert reddit comment into the database's rc table
-                            cursor.execute("INSERT INTO rc (cUID, comBody, comLink, comVotes) VALUES (%s, %s, %s, %s)", (course[0], comment.body, reddit_url+comment.permalink, comment.score,))
-                            conn.commit()
-                        except Exception as e:
-                            print(e)
-                            print("Error inserting reddit comment into database")
+            # print(acronym)
+            # print(search)
+            # search = cNum
+
+            # Searching for posts that have either the full course code, or the courses acronym + course number (e.g. CS506 or CS 506)
+            for submission in uwmadison_subreddit.search(search, limit=50):
+                if (search.lower() in submission.title.lower()) or (acronym + cNum in submission.title) or (acronym + ' ' + cNum in submission.title): 
+                    # print(submission.title) # Print the submission's title
+                    submission.comments.replace_more(limit=10) # Return only the top three comments from the comment tree
+                    for comment in submission.comments.list():
+                        if ((comment.score > 2) and (25 < len(comment.body) < 1000)) or (cNum in comment.body):
+                            try:
+                                # Insert reddit comment into the database's rc table
+                                cursor.execute("INSERT INTO rc (cUID, comBody, comLink, comVotes) VALUES (%s, %s, %s, %s)", (course[0], comment.body, reddit_url+comment.permalink, comment.score,))
+                                conn.commit()
+                            except Exception as e:
+                                print(e)
+                                print("Error inserting reddit comment into database")
     cursor.close()
     pass
 
@@ -174,7 +257,7 @@ def PopTeaches():
     Function to populate the teaches table with cUIDs and pUIDs for each course. Defining what courses each professor teaches.
     Entries contain a cUID and a pUID.
     """
-    file = open('testPopTeaches.json', 'r') # Open the JSON file containing all UW-Madison courses (pre-scraped)
+    file = open('./compsci_test_sample/list_courses.json', 'r') # Open the JSON file containing all UW-Madison courses (pre-scraped)
     data = json.load(file)                  # Load the JSON file into a dictionary
     cursor = conn.cursor(buffered=True) 
     for key in data.keys():
@@ -198,6 +281,7 @@ def PopTeaches():
             # Get every single semester's data for a course
             for i in range(len(grade_distributions["courseOfferings"])):
                 single_term_data = grade_distributions["courseOfferings"][i]["sections"]
+                print(single_term_data)
                 all_term_data.append(single_term_data)
 
             num_terms = len(all_term_data) 
@@ -218,6 +302,7 @@ def PopTeaches():
             # For every professor that teaches a course, get their pUID and insert it into the teaches table for that course
             for professor in course_professors:
                 prof_name = professor['name'] 
+                prof_name = prof_name.replace("X / ", "").replace("S / ", "")
                 cursor.execute("SELECT pUID from professors where pName Like %s", (prof_name,))
                 pUID = cursor.fetchone()
                 if pUID is not None:
@@ -229,6 +314,7 @@ def PopTeaches():
                         print("Error inserting into teaches table")
                 else:
                     print("Professor not found")
+                    print(prof_name)
 
     cursor.close()
     pass
@@ -239,9 +325,9 @@ def PopDB():
     Function that populated the entire database by calling all Pop Functions.
     """
     # PopCourses()
-    # PopProfessors()
+    PopProfessors()
     # PopRedditComments()
-    PopTeaches()
+    # PopTeaches()
     return
 
 if __name__ == '__main__':

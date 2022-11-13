@@ -41,13 +41,10 @@ def AllCourses():
     all_course_json_data = {}
     for course in all_courses:
         course_json_data = {'cUID': None, 'cName': None, 'cCode': None}
-        if i == 3:
-            break
         course_json_data['cUID'] = course[0]
         course_json_data['cName'] = course[1]
         course_json_data['cCode'] = course[3] 
         all_course_json_data[course_json_data['cUID']] = course_json_data
-        i+=1
 
     cursor.close()
     return all_course_json_data
@@ -69,12 +66,10 @@ def AllProfs():
     i = 0
     all_profs_json_data = {}
     for prof in all_profs:
-        if i == 3:
-            break
         pUID = prof[0]
         pData = json.loads(prof[1])
         all_profs_json_data[pUID] = pData
-        i+=1
+
         
     cursor.close()   
     return all_profs_json_data

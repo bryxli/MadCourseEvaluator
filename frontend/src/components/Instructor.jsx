@@ -80,7 +80,7 @@ const Instructor = ({ id }) => {
                   className="course-list-item"
                   key={course.id}
                   onClick={() => {
-                    routeChange("/course/" + course.id);
+                    routeChange("/course/?id=" + course.id);
                   }}
                 >
                   <h4 className="course-id">

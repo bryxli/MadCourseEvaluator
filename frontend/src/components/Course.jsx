@@ -25,7 +25,7 @@ const Course = () => {
     );
   }, []);
 
-  console.log(courseInfo)
+  console.log(courseInfo);
 
   // todo:create a GET request using course for course data, then pass in as props
   // todo:after retrieving data, fill our heading-style, GPAGraph, Reddit, ProfessorList with props
@@ -48,7 +48,12 @@ const Course = () => {
             </Row>
 
             <Row className="reddit-box-header">
-              <img height="124px" width="220px" src="Reddit.png" />
+              <img
+                height="124px"
+                width="220px"
+                src="/Reddit.png"
+                alt="reddit-logo"
+              />
             </Row>
             <Reddit id={courseID} />
           </Col>

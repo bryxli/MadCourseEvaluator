@@ -2127,3 +2127,28 @@ def courseInfo():
     "cSubject": "Computer Sciences",
     "cUID": 50806,
   }
+
+
+@api.route('/professor/125529')
+def professor():
+    return {
+    "courses-taught": {
+        "40539": {
+            "cCode": "COMP SCI 577",
+            "cCredits": "4 credits",
+            "cDescription": "Basic paradigms for the design and analysis of efficient algorithms: greed, divide-and-conquer, dynamic programming, reductions, and the use of randomness. Computational intractability including typical NP-complete problems and ways to deal with them.",
+            "cName": "INTRODUCTION TO ALGORITHMS",
+            "cReq": "Requisites: (MATH/COMPSCI240 or STAT/COMPSCI/MATH475) and (COMP SCI 367 or 400), or graduate/professional standing, or declared in the Capstone Certificate in Computer Sciences for Professionals",
+            "cSubject": "Computer Sciences",
+            "cUID": 40539
+        }
+    },
+    "professor_data": {
+        "RMPID": 125529,
+        "RMPRating": 1.9,
+        "RMPRatingClass": "poor",
+        "RMPTotalRatings": 46,
+        "dept": "Computer Science",
+        "name": "Eric Bach"
+    }
+}

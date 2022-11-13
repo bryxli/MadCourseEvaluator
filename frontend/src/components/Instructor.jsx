@@ -1,36 +1,45 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Header from "./Header";
+import { useNavigate } from "react-router-dom";
 
-{
-  /**        */
-}
-
-const Instructor = () => {
-  const data = {
-    courses_taught: [
-      {
-        cCode: "COMP SCI 577",
-        cCredits: "4 credits",
-        cDescription:
-          "Basic paradigms for the design and analysis of efficient algorithms: greed, divide-and-conquer, dynamic programming, reductions, and the use of randomness. Computational intractability including typical NP-complete problems and ways to deal with them.",
-        cName: "INTRODUCTION TO ALGORITHMS",
-        cReq: "Requisites: (MATH/COMPSCI240 or STAT/COMPSCI/MATH475) and (COMP SCI 367 or 400), or graduate/professional standing, or declared in the Capstone Certificate in Computer Sciences for Professionals",
-        cSubject: "Computer Sciences",
-        cUID: 40539,
-      },
-    ],
-    professor_data: {
-      RMPID: 125529,
-      RMPRating: 1.9,
-      RMPRatingClass: "poor",
-      RMPTotalRatings: 46,
-      dept: "Computer Science",
-      name: "Eric Bach",
-    },
+const Instructor = ({ id }) => {
+  let navigate = useNavigate();
+  const routeChange = (path) => {
+    navigate(path);
   };
+
+  const [courses, setCourses] = useState([]);
+  const [professor, setProfessor] = useState({});
+  useEffect(() => {
+    fetch("/professor/" + id).then((response) =>
+      response.json().then((data) => {
+        const json_str = JSON.stringify(response);
+        const json = JSON.parse(json_str);
+        var courses = [];
+        var courses_taught = json["courses-taught"];
+        for (var key in courses_taught) {
+          const id = key;
+          const code = courses_taught[key].cCode;
+          const name = courses_taught[key].cName;
+
+          courses.push({ id, code, name });
+        } //this converts the JSON object of courses-taught threads into an array
+        setCourses(courses);
+
+        setProfessor({
+          name: json.professor_data.name,
+          dept: json.professor_data.dept,
+          rating: json.professor_data.RMPRating,
+          id,
+          totalRatings: json.professor_data.RMPTotalRatings,
+          review: json.professor_data.RMPRatingClass,
+        });
+      })
+    );
+  }, []);
   return (
     <>
       <Container className="full">
@@ -39,18 +48,14 @@ const Instructor = () => {
         </Row>
         <Container className="pink-box">
           <Row>
-            <h1 style={{ fontSize: "xxx-large" }}>
-              {data.professor_data.name}
-            </h1>
+            <h1 style={{ fontSize: "xxx-large" }}>{professor.name}</h1>
           </Row>
           <Row>
             <Col>
               <Row>
                 <h5 className="bold-heading-style">Department </h5>
 
-                <h5 className="heading-style">
-                  {"  - " + data.professor_data.dept}
-                </h5>
+                <h5 className="heading-style">{"  - " + professor.dept}</h5>
               </Row>
 
               <Row>
@@ -58,22 +63,29 @@ const Instructor = () => {
 
                 <h5 className="heading-style">
                   {"  - " +
-                    data.professor_data.RMPRating +
-                    "/10     (" +
-                    data.professor_data.RMPRatingClass +
+                    professor.rating +
+                    "/" +
+                    professor.totalRatings +
+                    "(" +
+                    professor.review +
                     ")"}
                 </h5>
               </Row>
             </Col>
           </Row>
           <Row className="course-list">
-            {data &&
-              data.courses_taught &&
-              data.courses_taught.map((course) => (
-                <p className="course-list-item" key={course.cUID}>
+            {courses &&
+              courses.map((course) => (
+                <p
+                  className="course-list-item"
+                  key={course.id}
+                  onClick={() => {
+                    routeChange("/course/" + course.id);
+                  }}
+                >
                   <h4 className="course-id">
-                    {course.cCode + " - "}{" "}
-                    <bold style={{ color: "#FF7787" }}>{course.cName}</bold>
+                    {course.code + " - "}{" "}
+                    <bold style={{ color: "#FF7787" }}>{course.name}</bold>
                   </h4>
                 </p>
               ))}

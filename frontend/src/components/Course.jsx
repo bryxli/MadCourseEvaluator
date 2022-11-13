@@ -16,7 +16,7 @@ const Course = () => {
 
   //the returned gpa graph distribution for this course is converted into the required format for our graph API
   useEffect(() => {
-    fetch("/courseInfo/" + courseID).then((response) =>
+    fetch("/course/" + courseID).then((response) =>
       response.json().then((d) => {
         const json_str = JSON.stringify(d);
         const json = JSON.parse(json_str);
@@ -24,6 +24,8 @@ const Course = () => {
       })
     );
   }, []);
+
+  console.log(courseInfo)
 
   // todo:create a GET request using course for course data, then pass in as props
   // todo:after retrieving data, fill our heading-style, GPAGraph, Reddit, ProfessorList with props

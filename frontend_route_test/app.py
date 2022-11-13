@@ -2125,7 +2125,7 @@ def courseInfo():
     "cName": "INTRODUCTION TO ALGORITHMS",
     "cReq": "Requisites: (MATH/COMPSCI240 or STAT/COMPSCI/MATH475) and (COMP SCI 367 or 400), or graduate/professional standing, or declared in the Capstone Certificate in Computer Sciences for Professionals",
     "cSubject": "Computer Sciences",
-    "cUID": 50806,
+    "cUID": 48496,
   }
 
 

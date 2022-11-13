@@ -113,6 +113,7 @@ body,
   flex-direction: row;
   display: flex;
   gap: 3%;
+  cursor: pointer;
 }
 
 .reddit-list-item {

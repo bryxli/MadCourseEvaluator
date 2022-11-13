@@ -6,6 +6,8 @@ import Header from "./Header";
 import { useNavigate } from "react-router-dom";
 
 const Instructor = ({ id }) => {
+  //sample id until professor component is connected to other pages
+  id = 125529;
   let navigate = useNavigate();
   const routeChange = (path) => {
     navigate(path);
@@ -16,10 +18,8 @@ const Instructor = ({ id }) => {
   useEffect(() => {
     fetch("/professor/" + id).then((response) =>
       response.json().then((data) => {
-        const json_str = JSON.stringify(response);
-        const json = JSON.parse(json_str);
         var courses = [];
-        var courses_taught = json["courses-taught"];
+        var courses_taught = data["courses-taught"];
         for (var key in courses_taught) {
           const id = key;
           const code = courses_taught[key].cCode;
@@ -30,12 +30,12 @@ const Instructor = ({ id }) => {
         setCourses(courses);
 
         setProfessor({
-          name: json.professor_data.name,
-          dept: json.professor_data.dept,
-          rating: json.professor_data.RMPRating,
+          name: data.professor_data.name,
+          dept: data.professor_data.dept,
+          rating: data.professor_data.RMPRating,
           id,
-          totalRatings: json.professor_data.RMPTotalRatings,
-          review: json.professor_data.RMPRatingClass,
+          totalRatings: data.professor_data.RMPTotalRatings,
+          review: data.professor_data.RMPRatingClass,
         });
       })
     );

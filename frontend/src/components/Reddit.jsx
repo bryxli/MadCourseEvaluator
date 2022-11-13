@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 
 const Reddit = (props) => {
-  const course = props.id;
+  const id = props.id;
 
   const [redditList, setRedditList] = useState([]);
   useEffect(() => {
-    fetch("/redlist/" + course).then((response) =>
+    fetch("/redlist/" + id).then((response) =>
       response.json().then((data) => {
-        const json_str = JSON.stringify(response);
+        const json_str = JSON.stringify(data);
         const json = JSON.parse(json_str);
         var classes = [];
         for (var key in json) {

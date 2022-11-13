@@ -56,6 +56,7 @@ const Search = () => {
           selected={selected}
         />
       </Form.Group>
+      <Button type="submit" hidden></Button>
     </Form>
   );
 };

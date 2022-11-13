@@ -35,7 +35,7 @@ def courselist():
     }
 
 @api.route('/graphDistribution/48496')
-def courselist():
+def graphDistribution():
     return {
     "courseOfferings": [
         {

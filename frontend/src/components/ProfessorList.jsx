@@ -60,8 +60,6 @@ const ProfessorList = (props) => {
     );
   }, []);
 
-  professorList;
-
   return (
     <div className="professor-list">
       {data.map((prof) => (

@@ -1,7 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { LineChart, YAxis, XAxis, Line, ResponsiveContainer } from "recharts";
+import React from "react";
+import {
+  BarChart,
+  CartesianGrid,
+  YAxis,
+  XAxis,
+  Tooltip,
+  Legend,
+  Bar,
+} from "recharts";
 
-const data = [
+/**const data = [
   {
     name: "A",
     grade: 13,
@@ -22,31 +30,29 @@ const data = [
     name: "F",
     grade: 2,
   },
-];
+];**/
 
-const GPAGraph = (props) => {
-  const course = props.id;
-
+const GPAGraph = ({ graphInfo }) => {
   // this is the fetch command to call the endpoint /distr/cUID assuming endpoint returns pre-formatted json file
-  const [gradeDistribution, setGradeDistribution] = useState({});
-  useEffect(() => {
+  // const [gradeDistribution, setGradeDistribution] = useState({});
+  /**  useEffect(() => {
     fetch("/distr/" + course).then((response) =>
       response.json().then((data) => {
         setGradeDistribution(data);
       })
     );
   }, []);
-
-  gradeDistribution;
+  */
 
   return (
-    <ResponsiveContainer width="100%" height="100%">
-      <LineChart width={500} height={300} data={data}>
-        <XAxis dataKey="name" />
-        <YAxis dataKey="grade" />
-        <Line type="monotone" dataKey="grade" stroke="#FF7787" />
-      </LineChart>
-    </ResponsiveContainer>
+    <BarChart width={400} height={250} data={graphInfo}>
+      <CartesianGrid strokeDasharray="3 3" />
+      <XAxis dataKey="name" />
+      <YAxis dataKey="grade" />
+      <Tooltip />
+      <Legend />
+      <Bar dataKey="grade" fill="#FF7787" />
+    </BarChart>
   );
 };
 

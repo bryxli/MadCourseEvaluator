@@ -34,8 +34,8 @@ const Search = () => {
 
   // Submit button navigation
   const navigate = useNavigate();
-  const submit = () => {
-    event.preventDefault();
+  const submit = (e) => {
+    e.preventDefault();
     navigate({
       pathname: "/course",
       search: createSearchParams({
@@ -56,7 +56,6 @@ const Search = () => {
           selected={selected}
         />
       </Form.Group>
-      <Button type="submit" hidden></Button>
     </Form>
   );
 };

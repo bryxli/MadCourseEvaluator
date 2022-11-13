@@ -1,39 +1,85 @@
 import React from "react";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Header from "./Header";
 
-const data = [
-  { courseID: "CS 577", id: 1, courseName: "Introduction to Algorithms" },
-  {
-    courseID: "CS 540",
-    id: 2,
-    courseName: "Introduction to Artificial Intelligence",
-  },
-  { courseID: "MATH 222", id: 3, courseName: "Calculus 2" },
-  { courseID: "MATH 341", id: 4, courseName: "Linear Algebra" },
-];
+{
+  /**        */
+}
 
 const Instructor = () => {
+  const data = {
+    courses_taught: [
+      {
+        cCode: "COMP SCI 577",
+        cCredits: "4 credits",
+        cDescription:
+          "Basic paradigms for the design and analysis of efficient algorithms: greed, divide-and-conquer, dynamic programming, reductions, and the use of randomness. Computational intractability including typical NP-complete problems and ways to deal with them.",
+        cName: "INTRODUCTION TO ALGORITHMS",
+        cReq: "Requisites: (MATH/COMPSCI240 or STAT/COMPSCI/MATH475) and (COMP SCI 367 or 400), or graduate/professional standing, or declared in the Capstone Certificate in Computer Sciences for Professionals",
+        cSubject: "Computer Sciences",
+        cUID: 40539,
+      },
+    ],
+    professor_data: {
+      RMPID: 125529,
+      RMPRating: 1.9,
+      RMPRatingClass: "poor",
+      RMPTotalRatings: 46,
+      dept: "Computer Science",
+      name: "Eric Bach",
+    },
+  };
   return (
     <>
-      <div className="white-box">
-        <p style={{ fontWeight: 400 }}>Madger Courses</p>
-        <form className="search-box" style={{ height: "75%", width: "20%" }}>
-          <input type="search" />
-          <button type="submit">Search</button>
-        </form>
-      </div>
-      <div className="grey-box">
-        <h1 style={{ fontSize: "xxx-large" }}>Professor A</h1>
-        <div className="course-list">
-          {data.map((course) => (
-            <p className="course-list-item" key={course.id}>
-              <h4 className="course-id">
-                {course.courseID + " - "}{" "}
-                <bold style={{ color: "#FF7787" }}>{course.courseName}</bold>
-              </h4>
-            </p>
-          ))}
-        </div>
-      </div>
+      <Container className="full">
+        <Row>
+          <Header />
+        </Row>
+        <Container className="pink-box">
+          <Row>
+            <h1 style={{ fontSize: "xxx-large" }}>
+              {data.professor_data.name}
+            </h1>
+          </Row>
+          <Row>
+            <Col>
+              <Row>
+                <h5 className="bold-heading-style">Department </h5>
+
+                <h5 className="heading-style">
+                  {"  - " + data.professor_data.dept}
+                </h5>
+              </Row>
+
+              <Row>
+                <h5 className="bold-heading-style">Rating </h5>
+
+                <h5 className="heading-style">
+                  {"  - " +
+                    data.professor_data.RMPRating +
+                    "/10     (" +
+                    data.professor_data.RMPRatingClass +
+                    ")"}
+                </h5>
+              </Row>
+            </Col>
+          </Row>
+          <Row className="course-list">
+            {data &&
+              data.courses_taught &&
+              data.courses_taught.map((course) => (
+                <p className="course-list-item" key={course.cUID}>
+                  <h4 className="course-id">
+                    {course.cCode + " - "}{" "}
+                    <bold style={{ color: "#FF7787" }}>{course.cName}</bold>
+                  </h4>
+                </p>
+              ))}
+          </Row>
+        </Container>
+      </Container>
     </>
   );
 };

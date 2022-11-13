@@ -2,13 +2,13 @@ describe("Router", () => {
   beforeEach(() => {
     cy.visit("localhost:3000/");
   });
-  it("test home page", () => {
+  it("Visit Home page", () => {
     cy.visit("localhost:3000/");
   });
-  it("visit course page", () => {
+  it("Visit Course page", () => {
     cy.visit("localhost:3000/course");
   });
-  it("visit instructor page", () => {
+  it("Visit Instructor page", () => {
     cy.visit("localhost:3000/instructor");
   });
 });

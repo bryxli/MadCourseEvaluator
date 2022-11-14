@@ -1,15 +1,10 @@
-# Needed Python Libraries
 import requests
 import json
 import mysql.connector
-# Custom MadGrades Script for Grade Distributions
-import madgrades as mg
-# PRAW: Python Reddit API Wrapper
-import praw
+import madgrades as mg # Custom MadGrades Script for Grade Distributions
+import praw # PRAW: Python Reddit API Wrapper
 from praw.models import MoreComments
-# Public & Modified RMP API for Professor Data
-from RMP.ratemyprof_api import RateMyProfApi
-# Application Configuration (Private) Information
+from RMP.ratemyprof_api import RateMyProfApi # Public & Modified RMP API for Professor Data
 import config
 
 # Documentation Reference: README Subsection 1.1
@@ -31,17 +26,8 @@ reddit = praw.Reddit(client_id = config.PRAW_client_id,
 
 # Instantiate PRAW Subreddit Object for r/UWMadison
 uwmadison_subreddit = reddit.subreddit('UWMadison')
-
-# Instantiate UW-Madison RateMyProfessor Object (DOCS: 1.1.2.1)
-uwm_rmp_sid_1 = "1256"  # RMP School ID #1
-uwm_rmp_sid_2 = "18418" # RMP School ID #2
-
-api_1 = RateMyProfApi(uwm_rmp_sid_1, testing = True) # (DOCS: 1.1.2.2)
-api_2 = RateMyProfApi(uwm_rmp_sid_2, testing = True)
-
 reddit_url = 'https://www.reddit.com'
 
-# TODO: PopCourses() is finished!
 # (DOCS: 1.1.1.1)
 def PopCourses():
     """
@@ -49,7 +35,7 @@ def PopCourses():
     Entries contain a cUID, the course's name, the course's subject, the course's code, the course's credits, and the course's description.
     """
 
-    file = open('./compsci_test_sample/list_courses.json', 'r') # Open the JSON file containing all UW-Madison courses (pre-scraped)
+    file = open('./compsci_test_sample/comp_sci_test_courses.json', 'r') # Open the JSON file containing all UW-Madison courses (pre-scraped)
     data = json.load(file)          # Load the JSON file into a dictionary
     cursor = conn.cursor()          # Create a cursor object to execute SQL queries
 
@@ -103,32 +89,6 @@ def PopProfessorsHelper(professor_data):
     cursor.close()
     pass
 
-def PopProfessorsHelper_2(professor_data):
-    """
-    Helper function to populate the professors table with all professors at UW-Madison.
-
-    """
-    cursor = conn.cursor() 
-
-    # Iterating through every UW professor on RMP, and store the information in a String
-    prof_json_2 = {}                                          
-    professor = professor_data['name']
-    professor = professor.replace("X / ", "").replace("S / ", "").lower().title()
-    prof_json_2['name'] = professor
-    pData = json.dumps(prof_json_2)  # Convert the JSON object to a string
-
-    try:
-        # Insert course into the database's professors table
-        cursor.execute("INSERT INTO professors (pName, pData) VALUES (%s, %s)", (prof_json_2['name'], pData))
-        conn.commit()
-    except Exception as e:
-        print(e)
-        # print("Error inserting professor into database")
-      
-    cursor.close()
-    pass
-
-# TODO: PopProfessors() is finished!
 # (DOCS: 1.1.1.2)
 def PopProfessors():
     """
@@ -137,9 +97,18 @@ def PopProfessors():
 
     Sample pData : {'Fname': 'Peter', 'Lname': 'Adamczyk', 'dept': 'Mechanical Engineering', 'RMPID': 2215832, 'RMPRating': 4.9, 'RMPTotalRatings': 12, 'RMPRatingClass': 'good'}
     """
+    # Instantiate UW-Madison RateMyProfessor Object (DOCS: 1.1.2.1)
+    uwm_rmp_sid_1 = "1256"  # RMP School ID #1
+    uwm_rmp_sid_2 = "18418" # RMP School ID #2
+
+    api_1 = RateMyProfApi(uwm_rmp_sid_1) # (DOCS: 1.1.2.2)
+    api_2 = RateMyProfApi(uwm_rmp_sid_2)
+
     professors_data = []
-    professors_data.append(api_1.scrape_professors()) # (DOCS: 1.1.2.3)
-    professors_data.append(api_2.scrape_professors())
+
+    professors_data.append(api_1.ScrapeProfessors()) # (DOCS: 1.1.2.3)
+    professors_data.append(api_2.ScrapeProfessors())
+
     for data in professors_data:
         PopProfessorsHelper(data)
 
@@ -209,7 +178,7 @@ def PopRedditComments():
     """
     cursor = conn.cursor() 
 
-    file = open('./compsci_test_sample/list_courses.json', 'r') # Open the JSON file containing all UW-Madison courses (pre-scraped)
+    file = open('./compsci_test_sample/comp_sci_test_courses.json', 'r') # Open the JSON file containing all UW-Madison courses (pre-scraped)
     data = json.load(file)                  # Load the JSON file into a dictionary
     cursor = conn.cursor(buffered=True) 
     for key in data.keys():
@@ -217,8 +186,6 @@ def PopRedditComments():
         cursor.execute("SELECT cUID, cName, cCode FROM courses WHERE cCode Like %s", (courseCode,)) # Get the cUID, and cCode of all courses
 
         courses = cursor.fetchall() # Store all course datac
-
-        # TODO: FIGURE OUT WHAT SEARCHES TO DO
 
         # Create a course acronym (DOCS: 1.1.2.4)
         for course in courses:
@@ -229,11 +196,7 @@ def PopRedditComments():
             for word in course[2].split():
                 if word[0].isalpha():
                     acronym += word[0]
-
-            # print(acronym)
-            # print(search)
-            # search = cNum
-
+                    
             # Searching for posts that have either the full course code, or the courses acronym + course number (e.g. CS506 or CS 506)
             for submission in uwmadison_subreddit.search(search, limit=50):
                 if (search.lower() in submission.title.lower()) or (acronym + cNum in submission.title) or (acronym + ' ' + cNum in submission.title): 
@@ -257,7 +220,7 @@ def PopTeaches():
     Function to populate the teaches table with cUIDs and pUIDs for each course. Defining what courses each professor teaches.
     Entries contain a cUID and a pUID.
     """
-    file = open('./compsci_test_sample/list_courses.json', 'r') # Open the JSON file containing all UW-Madison courses (pre-scraped)
+    file = open('./compsci_test_sample/comp_sci_test_courses.json', 'r') # Open the JSON file containing all UW-Madison courses (pre-scraped)
     data = json.load(file)                  # Load the JSON file into a dictionary
     cursor = conn.cursor(buffered=True) 
     for key in data.keys():

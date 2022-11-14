@@ -58,19 +58,18 @@ def PopCourses():
     cursor.close()
     pass
 
-professor_name_list_RMP = [] 
 def PopProfessorsHelper(professor_data):
     """
     Helper function to populate the professors table with all professors at UW-Madison.
 
     """
     cursor = conn.cursor() 
-    prof_json = {} 
+
     # Iterating through every UW professor on RMP, and store the information in a String
-    for professor in professor_data:                                        
+    for professor in professor_data:
+        prof_json = {}                                          
         professor = professor_data[professor]                               
         prof_json['name'] = professor.first_name + " " + professor.last_name 
-        professor_name_list_RMP.append(professor.first_name + " " + professor.last_name )
         prof_json['dept'] = professor.department              
         prof_json['RMPID'] = professor.ratemyprof_id          
         prof_json['RMPRating'] = professor.overall_rating        
@@ -111,62 +110,6 @@ def PopProfessors():
 
     for data in professors_data:
         PopProfessorsHelper(data)
-
-    professors_data_1 = []
-    professors_name_list_madgrade = [] #get professor name only from madgrade
-    file = open('./compsci_test_sample/list_courses.json', 'r') # Open the JSON file containing all UW-Madison courses (pre-scraped)
-    data = json.load(file)                  # Load the JSON file into a dictionary
-    cursor = conn.cursor(buffered=True) 
-    for key in data.keys():
-            print(key)
-            courseCode = data[key]['code'] 
-            cursor.execute("SELECT cUID, cCode FROM courses WHERE cCode Like %s", (courseCode,)) # Get the cUID, and cCode of all courses
-            courses = cursor.fetchall()
-            
-            for course in courses:
-    
-                cUID = course[0]
-                cCode = course[1]
-                search = cCode
-                grade_distributions = mg.MadGrades(search)
-                all_term_data = []
-
-                # If the course has no grade distribution, we won't find any professors for that course
-                if(grade_distributions is None):
-                    break
-
-                # Get every single semester's data for a course
-                for i in range(len(grade_distributions["courseOfferings"])):
-                    single_term_data = grade_distributions["courseOfferings"][i]["sections"]
-                    all_term_data.append(single_term_data)
-
-                num_terms = len(all_term_data)
-                # For every semester, get the professor's name and add it to the list of professors for that course
-                for j in range(num_terms):
-                    for k in range(len(all_term_data[j])):
-                        # If the course has multiple professors, add each professor to the list of professors for that course
-                        if(len(all_term_data[j][k]["instructors"]) > 1):
-                            for L in range(len(all_term_data[j][k]["instructors"])):
-                                #print(all_term_data[j][k]["instructors"][L])
-                                professor_name = all_term_data[j][k]["instructors"][L]['name'].replace("X / ", "").replace("S / ", "").lower().title()
-                                if professor_name not in professors_name_list_madgrade and professor_name not in professor_name_list_RMP:
-                                    print(professor_name)
-                                    professors_data_1.append(all_term_data[j][k]["instructors"][L])
-                                    professors_name_list_madgrade.append(professor_name)
-                        # If the course has only one professor, add that professor to the list of professors for that course if they aren't already in the list
-                        else:
-                            professor_name_2 = all_term_data[j][k]["instructors"][0]['name'].replace("X / ", "").replace("S / ", "").lower().title()
-                            if professor_name_2 not in professors_name_list_madgrade and professor_name_2 not in professor_name_list_RMP:
-                                print(professor_name_2)
-                                professors_data_1.append(all_term_data[j][k]["instructors"][0])
-                                professors_name_list_madgrade.append(professor_name_2)
-
-                # For every professor that teaches a course, get their pUID and insert it into the teaches table for that course
-    for data in professors_data_1:
-        #print(data)
-        PopProfessorsHelper_2(data)
-
-    cursor.close()
     pass
 
  # TODO: PopRedditComments() is finished.

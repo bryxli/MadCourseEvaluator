@@ -60,16 +60,10 @@ class RateMyProfApi:
         """
         Helper function to get the number of professors in the school with the given school_id.
         """
-        if self.UniversityId == "1256":
-            page = requests.get(
-                "http://www.ratemyprofessors.com/filter/professor/?&page=1&queryoption=TEACHER&query=*&sid="
-                + str(self.UniversityId)
-            )
-        else:
-            page = requests.get(
-                "http://www.ratemyprofessors.com/filter/professor/?&page=1&queryoption=TEACHER&queryBy=schoolId&sid="
-                + str(self.UniversityId)
-            ) 
+        page = requests.get(
+            "http://www.ratemyprofessors.com/filter/professor/?&page=1&queryoption=TEACHER&queryBy=schoolId&sid="
+            + str(self.UniversityId)
+        ) 
 
         temp_jsonpage = json.loads(page.content)
         num_of_prof = (temp_jsonpage["searchResultsTotal"]) 

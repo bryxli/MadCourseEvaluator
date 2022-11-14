@@ -187,6 +187,7 @@ def PopTeaches():
             # Get every single semester's data for a course
             for i in range(len(grade_distributions["courseOfferings"])):
                 single_term_data = grade_distributions["courseOfferings"][i]["sections"]
+                print(single_term_data)
                 all_term_data.append(single_term_data)
 
             num_terms = len(all_term_data) 
@@ -207,6 +208,7 @@ def PopTeaches():
             # For every professor that teaches a course, get their pUID and insert it into the teaches table for that course
             for professor in course_professors:
                 prof_name = professor['name'] 
+                prof_name = prof_name.replace("X / ", "").replace("S / ", "")
                 cursor.execute("SELECT pUID from professors where pName Like %s", (prof_name,))
                 pUID = cursor.fetchone()
                 if pUID is not None:

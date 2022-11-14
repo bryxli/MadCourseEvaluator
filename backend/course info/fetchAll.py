@@ -62,7 +62,7 @@ for webname in weblist:
             current_dict[f'{webname[9:-1]} {j}']['description'] = link.get_text().replace(u'\xa0', u'').replace(u'\u200b', u'').replace(u'\xa9', u'').replace(u'\u2022', u'').replace(u'\n', u'').replace(u'\u2014', u'')
 
         if i == 4 : 
-           current_dict[f'{webname[9:-1]} {j}']['requisite'] = link.get_text().replace(u'\xa0', u'').replace(u'\u200b', u'').replace(u'\xa9', u'').replace(u'\u2022', u'').replace(u'\u2014', u'')
+           current_dict[f'{webname[9:-1]} {j}']['requisite'] = link.get_text().replace("Requisites: ", "").replace(u'\xa0', u'').replace(u'\u200b', u'').replace(u'\xa9', u'').replace(u'\u2022', u'').replace(u'\u2014', u'')
 
 
         

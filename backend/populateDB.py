@@ -1,15 +1,10 @@
-# Needed Python Libraries
 import requests
 import json
 import mysql.connector
-# Custom MadGrades Script for Grade Distributions
-import madgrades as mg
-# PRAW: Python Reddit API Wrapper
-import praw
+import madgrades as mg # Custom MadGrades Script for Grade Distributions
+import praw # PRAW: Python Reddit API Wrapper
 from praw.models import MoreComments
-# Public & Modified RMP API for Professor Data
-from RMP.ratemyprof_api import RateMyProfApi
-# Application Configuration (Private) Information
+from RMP.ratemyprof_api import RateMyProfApi # Public & Modified RMP API for Professor Data
 import config
 
 # Documentation Reference: README Subsection 1.1
@@ -31,11 +26,8 @@ reddit = praw.Reddit(client_id = config.PRAW_client_id,
 
 # Instantiate PRAW Subreddit Object for r/UWMadison
 uwmadison_subreddit = reddit.subreddit('UWMadison')
-
-
 reddit_url = 'https://www.reddit.com'
 
-# TODO: PopCourses() is finished!
 # (DOCS: 1.1.1.1)
 def PopCourses():
     """
@@ -96,7 +88,6 @@ def PopProfessorsHelper(professor_data):
     cursor.close()
     pass
 
-# TODO: PopProfessors() is finished!
 # (DOCS: 1.1.1.2)
 def PopProfessors():
     """
@@ -111,11 +102,11 @@ def PopProfessors():
 
     api_1 = RateMyProfApi(uwm_rmp_sid_1) # (DOCS: 1.1.2.2)
     api_2 = RateMyProfApi(uwm_rmp_sid_2)
-    
+
     professors_data = []
 
-    professors_data.append(api_1.scrape_professors()) # (DOCS: 1.1.2.3)
-    professors_data.append(api_2.scrape_professors())
+    professors_data.append(api_1.ScrapeProfessors()) # (DOCS: 1.1.2.3)
+    professors_data.append(api_2.ScrapeProfessors())
 
     for data in professors_data:
         PopProfessorsHelper(data)
@@ -139,8 +130,6 @@ def PopRedditComments():
 
         courses = cursor.fetchall() # Store all course datac
 
-        # TODO: FIGURE OUT WHAT SEARCHES TO DO
-
         # Create a course acronym (DOCS: 1.1.2.4)
         for course in courses:
             cNum = ''.join(filter(str.isdigit, course[2]))  # Extract all numeric characters from the course's code
@@ -151,10 +140,6 @@ def PopRedditComments():
                 if word[0].isalpha():
                     acronym += word[0]
                     
-            # print(acronym)
-            # print(search)
-            # search = cNum
-
             # Searching for posts that have either the full course code, or the courses acronym + course number (e.g. CS506 or CS 506)
             for submission in uwmadison_subreddit.search(search, limit=50):
                 if (search.lower() in submission.title.lower()) or (acronym + cNum in submission.title) or (acronym + ' ' + cNum in submission.title): 
@@ -243,10 +228,10 @@ def PopDB():
     """
     Function that populated the entire database by calling all Pop Functions.
     """
-    # PopCourses()
+    PopCourses()
     PopProfessors()
-    # PopRedditComments()
-    # PopTeaches()
+    PopRedditComments()
+    PopTeaches()
     return
 
 if __name__ == '__main__':

@@ -16,7 +16,7 @@ class RateMyProfApi:
         self.UniversityId = school_id
         
 
-    def scrape_professors(self):  # creates List object that include basic information on all Professors from the IDed University
+    def ScrapeProfessors(self):  # creates List object that include basic information on all Professors from the IDed University
         """
         Scrapes all professors from the school with the given school_id. 
         Return: a list of Professor objects, defined in professor.py.

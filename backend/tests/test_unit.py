@@ -3,6 +3,7 @@ import pytest
 import os
 import sys
 import inspect
+import json
 
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parentdir = os.path.dirname(currentdir)
@@ -11,6 +12,7 @@ sys.path.insert(0, parentdir)
 from app import db
 from models.models import Courses, Professors, RC, Teaches
 import madgrades as mg
+from RMP.ratemyprof_api import RateMyProfApi
 
 """
 # Unit Tests: DB Models, Utility Functions called by View Functions
@@ -84,8 +86,33 @@ class TestUtil(unittest.TestCase):
         keys = list(grade_distributions['cumulative'].keys())
         self.assertEqual(keys, cumulative_cols)
 
+    def test_RMP_api(self):
+        """Test that ratemyprof_api.py returns the expected professor data for each professor"""
 
-        # print("Good test")
+        # Instantiate UW-Madison RateMyProfessor Object (DOCS: 1.1.2.1)
+        uwm_rmp_sid_1 = "1256"  # RMP School ID #1
+        uwm_rmp_sid_2 = "18418" # RMP School ID #2
+
+        api_1 = RateMyProfApi(uwm_rmp_sid_1) # (DOCS: 1.1.2.2)
+        # api_2 = RateMyProfApi(uwm_rmp_sid_2)
+
+        professor_data = []
+
+        # professor_data.append(api_1.ScrapeProfessors()) 
+        # professors_data.append(api_2.ScrapeProfessors())
+
+        # self.assertEqual(len(professor_data), 4243)
+        # prof_json = {}                                   
+        # print("professor = ",professor_data[0].keys())         
+     
+        # prof_json['name'] = professor.first_name + " " + professor.last_name 
+        # prof_json['dept'] = professor.department              
+        # prof_json['RMPID'] = professor.ratemyprof_id          
+        # prof_json['RMPRating'] = professor.overall_rating        
+        # prof_json['RMPTotalRatings'] = professor.num_of_ratings 
+        # prof_json['RMPRatingClass'] = professor.rating_class
+        # pData = json.dumps(prof_json)  # Convert the JSON object to a string
+
     
 if __name__ == '__main__':
     unittest.main() # Run all unit tests

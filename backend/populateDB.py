@@ -32,12 +32,6 @@ reddit = praw.Reddit(client_id = config.PRAW_client_id,
 # Instantiate PRAW Subreddit Object for r/UWMadison
 uwmadison_subreddit = reddit.subreddit('UWMadison')
 
-# Instantiate UW-Madison RateMyProfessor Object (DOCS: 1.1.2.1)
-uwm_rmp_sid_1 = "1256"  # RMP School ID #1
-uwm_rmp_sid_2 = "18418" # RMP School ID #2
-
-api_1 = RateMyProfApi(uwm_rmp_sid_1, testing = True) # (DOCS: 1.1.2.2)
-api_2 = RateMyProfApi(uwm_rmp_sid_2, testing = True)
 
 reddit_url = 'https://www.reddit.com'
 
@@ -111,6 +105,13 @@ def PopProfessors():
 
     Sample pData : {'Fname': 'Peter', 'Lname': 'Adamczyk', 'dept': 'Mechanical Engineering', 'RMPID': 2215832, 'RMPRating': 4.9, 'RMPTotalRatings': 12, 'RMPRatingClass': 'good'}
     """
+    # Instantiate UW-Madison RateMyProfessor Object (DOCS: 1.1.2.1)
+    uwm_rmp_sid_1 = "1256"  # RMP School ID #1
+    uwm_rmp_sid_2 = "18418" # RMP School ID #2
+
+    api_1 = RateMyProfApi(uwm_rmp_sid_1) # (DOCS: 1.1.2.2)
+    api_2 = RateMyProfApi(uwm_rmp_sid_2)
+    
     professors_data = []
 
     professors_data.append(api_1.scrape_professors()) # (DOCS: 1.1.2.3)
@@ -242,10 +243,10 @@ def PopDB():
     """
     Function that populated the entire database by calling all Pop Functions.
     """
-    PopCourses()
+    # PopCourses()
     PopProfessors()
-    PopRedditComments()
-    PopTeaches()
+    # PopRedditComments()
+    # PopTeaches()
     return
 
 if __name__ == '__main__':

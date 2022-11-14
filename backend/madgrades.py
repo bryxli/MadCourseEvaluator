@@ -8,22 +8,23 @@ auth_header = {'Authorization': 'Token ' + madgrades_api_token} # Authorization 
 # URL Constants
 madGrades_course_url = 'https://api.madgrades.com/v1/courses/'
 madGrades_query_url = madGrades_course_url +'?query='
-reddit_url = 'https://www.reddit.com'
 
 def MadGrades(courseCode):
     """
-    Pulls grade distributions from every course at UW-Madison and populates the grade-distributions table
+    Pulls grade distribution data for a course corresponding to a courseCode offered at UW-Madison.
+    Example Course Code: "COMP SCI 577"
     """
     search = courseCode
-    response = requests.get(madGrades_query_url + search, headers=auth_header) # API call to access list of courses matching search query
+    response = requests.get(madGrades_query_url + search, headers=auth_header) # API request to access list of courses matching search query
     course_listings = response.json()
     try:
-        course_url = course_listings['results'][0]['url']                          # Get API Endpoint URL of first course in list
-    except IndexError:
+        course_url = course_listings['results'][0]['url']                      # Endpoint of first course in list (i.es. the course matching the course code)
+    except Exception as e:
+        print(e)
         return
-    response = requests.get(course_url, headers=auth_header)                   # API call to get course data associated with select course
+    response = requests.get(course_url, headers=auth_header)                   # API request to get course data associated with the course
     full_course_data = response.json()                                  
-    grades_url = full_course_data['gradesUrl']                                 # Get API Endpoint URL of grade distribution data                                            
-    response = requests.get(grades_url, headers=auth_header)                   # API call to access grade distribution data
-    courses = response.json()                                                  # Course offerings dictionary, with a list of dictionaries for each 
+    grades_url = full_course_data['gradesUrl']                                 # Endpoint of the grade distribution associated with the course                                            
+    response = requests.get(grades_url, headers=auth_header)                   # API request to get grade distribution data
+    courses = response.json()                                                 
     return(courses)

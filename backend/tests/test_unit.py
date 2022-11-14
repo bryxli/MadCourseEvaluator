@@ -20,8 +20,7 @@ class TestModels(unittest.TestCase):
     """
     Tests for DB Models
     """
-
-    def test_models_new_course(self):
+    def test_models_new_course(self): 
         """Test new course creation"""
         new_course = Courses(1, 'Intro to Computer Science', 'Computer Science', 'CS 101', '3', 'Intro to Computer Science', 'None')
         self.assertEqual(new_course.cUID, 1)

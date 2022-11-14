@@ -20,6 +20,11 @@ db.init_app(app) # Initialize the Database
 with app.app_context(): # Create the Database Tables from models.py
     db.create_all()     # Create the Database
 
+@app.route('/test', methods=['GET','POST'])
+def Test():
+    courseCode = "COMP SCI 577"
+    return mg.MadGrades(courseCode)
+
 @app.route('/all-courses', methods=['GET','POST'])
 def AllCourses():
     """

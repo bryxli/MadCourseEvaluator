@@ -150,7 +150,7 @@ class TestCourseRoutes(unittest.TestCase):
 
     # TODO: We are getting an error when loading the professors names, for some instances 
     # request.json['courseOfferings'][info]['sections'][section]['instructors'][0]['name'] 
-    # is returning more than one name. I believe this is a bug in the MadCourse API itself,
+    # is returning more than one name. I believe this is a bug in the MadGrades API itself,
     # but we should look into it further.
     def test_course_grade_distribution(self):
         cs577_cUID = "58786" 

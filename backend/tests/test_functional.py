@@ -174,8 +174,6 @@ class TestCourseRoutes(unittest.TestCase):
             self.assertEqual('termCode' in info.keys(), True)
 
             # Assert that the per section course grade distribution data for courseOfferings contains instructors key with id and name for professor
-            contains_marc_renault = False
-            contains_eric_bach = False
             prof_list = []
             for section in range(len(info['sections'])):
                 # print(info['sections'][section]['instructors'])

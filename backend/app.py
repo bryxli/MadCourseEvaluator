@@ -12,13 +12,15 @@ db = SQLAlchemy()
 
 app = Flask(__name__)
 app.secret_key = config.secret
-app.config['SQLALCHEMY_DATABASE_URI'] = db_uri # MySQL Database URI
+app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
+engine = create_engine(db_uri)                 
 
-engine = create_engine(db_uri)                 # Create a database engine
+############################################################
+# TODO: Models.py script, need to initialize MySQL database 
 db.init_app(app) # Initialize the Database
-
 with app.app_context(): # Create the Database Tables from models.py
     db.create_all()     # Create the Database
+############################################################
 
 @app.route('/all-courses', methods=['GET','POST'])
 def AllCourses():
@@ -156,52 +158,60 @@ def gradeDistribution(cUID):
     grade_distribution = mg.MadGrades(cCode) # Get grade distribution for the course using the course code
     return grade_distribution
 
-@app.route('/professor/<pUID>', methods=['GET','POST'])
-def professorPage(pUID):
+
+@app.route('/prof-info/<pUID>', methods=['GET','POST'])
+def professorInfo(pUID):
     """
-    Specific Professor endpoint: returns all data associated with a specific professor page.
-    Data per Professor -> 1. All professor information from professors table.
-                          2. List of courses taught by the professor.
+    Specific Professor Info endpoint: returns all RateMyProfessor data for a professor
+    associated with the given pUID.
     """
-    cursor = conn.cursor() # Create a cursor object to execute SQL queries
+    connection = engine.raw_connection()
+    cursor = connection.cursor()
     search = pUID
-    full_professor_data_json = {}
-    all_course_json_data = {}
+    professor_data_json = {}
 
-    # 1. Get professor data from professors table,
+    # Get professor data from professors table,
     cursor.execute("SELECT pData FROM professors WHERE pUID = %s", (search,)) # Execute SQL query
-
-    # Fetch all the professor data from the database
-    prof_data = cursor.fetchall()[0][0]
-
-    # Store professor data in the full professor data json that will be returned
-    full_professor_data_json['professor_data'] = json.loads(prof_data)
-
-    # 2. Get all courses taught by the professor
-    cursor.execute("SELECT cUID, cName, cSubject, cCode, cCredits, cDescription, cReq FROM courses WHERE cUID IN (SELECT cUID FROM teaches WHERE pUID = %s)", (search,)) # Execute SQL query
-
-    # Fetch all the rows from courses table
-    all_courses = cursor.fetchall()
-
-    for course in all_courses:
-        course_json_data = {'cUID': None, 'cName': None, 'cSubject': None, 'cCode': None, 'cCredits': None, 'cDescription': None, 'cReq': None} # Create a dictionary to store course data
-        # Store course data in dictionary
-        course_json_data['cUID'] = course[0]
-        course_json_data['cName'] = course[1]
-        course_json_data['cSubject'] = course[2]
-        course_json_data['cCode'] = course[3]
-        course_json_data['cCredits'] = course[4]
-        course_json_data['cDescription'] = course[5]
-        course_json_data['cReq'] = course[6]
-        all_course_json_data[course_json_data['cUID']] = course_json_data
-
-    # Store all courses taught by the professor in the full professor data json that will be returned
-    full_professor_data_json['courses-taught'] = all_course_json_data
+    prof_data = cursor.fetchall()[0][0] # Fetch all the professor data from the database
+    professor_data_json['professor_data'] = json.loads(prof_data) # Store professor data in the full professor data json that will be returned
 
     cursor.close()
     connection.close()
-    return full_professor_data_json
+    return professor_data_json
 
+@app.route('/prof-courses/<pUID>', methods=['GET','POST'])
+def professorCourses(pUID):
+    """
+    Professor's Courses endpoint: returns all courses taught by a professor associated with the given pUID.
+    """
+    connection = engine.raw_connection()
+    cursor = connection.cursor()
+    search = pUID
+    course_data_json = {}
+
+    # Get the course ID data from teaches table,
+    cursor.execute("SELECT cUID FROM teaches WHERE pUID = %s", (search,)) # Execute SQL query
+    list_courseID = cursor.fetchall()
+
+    for courseID in list_courseID:
+        courseID = courseID[0]
+        cursor.execute("SELECT cName, cSubject, cCode, cCredits, cDescription, cReq FROM courses WHERE cUID = %s", (courseID,))
+        course_data = cursor.fetchall()
+        course_json_data = {'cName': None, 'cSubject': None, 'cCode': None, 'cCredits': None, 'cDescription': None, 'cReq': None} 
+        
+        # Store course data in dictionary
+        course_data = course_data[0]
+        course_json_data['cName'] = course_data[0]
+        course_json_data['cSubject'] = course_data[1]
+        course_json_data['cCode'] = course_data[2]
+        course_json_data['cCredits'] = course_data[3]
+        course_json_data['cDescription'] = course_data[4]
+        course_json_data['cReq'] = course_data[5]
+        course_data_json[courseID] = course_json_data
+
+    cursor.close()
+    connection.close()
+    return course_data_json
 
 if __name__ == '__main__':
     app.run(debug=True, port = 5000)

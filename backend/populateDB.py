@@ -231,9 +231,9 @@ def PopDB():
     Function that populated the entire database by calling all Pop Functions.
     """
     # PopCourses()
-    PopProfessors()
+    # PopProfessors()
     # PopRedditComments()
-    # PopTeaches()
+    PopTeaches()
     return
 
 if __name__ == '__main__':

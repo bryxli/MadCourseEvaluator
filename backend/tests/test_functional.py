@@ -117,7 +117,33 @@ class TestCourseRoutes(unittest.TestCase):
         # Assert that the JSON returned contains at least the two known professors for this course
         self.assertEqual(contains_marc_renault, True)
         self.assertEqual(contains_eric_bach, True)
-    
+
+    def test_course_reddit_comments(self):
+        cs577_cUID = "58786" 
+        route = '/reddit-comments/'
+        full_request = route + cs577_cUID
+        request = app.test_client().get(full_request)     # Make a request to the /course-info/58786 endpoint
+        self.assertEqual(request.status_code, 200)        # Assert that the request was successful (200)
+
+        # Assert the json contains at least one key
+        self.assertEqual(len(request.json.keys()) > 0, True)
+
+        # Assert that every professor entry contains all keys (3 total) and required fields (3)
+        for key in request.json.keys():
+            self.assertEqual("comBody" in request.json[key].keys(), True)
+            self.assertEqual("comLink" in request.json[key].keys(), True)
+            self.assertEqual("comVotes" in request.json[key].keys(), True)
+            self.assertEqual(request.json[key]['comBody'] is not None, True)
+            self.assertEqual(request.json[key]['comLink'] is not None, True)
+            self.assertEqual(request.json[key]['comVotes'] is not None, True)
+
+            # Assert that the link is a valid URL
+            self.assertEqual(request.json[key]['comLink'].startswith("https://"), True)
+
+            # Make a request to the link and assert that it is a valid URL (200)
+            link_request = requests.get(request.json[key]['comLink'])
+            self.assertEqual(link_request.status_code, 200)
+
 
 if __name__ == '__main__':
     unittest.main() # Run all unit tests

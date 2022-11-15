@@ -1,7 +1,5 @@
 import requests
-import json
 import unittest
-import pytest
 import os
 import sys
 import inspect
@@ -14,9 +12,10 @@ sys.path.insert(0, parentdir)
 from app import app
 
 """
-# Functional Unit Tests: View Functions respond to nominal and non-nominal inputs (e.g. 404, 500, 200, etc.)
-"""
+Functional Unit Tests: View Functions respond to nominal and non-nominal inputs (e.g. 404, 500, 200, etc.)
 
+RUN: python3 tests/test_functional.py
+"""
 class TestCourseRoutes(unittest.TestCase):
     """
     Tests for Course Flask API Routes in app.py 
@@ -169,7 +168,6 @@ class TestProfRoutes(unittest.TestCase):
     """
     Tests for Professor Flask API Routes in app.py 
     """
-
     def test_all_profs(self): 
         request = app.test_client().get('/all-profs')     # Make a request to the /all-courses endpoint
         self.assertEqual(request.status_code, 200)        # Assert that the request was successful (200)
@@ -233,7 +231,6 @@ class TestProfRoutes(unittest.TestCase):
         # Ensure that the courses that Marc Renault teaches are in the list of courses returned
         self.assertEqual('COMP SCI 200' in course_list, True)
         self.assertEqual('COMP SCI 577' in course_list, True)
-
 
 if __name__ == '__main__':
     unittest.main() # Run all unit tests

@@ -168,16 +168,15 @@ def professorInfo(pUID):
     connection = engine.raw_connection()
     cursor = connection.cursor()
     search = pUID
-    professor_data_json = {}
 
     # Get professor data from professors table,
     cursor.execute("SELECT pData FROM professors WHERE pUID = %s", (search,)) # Execute SQL query
     prof_data = cursor.fetchall()[0][0] # Fetch all the professor data from the database
-    professor_data_json['professor_data'] = json.loads(prof_data) # Store professor data in the full professor data json that will be returned
+    professor_data = json.loads(prof_data) # Store professor data in the full professor data json that will be returned
 
     cursor.close()
     connection.close()
-    return professor_data_json
+    return professor_data
 
 @app.route('/prof-courses/<pUID>', methods=['GET','POST'])
 def professorCourses(pUID):

@@ -19,7 +19,7 @@ from app import app
 
 class TestCourseRoutes(unittest.TestCase):
     """
-    Tests for DB Models
+    Tests for Course Flask API Routes in app.py 
     """
     def test_all_courses(self): 
         request = app.test_client().get('/all-courses')   # Make a request to the /all-courses endpoint
@@ -34,27 +34,6 @@ class TestCourseRoutes(unittest.TestCase):
             self.assertEqual(request.json[key]['cName'] is not None, True)
             self.assertEqual(request.json[key]['cCode'] is not None, True)
             self.assertEqual(key, str(request.json[key]['cUID']))
-            i += 1
-            if i == 5:
-                break
-
-    def test_all_profs(self): 
-        request = app.test_client().get('/all-profs')     # Make a request to the /all-courses endpoint
-        self.assertEqual(request.status_code, 200)        # Assert that the request was successful (200)
-        self.assertEqual(request is not None, True)       # Assert that the request is not None
-        self.assertEqual(request.json is not None, True)  # Assert that the request.json is not None
-
-        # Assert that the first 5 courses contain all fields
-        i = 0
-        for key in request.json.keys():
-            self.assertEqual(request.json[key] is not None, True)
-            self.assertEqual(request.json[key]['name'] is not None, True)
-            self.assertEqual(request.json[key]['dept'] is not None, True)
-            # self.assertEqual(key, str(request.json[key]['RMPID'])) # We may want to make it so we are returning the pUID for each professor too
-            self.assertEqual("RMPID" in request.json[key].keys(), True)
-            self.assertEqual("RMPRating" in request.json[key].keys(), True)
-            self.assertEqual("RMPRatingClass" in request.json[key].keys(), True)
-            self.assertEqual("RMPTotalRatings" in request.json[key].keys(), True)
             i += 1
             if i == 5:
                 break
@@ -181,14 +160,56 @@ class TestCourseRoutes(unittest.TestCase):
                 self.assertEqual(info['sections'][section]['instructors'][0]['name'] is not None, True)
                 prof_list.append(info['sections'][section]['instructors'][0]['name'].lower().strip())
 
-
             # Assert that the JSON returned contains at least the two known professors for this course
             # print(prof_list)
             # self.assertEqual('marc renault' in prof_list, True)
             # self.assertEqual('eric bach' in prof_list, True)
 
+class TestProfRoutes(unittest.TestCase):
+    """
+    Tests for Professor Flask API Routes in app.py 
+    """
 
+    def test_all_profs(self): 
+        request = app.test_client().get('/all-profs')     # Make a request to the /all-courses endpoint
+        self.assertEqual(request.status_code, 200)        # Assert that the request was successful (200)
+        self.assertEqual(request is not None, True)       # Assert that the request is not None
+        self.assertEqual(request.json is not None, True)  # Assert that the request.json is not None
 
+        # Assert that the first 5 professors contain all fields (6 total)
+        i = 0
+        for key in request.json.keys():
+            self.assertEqual(request.json[key] is not None, True)
+            self.assertEqual(request.json[key]['name'] is not None, True)
+            self.assertEqual(request.json[key]['dept'] is not None, True)
+            # self.assertEqual(key, str(request.json[key]['RMPID'])) # We may want to make it so we are returning the pUID for each professor too
+            self.assertEqual("RMPID" in request.json[key].keys(), True)
+            self.assertEqual("RMPRating" in request.json[key].keys(), True)
+            self.assertEqual("RMPRatingClass" in request.json[key].keys(), True)
+            self.assertEqual("RMPTotalRatings" in request.json[key].keys(), True)
+            i += 1
+            if i == 5:
+                break
+
+    def test_prof_info(self): 
+        cUID_marc_renault = "96008" 
+        route = '/prof-info/'
+        full_request = route + cUID_marc_renault
+        request = app.test_client().get(full_request)     # Make a request to the /all-courses endpoint
+        self.assertEqual(request.status_code, 200)        # Assert that the request was successful (200)
+        self.assertEqual(request is not None, True)       # Assert that the request is not None
+        self.assertEqual(request.json is not None, True)  # Assert that the request.json is not None
+
+        # Assert that the professor data contains all fields (6 total)
+        self.assertEqual(len(request.json.keys()) == 6, True)
+        self.assertEqual(request.json['name'] is not None, True)
+        self.assertEqual(request.json['dept'] is not None, True)
+        self.assertEqual("RMPID" in request.json.keys(), True)
+        self.assertEqual("RMPRating" in request.json.keys(), True)
+        self.assertEqual("RMPRatingClass" in request.json.keys(), True)
+        self.assertEqual("RMPTotalRatings" in request.json.keys(), True)
+        self.assertEqual(request.json['name'], "Marc Renault")
+        self.assertEqual(request.json['dept'], "Computer Science")
 
 
 if __name__ == '__main__':

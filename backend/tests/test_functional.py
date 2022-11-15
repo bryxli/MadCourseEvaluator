@@ -192,9 +192,9 @@ class TestProfRoutes(unittest.TestCase):
                 break
 
     def test_prof_info(self): 
-        cUID_marc_renault = "96008" 
+        pUID_marc_renault = "96008" 
         route = '/prof-info/'
-        full_request = route + cUID_marc_renault
+        full_request = route + pUID_marc_renault
         request = app.test_client().get(full_request)     # Make a request to the /all-courses endpoint
         self.assertEqual(request.status_code, 200)        # Assert that the request was successful (200)
         self.assertEqual(request is not None, True)       # Assert that the request is not None
@@ -210,6 +210,29 @@ class TestProfRoutes(unittest.TestCase):
         self.assertEqual("RMPTotalRatings" in request.json.keys(), True)
         self.assertEqual(request.json['name'], "Marc Renault")
         self.assertEqual(request.json['dept'], "Computer Science")
+
+    def test_prof_courses(self):
+        pUID_marc_renault = "96008" 
+        route = '/prof-courses/'
+        full_request = route + pUID_marc_renault
+        request = app.test_client().get(full_request)     # Make a request to the /all-courses endpoint
+        self.assertEqual(request.status_code, 200)        # Assert that the request was successful (200)
+        self.assertEqual(request is not None, True)       # Assert that the request is not None
+        self.assertEqual(request.json is not None, True)  # Assert that the request.json is not None
+
+        course_list = []
+        for course in request.json:
+            self.assertEqual(request.json[course]['cCode'] is not None, True)
+            self.assertEqual(request.json[course]['cName'] is not None, True)
+            self.assertEqual(request.json[course]['cSubject'] is not None, True)
+            self.assertEqual('cReq' in request.json[course].keys(), True)
+            self.assertEqual('cCredits' in request.json[course].keys(), True)
+            self.assertEqual('cDescription' in request.json[course].keys(), True)
+            course_list.append(request.json[course]['cCode'].strip())
+        
+        # Ensure that the courses that Marc Renault teaches are in the list of courses returned
+        self.assertEqual('COMP SCI 200' in course_list, True)
+        self.assertEqual('COMP SCI 577' in course_list, True)
 
 
 if __name__ == '__main__':

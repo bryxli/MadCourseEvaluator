@@ -59,8 +59,30 @@ class TestCourseRoutes(unittest.TestCase):
             if i == 5:
                 break
 
-    
-    
+    def test_course_info(self):
+        cs577_cUID = "58786" 
+        route = '/course-info/'
+        full_request = route + cs577_cUID
+        request = app.test_client().get(full_request)     # Make a request to the /course-info/58786 endpoint
+        self.assertEqual(request.status_code, 200)        # Assert that the request was successful (200)
+
+        # Assert the json contains all keys
+        self.assertEqual("cUID" in request.json.keys(), True)
+        self.assertEqual("cName" in request.json.keys(), True)
+        self.assertEqual("cCode" in request.json.keys(), True)
+        self.assertEqual("cDescription" in request.json.keys(), True)
+        self.assertEqual("cReq" in request.json.keys(), True)
+        self.assertEqual("cCredits" in request.json.keys(), True)
+        self.assertEqual("cSubject" in request.json.keys(), True)
+
+        # Assert that the course info contains all required fields
+        self.assertEqual(request.json['cUID'] is not None, True)
+        self.assertEqual(request.json['cName'] is not None, True)
+        self.assertEqual(request.json['cCode'] is not None, True)
+
+        # Assert that the JSON returned contains only data from one course (7 keys total per course)
+        self.assertEqual(len(request.json.keys()), 7)
+
+
 if __name__ == '__main__':
     unittest.main() # Run all unit tests
-    # TestUtil().test_madgrades_api() # Run specific unit test

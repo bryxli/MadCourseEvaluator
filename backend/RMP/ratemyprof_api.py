@@ -28,12 +28,21 @@ class RateMyProfApi:
         num_of_pages = math.ceil(num_of_prof/20)   # The API returns 20 professors per page.
 
         for i in range(1, num_of_pages + 1):  # the loop insert all professor into list
-            page = requests.get(
-                "http://www.ratemyprofessors.com/filter/professor/?&page="
-                + str(i)
-                + "&filter=teacherlastname_sort_s+asc&query=*%3A*&queryoption=TEACHER&queryBy=schoolId&sid="
-                + str(self.UniversityId)
-            )
+            
+            if self.UniversityId == '1256':
+                page = requests.get(
+                    "http://www.ratemyprofessors.com/filter/professor/?&page="
+                    + str(i)
+                    + "&queryoption=TEACHER&queryBy=schoolId&sid="
+                    + str(self.UniversityId)
+                )
+            else:
+                page = requests.get(
+                    "http://www.ratemyprofessors.com/filter/professor/?&page="
+                    + str(i)
+                    + "&queryoption=TEACHER&query=*&sid="
+                    + str(self.UniversityId)
+                )
             
             json_response = json.loads(page.content)
 
@@ -60,10 +69,16 @@ class RateMyProfApi:
         """
         Helper function to get the number of professors in the school with the given school_id.
         """
-        page = requests.get(
-            "http://www.ratemyprofessors.com/filter/professor/?&page=1&queryoption=TEACHER&queryBy=schoolId&sid="
-            + str(self.UniversityId)
-        ) 
+        if self.UniversityId == '1256':
+            page = requests.get(
+                "http://www.ratemyprofessors.com/filter/professor/?&page=1&queryoption=TEACHER&queryBy=schoolId&sid="
+                + str(self.UniversityId)
+            )
+        else: 
+            page = requests.get(
+                "http://www.ratemyprofessors.com/filter/professor/?&page=1&queryoption=TEACHER&query=*&sid="
+                + str(self.UniversityId)
+            )
 
         temp_jsonpage = json.loads(page.content)
         num_of_prof = (temp_jsonpage["searchResultsTotal"]) 

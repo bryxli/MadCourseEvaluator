@@ -83,6 +83,41 @@ class TestCourseRoutes(unittest.TestCase):
         # Assert that the JSON returned contains only data from one course (7 keys total per course)
         self.assertEqual(len(request.json.keys()), 7)
 
+    def test_course_profs(self):
+        cs577_cUID = "58786" 
+        route = '/course-profs/'
+        full_request = route + cs577_cUID
+        request = app.test_client().get(full_request)     # Make a request to the /course-info/58786 endpoint
+        self.assertEqual(request.status_code, 200)        # Assert that the request was successful (200)
+
+        # Assert the json contains at least one key
+        self.assertEqual(len(request.json.keys()) > 0, True)
+
+        # Assert that every professor entry contains all keys (6 total) and required fields (3)
+        contains_marc_renault = False
+        contains_eric_bach = False
+        for key in request.json.keys():
+            self.assertEqual("name" in request.json[key].keys(), True)
+            self.assertEqual("dept" in request.json[key].keys(), True)
+            self.assertEqual("RMPID" in request.json[key].keys(), True)
+            self.assertEqual("RMPRating" in request.json[key].keys(), True)
+            self.assertEqual("RMPRatingClass" in request.json[key].keys(), True)
+            self.assertEqual("RMPTotalRatings" in request.json[key].keys(), True)
+            self.assertEqual("name" in request.json[key].keys(), True)
+            self.assertEqual("dept" in request.json[key].keys(), True)
+            self.assertEqual("RMPID" in request.json[key].keys(), True)
+            self.assertEqual(request.json[key]['name'] is not None, True)
+            self.assertEqual(request.json[key]['dept'] is not None, True)
+            self.assertEqual(request.json[key]['RMPID'] is not None, True)
+            if request.json[key]['name'] == "Marc Renault":
+                contains_marc_renault = True
+            if request.json[key]['name'] == "Eric Bach":
+                contains_eric_bach = True
+
+        # Assert that the JSON returned contains at least the two known professors for this course
+        self.assertEqual(contains_marc_renault, True)
+        self.assertEqual(contains_eric_bach, True)
+    
 
 if __name__ == '__main__':
     unittest.main() # Run all unit tests

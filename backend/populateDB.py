@@ -116,8 +116,10 @@ def PopProfessors(testing = False):
 
     Data: Professor data scraped from RateMyProfessorss.com.
     """
-    # Start a timer to measure the time it takes to populate the professors table
-    start = time.time()
+    if testing:
+        # Start a timer to measure the time it takes to populate the professors table
+        start = time.time()
+        print("---------PopProfessors---------")
 
     # Instantiate UW-Madison RateMyProfessor Object (DOCS: 1.1.2.1)
     uwm_rmp_sid_1 = "1256"  # RMP School ID #1
@@ -128,8 +130,8 @@ def PopProfessors(testing = False):
 
     # Scrape each list of professors for each school ID
     professors_data = [] 
-    professors_data.append(api_1.ScrapeProfessors()) # (DOCS: 1.1.2.3)
-    professors_data.append(api_2.ScrapeProfessors())
+    professors_data.append(api_1.ScrapeProfessors(testing)) # (DOCS: 1.1.2.3)
+    professors_data.append(api_2.ScrapeProfessors(testing))
 
     # Iterate through each list of professors and call the helper function to populate the professors table.
     for data in professors_data:
@@ -146,8 +148,10 @@ def PopRedditComments(testing = False):
     
     Data: Comment data scraped from r/UWMadison using PRAW.
     """
-    # Start a timer to measure the time it takes to populate the rc table
-    start = time.time()
+    if testing:
+        # Start a timer to measure the time it takes to populate the professors table
+        start = time.time()
+        print("-------PopRedditComments-------")
 
     cursor = conn.cursor() 
     cursor.execute("SELECT cUID, cName, cCode FROM courses") # Get the cUID, and cCode of all courses
@@ -262,16 +266,18 @@ def PopDB(testing = False):
     """
     if testing:
         start = time.time()
+        print("-------------PopDB-------------")
         print("Populating Database...")
 
-    PopCourses(testing)
+    # PopCourses(testing)
     PopProfessors(testing)
-    PopRedditComments(testing)
-    PopTeaches(testing)
+    # PopRedditComments(testing)
+    # PopTeaches(testing)
 
     if testing:
         print("Database Populated.")
         print("PopDB Runtime: ", time.time() - start, " seconds.")
+        print("-------------------------------")
     pass
 
 if __name__ == '__main__':

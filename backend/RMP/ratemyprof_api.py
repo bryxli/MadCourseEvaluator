@@ -22,10 +22,12 @@ class RateMyProfApi:
         Return: a list of Professor objects, defined in professor.py.
         """
         if testing:
+            print("-------ScrapeProfessors--------")
+            print("Scraping professors from RateMyProfessors.com...")
             print("University ID: ", self.UniversityId)
         
         professors = dict() 
-        num_of_prof = self.get_num_of_professors() # The number of professors with RMP records associated with this university school_id.
+        num_of_prof = self.NumProfessors() # The number of professors with RMP records associated with this university school_id.
         
         if testing:
             print("Number of Professors Total: ", num_of_prof)
@@ -64,13 +66,13 @@ class RateMyProfApi:
                     )
 
                 professors[professor.ratemyprof_id] = professor
-                
+
         if testing:
             print("Professors actually added: ", str(len(professors)))
 
         return professors
 
-    def get_num_of_professors(self):
+    def NumProfessors(self):
         """
         Helper function to get the number of professors in the school with the given school_id.
         """

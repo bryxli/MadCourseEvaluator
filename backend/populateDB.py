@@ -7,7 +7,6 @@ from praw.models import MoreComments
 from RMP.ratemyprof_api import RateMyProfApi # Public & Modified RMP API for Professor Data
 import config
 import time
-import sys
 
 # Documentation Reference: README Subsection 1.1
 
@@ -193,7 +192,8 @@ def PopRedditComments(testing = False):
 def PopTeaches(testing = False):
     """
     Function to populate the teaches table with cUIDs and pUIDs for each course. Defining what courses each professor teaches.
-    Entries contain a cUID and a pUID.
+    
+    Data: Professor data scraped from MadGrades per course.
     """
     if testing:
         # Start a timer to measure the time it takes to populate the professors table
@@ -213,11 +213,11 @@ def PopTeaches(testing = False):
         course_professors = [] # List of professors that teach the course
         all_term_data = []     # List of all term data for the course
 
-        # MadGrades returns a dictionary of grade distribution data for each course
+        # Make sure MadGrades returns a dictionary of grade distribution data for each course
         if(grade_distributions is None):
             break
 
-        # Get the section data containing the professor's name for each term
+        # Get the section data for each term
         for i in range(len(grade_distributions["courseOfferings"])):
             single_term_data = grade_distributions["courseOfferings"][i]["sections"]
             all_term_data.append(single_term_data) # Store all term data into a list

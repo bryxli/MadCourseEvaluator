@@ -69,7 +69,7 @@ class RateMyProfApi:
         Helper function to get the number of professors in the school with the given school_id.
         """
         page = requests.get(
-            "http://www.ratemyprofessors.com/filter/professor/?&page=1&queryoption=TEACHER&queryBy=schoolId&sid="
+            "http://www.ratemyprofessors.com/filter/professor/?&page=1&queryoption=TEACHER&query=*&sid="
             + str(self.UniversityId)
         )
 

@@ -38,8 +38,10 @@ def PopCourses(testing = False):
 
     Data: Course data scraped from guide.wisc.edu with fetchAll.py script, preloaded in comp_sci_test_courses.json.
     """
-    # Start a timer to measure the time it takes to populate the courses table
-    start = time.time()
+    if testing:
+        # Start a timer to measure the time it takes to populate the professors table
+        start = time.time()
+        print("----------PopCourses-----------")
 
     file = open('./compsci_test_sample/comp_sci_test_courses.json', 'r') # Open the JSON file containing test CS courses
     data = json.load(file)          # Load the JSON file into a dictionary
@@ -193,8 +195,10 @@ def PopTeaches(testing = False):
     Function to populate the teaches table with cUIDs and pUIDs for each course. Defining what courses each professor teaches.
     Entries contain a cUID and a pUID.
     """
-    # Start a timer to measure the time it takes to populate the teaches table
-    start = time.time()
+    if testing:
+        # Start a timer to measure the time it takes to populate the professors table
+        start = time.time()
+        print("----------PopTeaches----------")
 
     cursor = conn.cursor() 
     cursor.execute("SELECT cUID, cCode FROM courses") # Get the cUID, and cCode of all courses
@@ -269,10 +273,10 @@ def PopDB(testing = False):
         print("-------------PopDB-------------")
         print("Populating Database...")
 
-    # PopCourses(testing)
+    PopCourses(testing)
     PopProfessors(testing)
-    # PopRedditComments(testing)
-    # PopTeaches(testing)
+    PopRedditComments(testing)
+    PopTeaches(testing)
 
     if testing:
         print("Database Populated.")

@@ -154,7 +154,7 @@ class TestCourseRoutes(unittest.TestCase):
             # Assert that the per section course grade distribution data for courseOfferings contains instructors key with id and name for professor
             prof_list = []
             for section in range(len(info['sections'])):
-                # print(info['sections'][section]['instructors'])
+                print(info['sections'][section]['instructors'])
                 self.assertEqual(info['sections'][section]['instructors'][0]['id'] is not None, True)
                 self.assertEqual(info['sections'][section]['instructors'][0]['name'] is not None, True)
                 prof_list.append(info['sections'][section]['instructors'][0]['name'].lower().strip())

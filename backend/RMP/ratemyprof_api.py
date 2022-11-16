@@ -16,26 +16,33 @@ class RateMyProfApi:
         self.UniversityId = school_id
         
 
-    def ScrapeProfessors(self):  # creates List object that include basic information on all Professors from the IDed University
+    def ScrapeProfessors(self, testing = False):  # creates List object that include basic information on all Professors from the IDed University
         """
         Scrapes all professors from the school with the given school_id. 
         Return: a list of Professor objects, defined in professor.py.
         """
-        print("University ID: ", self.UniversityId)
+        if testing:
+            print("-------ScrapeProfessors--------")
+            print("Scraping professors from RateMyProfessors.com...")
+            print("University ID: ", self.UniversityId)
+        
         professors = dict() 
-        num_of_prof = self.get_num_of_professors() # The number of professors with RMP records associated with this university school_id.
-        print("Number of Professors Total: ", num_of_prof)
-        num_of_pages = math.ceil(num_of_prof/20)   # The API returns 20 professors per page.
+        num_of_prof = self.NumProfessors() # The number of professors with RMP records associated with this university school_id.
+        
+        if testing:
+            print("Number of Professors Total: ", num_of_prof)
 
+        num_of_pages = math.ceil(num_of_prof/20)   # The API returns 20 professors per page.
         for i in range(1, num_of_pages + 1):  # the loop insert all professor into list
-            page = requests.get(
-                "http://www.ratemyprofessors.com/filter/professor/?&page="
-                + str(i)
-                + "&filter=teacherlastname_sort_s+asc&query=*%3A*&queryoption=TEACHER&queryBy=schoolId&sid="
-                + str(self.UniversityId)
-            )
             
+            # print("Scraping page ", i, " of ", num_of_pages, "...")
+            request = "http://www.ratemyprofessors.com/filter/professor/?&page=" + str(i) + "&queryoption=TEACHER&query=*&sid=" + str(self.UniversityId)
+            page = requests.get(request)
+
             json_response = json.loads(page.content)
+
+            if json_response['professors'] == []:
+                continue
 
             for json_professor in json_response["professors"]:
     
@@ -52,18 +59,19 @@ class RateMyProfApi:
 
                 professors[professor.ratemyprof_id] = professor
 
-        print("Professors actually added: ", str(len(professors)))
+        if testing:
+            print("Professors actually added: ", str(len(professors)))
 
         return professors
 
-    def get_num_of_professors(self):
+    def NumProfessors(self):
         """
         Helper function to get the number of professors in the school with the given school_id.
         """
         page = requests.get(
             "http://www.ratemyprofessors.com/filter/professor/?&page=1&queryoption=TEACHER&queryBy=schoolId&sid="
             + str(self.UniversityId)
-        ) 
+        )
 
         temp_jsonpage = json.loads(page.content)
         num_of_prof = (temp_jsonpage["searchResultsTotal"]) 

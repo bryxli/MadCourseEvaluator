@@ -1,12 +1,12 @@
 {
     "comp_sci 0": {
-    "code": " COMP SCI 200",
-    "name": "PROGRAMMING I",
-    "subject": "Computer Sciences",
-    "credits": "3 credits",
-    "description": "Learn the process of incrementally developing small (200-500 lines) programs along with the fundamental Computer Science topics. These topics include: problem abstraction and decomposition, the edit-compile-run cycle, using variables of primitive and more complex data types, conditional and loop-based flow control, basic testing and debugging techniques, how to define and call functions (methods), and IO processing techniques. Also teaches and reinforces good programming practices including the use of a consistent style, and meaningful documentation. Intended for students who have no prior programming experience.",
-    "requisite": "Requisites: Satisfied Quantitative Reasoning (QR) A requirement",
-    "last taught": "Last Taught: Fall 2022"
+        "code": " COMP SCI 200",
+        "name": "PROGRAMMING I",
+        "subject": "Computer Sciences",
+        "credits": "3 credits",
+        "description": "Learn the process of incrementally developing small (200-500 lines) programs along with the fundamental Computer Science topics. These topics include: problem abstraction and decomposition, the edit-compile-run cycle, using variables of primitive and more complex data types, conditional and loop-based flow control, basic testing and debugging techniques, how to define and call functions (methods), and IO processing techniques. Also teaches and reinforces good programming practices including the use of a consistent style, and meaningful documentation. Intended for students who have no prior programming experience.",
+        "requisite": "Requisites: Satisfied Quantitative Reasoning (QR) A requirement",
+        "last taught": "Last Taught: Fall 2022"
     },
     "comp_sci 2": {
         "code": " COMP SCI 220",

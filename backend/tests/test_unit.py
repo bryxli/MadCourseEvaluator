@@ -71,7 +71,7 @@ class TestUtil(unittest.TestCase):
     def test_madgrades_api(self):
         """Test that madgrades.py returns the correct grade distribution data for CS 577"""
 
-        compsci_577_cCode = 'COMP SCI 577' 
+        compsci_577_cCode = 'COMP SCI 577'
         
         grade_distributions = mg.MadGrades(compsci_577_cCode) # Get grade distributions for COMP SCI 577
 
@@ -94,25 +94,22 @@ class TestUtil(unittest.TestCase):
         uwm_rmp_sid_2 = "18418" # RMP School ID #2
 
         api_1 = RateMyProfApi(uwm_rmp_sid_1) # (DOCS: 1.1.2.2)
-        # api_2 = RateMyProfApi(uwm_rmp_sid_2)
+        api_2 = RateMyProfApi(uwm_rmp_sid_2)
 
         professor_data = []
 
-        # professor_data.append(api_1.ScrapeProfessors()) 
-        # professors_data.append(api_2.ScrapeProfessors())
+        professor_data.append(api_1.ScrapeProfessors()) 
+        professor_data.append(api_2.ScrapeProfessors())
 
-        # self.assertEqual(len(professor_data), 4243)
-        # prof_json = {}                                   
-        # print("professor = ",professor_data[0].keys())         
-     
-        # prof_json['name'] = professor.first_name + " " + professor.last_name 
-        # prof_json['dept'] = professor.department              
-        # prof_json['RMPID'] = professor.ratemyprof_id          
-        # prof_json['RMPRating'] = professor.overall_rating        
-        # prof_json['RMPTotalRatings'] = professor.num_of_ratings 
-        # prof_json['RMPRatingClass'] = professor.rating_class
-        # pData = json.dumps(prof_json)  # Convert the JSON object to a string
+        # self.assertEqual(len(professor_data), 4322) # RMP has 4322 professors at UW-Madison for SID = 1256
+        # # prof_json = {}                                   
+        # # print("professor = ",professor_data[0].keys())
 
+        # for prof in professor_data:
+        #     self.assertIsInstance(prof, dict)
+        #     keys = list(prof.keys())
+        #     self.assertEqual(keys, ['name', 'dept', 'RMPID', 'RMPRating', 'RMPTotalRatings', 'RMPRatingClass'])
+    
     
 if __name__ == '__main__':
     unittest.main() # Run all unit tests

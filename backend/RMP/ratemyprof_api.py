@@ -16,17 +16,21 @@ class RateMyProfApi:
         self.UniversityId = school_id
         
 
-    def ScrapeProfessors(self):  # creates List object that include basic information on all Professors from the IDed University
+    def ScrapeProfessors(self, testing = False):  # creates List object that include basic information on all Professors from the IDed University
         """
         Scrapes all professors from the school with the given school_id. 
         Return: a list of Professor objects, defined in professor.py.
         """
-        print("University ID: ", self.UniversityId)
+        if testing:
+            print("University ID: ", self.UniversityId)
+        
         professors = dict() 
         num_of_prof = self.get_num_of_professors() # The number of professors with RMP records associated with this university school_id.
-        print("Number of Professors Total: ", num_of_prof)
-        num_of_pages = math.ceil(num_of_prof/20)   # The API returns 20 professors per page.
+        
+        if testing:
+            print("Number of Professors Total: ", num_of_prof)
 
+        num_of_pages = math.ceil(num_of_prof/20)   # The API returns 20 professors per page.
         for i in range(1, num_of_pages + 1):  # the loop insert all professor into list
             
             if self.UniversityId == '1256':
@@ -60,8 +64,9 @@ class RateMyProfApi:
                     )
 
                 professors[professor.ratemyprof_id] = professor
-
-        print("Professors actually added: ", str(len(professors)))
+                
+        if testing:
+            print("Professors actually added: ", str(len(professors)))
 
         return professors
 

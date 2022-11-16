@@ -248,8 +248,8 @@ def PopTeaches(testing = False):
                 except Exception as e:
                     print(e)
                     # print("Error inserting into teaches table")
-            if testing and pUID is None:
-                print("Professor not found in professors table: ", prof_name)
+            # if testing and pUID is None:
+                # print("Professor not found in professors table: ", prof_name)
         
     cursor.close()
     if testing:
@@ -263,25 +263,16 @@ def PopDB(testing = False):
     if testing:
         start = time.time()
         print("Populating Database...")
-        # Make dots to show progress
-        sys.stdout.write("[")
-        sys.stdout.flush()
-        sys.stdout.write(" ")
-        sys.stdout.flush()
-        sys.stdout.write(" ")
-        sys.stdout.flush()
+
     PopCourses(testing)
     PopProfessors(testing)
     PopRedditComments(testing)
     PopTeaches(testing)
+
     if testing:
-        sys.stdout.write(" ")
-        sys.stdout.flush()
-        sys.stdout.write("]")
-        sys.stdout.flush()
         print("Database Populated.")
         print("PopDB Runtime: ", time.time() - start, " seconds.")
-    return
+    pass
 
 if __name__ == '__main__':
-    PopDB(True) # Run all Pop Functions
+    PopDB(testing = True) # Run all Pop Functions

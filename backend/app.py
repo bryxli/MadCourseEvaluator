@@ -63,7 +63,6 @@ def AllProfs():
     connection.close() 
     return all_profs_json_data
 
-
 @app.route('/course-info/<cUID>', methods=['GET','POST'])
 def courseInfo(cUID):
     """
@@ -145,7 +144,6 @@ def redditComments(cUID):
     connection.close()
     return all_rc_json_data
 
-
 @app.route('/grade-distribution/<cUID>', methods=['GET','POST'])
 def gradeDistribution(cUID):
     """
@@ -157,7 +155,6 @@ def gradeDistribution(cUID):
     cCode = cursor.fetchall()[0][0]
     grade_distribution = mg.MadGrades(cCode) # Get grade distribution for the course using the course code
     return grade_distribution
-
 
 @app.route('/prof-info/<pUID>', methods=['GET','POST'])
 def professorInfo(pUID):

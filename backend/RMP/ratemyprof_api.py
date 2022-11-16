@@ -35,22 +35,14 @@ class RateMyProfApi:
         num_of_pages = math.ceil(num_of_prof/20)   # The API returns 20 professors per page.
         for i in range(1, num_of_pages + 1):  # the loop insert all professor into list
             
-            if self.UniversityId == '1256':
-                page = requests.get(
-                    "http://www.ratemyprofessors.com/filter/professor/?&page="
-                    + str(i)
-                    + "&queryoption=TEACHER&queryBy=schoolId&sid="
-                    + str(self.UniversityId)
-                )
-            else:
-                page = requests.get(
-                    "http://www.ratemyprofessors.com/filter/professor/?&page="
-                    + str(i)
-                    + "&queryoption=TEACHER&query=*&sid="
-                    + str(self.UniversityId)
-                )
-            
+            # print("Scraping page ", i, " of ", num_of_pages, "...")
+            request = "http://www.ratemyprofessors.com/filter/professor/?&page=" + str(i) + "&queryoption=TEACHER&query=*&sid=" + str(self.UniversityId)
+            page = requests.get(request)
+
             json_response = json.loads(page.content)
+
+            if json_response['professors'] == []:
+                continue
 
             for json_professor in json_response["professors"]:
     
@@ -76,16 +68,10 @@ class RateMyProfApi:
         """
         Helper function to get the number of professors in the school with the given school_id.
         """
-        if self.UniversityId == '1256':
-            page = requests.get(
-                "http://www.ratemyprofessors.com/filter/professor/?&page=1&queryoption=TEACHER&queryBy=schoolId&sid="
-                + str(self.UniversityId)
-            )
-        else: 
-            page = requests.get(
-                "http://www.ratemyprofessors.com/filter/professor/?&page=1&queryoption=TEACHER&query=*&sid="
-                + str(self.UniversityId)
-            )
+        page = requests.get(
+            "http://www.ratemyprofessors.com/filter/professor/?&page=1&queryoption=TEACHER&queryBy=schoolId&sid="
+            + str(self.UniversityId)
+        )
 
         temp_jsonpage = json.loads(page.content)
         num_of_prof = (temp_jsonpage["searchResultsTotal"]) 

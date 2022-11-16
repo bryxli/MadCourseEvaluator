@@ -286,3 +286,4 @@ def PopDB(testing = False):
 
 if __name__ == '__main__':
     PopDB(testing = True) # Run all Pop Functions
+    # PopDB(testing = False) # Run all Pop Functions

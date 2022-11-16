@@ -71,7 +71,7 @@ class TestUtil(unittest.TestCase):
     def test_madgrades_api(self):
         """Test that madgrades.py returns the correct grade distribution data for CS 577"""
 
-        compsci_577_cCode = 'COMP SCI 577' 
+        compsci_577_cCode = 'COMP SCI 577'
         
         grade_distributions = mg.MadGrades(compsci_577_cCode) # Get grade distributions for COMP SCI 577
 

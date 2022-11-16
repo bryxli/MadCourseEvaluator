@@ -1,52 +1,8 @@
 import React, { useEffect, useState } from "react";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
-const data = [
-  {
-    Fname: "Angel",
-    Lname: "Abruna Rodriguez",
-    dept: "Chemistry",
-    RMPID: 1057192,
-    RMPRating: 4.1,
-    RMPTotalRatings: 13,
-    RMPRatingClass: "good",
-  },
-  {
-    Fname: "Angel",
-    Lname: "Abruna Rodriguez",
-    dept: "Chemistry",
-    RMPID: 1057192,
-    RMPRating: 4.1,
-    RMPTotalRatings: 13,
-    RMPRatingClass: "good",
-  },
-  {
-    Fname: "Angel",
-    Lname: "Abruna Rodriguez",
-    dept: "Chemistry",
-    RMPID: 1057192,
-    RMPRating: 4.1,
-    RMPTotalRatings: 13,
-    RMPRatingClass: "good",
-  },
-  {
-    Fname: "Angel",
-    Lname: "Abruna Rodriguez",
-    dept: "Chemistry",
-    RMPID: 1057192,
-    RMPRating: 4.1,
-    RMPTotalRatings: 13,
-    RMPRatingClass: "good",
-  },
-  {
-    Fname: "Angel",
-    Lname: "Abruna Rodriguez",
-    dept: "Chemistry",
-    RMPID: 1057192,
-    RMPRating: 4.1,
-    RMPTotalRatings: 13,
-    RMPRatingClass: "good",
-  },
-];
 
 const ProfessorList = (props) => {
   const course = props.id;
@@ -54,23 +10,51 @@ const ProfessorList = (props) => {
   const [professorList, setProfessorList] = useState([]);
   useEffect(() => {
     fetch("/proflist/" + course).then((response) =>
-      response.json().then((data) => {
-        setProfessorList(data);
-      })
+    response.json().then((data) => {
+      const json_str = JSON.stringify(data);
+      const json = JSON.parse(json_str);
+      var professors = [];
+      for (var key in json) {
+        const name = json[key].name;
+        const RMPRating = json[key].RMPRating;
+        const dept = json[key].dept;
+        const RMPRatingClass = json[key].RMPRatingClass;
+        professors.push({ name, RMPRating, dept, RMPRatingClass });
+      }
+      setProfessorList(professors);
+    })
     );
   }, []);
 
   return (
     <div className="professor-list">
-      {data.map((prof) => (
-        <p className="professor-list-item" key={prof.RMPID}>
-          <img src="person.jpeg" style={{ height: 100, width: 100 }} />
-          <h5>{prof.Fname + " " + prof.Lname}</h5>
-          <h6>{"Dept " + prof.dept}</h6>
-          <h6>{"Rating - " + prof.RMPRating}</h6>
-          <h6>{"Class Rating - " + prof.RMPRatingClass}</h6>
-          <h6>{"Total Ratings - " + prof.RMPTotalRatings}</h6>
-        </p>
+      {professorList.map((prof) => (
+        <Container className="professor-list-item" /*key={prof.RMPID}*/>
+          <Row>
+            <Col>
+              <Row>
+                <h6><b>{prof.name}</b></h6>
+              </Row>
+              <Row>
+                <p>{" "}</p>
+              </Row>
+              <Row>
+                <h6><b>{"Dept"}</b></h6>
+              </Row>
+              <Row>
+                <h6>{prof.dept}</h6>
+              </Row>
+              <Row>
+                <h6><b>{"Rating"}</b></h6>
+              </Row>
+              <Row>
+                <h6>{prof.RMPRating + "/5, " + prof.RMPRatingClass}</h6>
+              </Row>
+            </Col>
+            <Col> // prof-specific GPA graph, eventually
+            </Col>
+          </Row>
+        </Container>
       ))}
     </div>
   );

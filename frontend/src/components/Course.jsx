@@ -90,8 +90,11 @@ const Course = () => {
               <h5 className="heading-style">{courseInfo.cReq}</h5>
             </Row>
 
+            <Row>
+              <h5 className="bold-heading-style">Instructors</h5>
+            </Row>
             <Row className="heading-style">
-              {/**<ProfessorList id={courseID} />**/}
+              {<ProfessorList id={courseID} />}
             </Row>
           </Col>
         </Row>

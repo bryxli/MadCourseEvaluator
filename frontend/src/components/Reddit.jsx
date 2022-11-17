@@ -1,67 +1,45 @@
 import React, { useEffect, useState } from "react";
 
-const data = [
-  {
-    link: "https://www.reddit.com/r/UWMadison/comments/sk50i0/where_should_i_go_and_what_should_i_do_for_help/hvix6dl/",
-    body: "I\\u2019m not a CS major, but I\\u2019m pretty sure there\\u2019s a discord for CS 577 students",
-    upvotes: 13,
-    id: 1,
-  },
-  {
-    link: "https://www.reddit.com/r/UWMadison/comments/sk50i0/where_should_i_go_and_what_should_i_do_for_help/hvix6dl/",
-    body: "I\\u2019m not a CS major, but I\\u2019m pretty sure there\\u2019s a discord for CS 577 students",
-    upvotes: 13,
-    id: 1,
-  },
-  {
-    link: "https://www.reddit.com/r/UWMadison/comments/sk50i0/where_should_i_go_and_what_should_i_do_for_help/hvix6dl/",
-    body: "I\\u2019m not a CS major, but I\\u2019m pretty sure there\\u2019s a discord for CS 577 students",
-    upvotes: 13,
-    id: 1,
-  },
-  {
-    link: "https://www.reddit.com/r/UWMadison/comments/sk50i0/where_should_i_go_and_what_should_i_do_for_help/hvix6dl/",
-    body: "I\\u2019m not a CS major, but I\\u2019m pretty sure there\\u2019s a discord for CS 577 students",
-    upvotes: 13,
-    id: 1,
-  },
-];
-
 const Reddit = (props) => {
-  const course = props.id;
+  const id = props.id;
 
   const [redditList, setRedditList] = useState([]);
   useEffect(() => {
-    fetch("/redlist/" + course).then((response) =>
+    fetch("/redlist/" + id).then((response) =>
       response.json().then((data) => {
-        setRedditList(data);
+        const json_str = JSON.stringify(data);
+        const json = JSON.parse(json_str);
+        var classes = [];
+        for (var key in json) {
+          const id = key;
+          const body = json[key].comBody;
+          const link = json[key].comLink;
+          const votes = json[key].comVotes;
+
+          classes.push({ id, body, link, votes });
+        } //this converts the JSON object of reddit threads into an array
+        classes.sort((a, b) => {
+          return b.votes - a.votes;
+        }); //sorting in descending order based on upvotes
+        setRedditList(classes);
       })
     );
   }, []);
 
-  redditList;
-
   return (
-    <>
-      <div className="reddit-box-header">
-        <img height="124px" width="220px" src="Reddit.png" />
-      </div>
-      <div className="reddit-box-body">
-        {data.map((thread) => (
-          <>
-            <p
-              onClick={() => {
-                window.open(thread.link, "_blank");
-              }}
-              className="reddit-list-item"
-              key={thread.id}
-            >
-              {thread.body}
-            </p>
-          </>
-        ))}
-      </div>
-    </>
+    <div className="reddit-box-body">
+      {redditList.map((thread) => (
+        <p
+          onClick={() => {
+            window.open(thread.link, "_blank");
+          }}
+          className="reddit-list-item"
+          key={thread.id}
+        >
+          {thread.body}
+        </p>
+      ))}
+    </div>
   );
 };
 

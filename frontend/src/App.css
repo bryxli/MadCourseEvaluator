@@ -7,7 +7,9 @@ body,
 
 .container {
   max-width: 100%;
-  align-items: center;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
 }
 
 .full {
@@ -23,6 +25,8 @@ body,
   font-size: xx-large;
   gap: 65%;
   margin-top: 0.3%;
+  padding-left: 3%;
+  padding-right: 3%;
 }
 
 .white-box {
@@ -35,7 +39,8 @@ body,
   line-height: 100%;
   font-size: xx-large;
   gap: 65%;
-  margin-top: 0.3%;
+  margin-top: 1%;
+  padding: 1%;
 }
 
 .grey-box {
@@ -44,6 +49,7 @@ body,
   width: 100%;
   display: flex;
   flex-direction: column;
+  padding: 1.3%;
 }
 
 .pink-box {
@@ -59,32 +65,34 @@ body,
 }
 
 .graph-box {
-  width: 45%;
   border-radius: 3%;
-  background-color: white;
 }
 
+/**
 .reddit-box {
-  width: 50%;
   background-color: white;
-  border-radius: 3%;
+  border-radius: 4%;
   display: flex;
   flex-direction: column;
+  height:40%;
+  overflow-y: scroll;
 }
-
+**/
 .reddit-box-header {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  margin-left: 3%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .reddit-box-body {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  overflow: auto;
+  overflow: scroll;
+  height: 30%;
+  background: white;
+  margin-bottom: 3%;
+  width: 80%;
+  border-radius: 4%;
 }
 
 .course-list {
@@ -105,6 +113,7 @@ body,
   flex-direction: row;
   display: flex;
   gap: 3%;
+  cursor: pointer;
 }
 
 .reddit-list-item {
@@ -114,9 +123,12 @@ body,
   cursor: pointer;
 }
 
-.course-name {
+.heading-style {
   font-weight: 400;
-  line-height: 100px;
+}
+
+.bold-heading-style {
+  font-weight: bolder !important;
 }
 
 .search-box {
@@ -165,6 +177,8 @@ body,
   outline: none !important;
 }
 
+
+
 .pink-box h1,
 .pink-box h4 {
   font-weight: 400;
@@ -173,24 +187,51 @@ body,
 .white-box p {
   width: 50%;
 }
+/*
+.professor-list-item {
+  padding: 10px;
+  border-bottom: 4px solid #d9d9d9;
+  margin-bottom: 2%;
+  cursor: pointer;
+}
+*/
 
+
+
+/**
 .professor-list {
   display: flex;
-  flex-direction: row;
-  overflow-x: scroll;
+  flex-direction: column;
+  width: auto;
+  height: auto;
+  overflow-y: scroll;
   gap: 2%;
   margin-top: 6%;
   overflow: auto;
+  background: white;
+}
+*/
+
+.professor-list {
+  overflow-y: scroll;
+  height: 680px;
+  background: white;
+  margin-bottom: 3%;
+  width: 80%;
+  border-radius: 4%;
 }
 
 .professor-list-item {
-  display: flex;
-  flex-direction: column;
+  padding: 20px;
+  padding-left: 40px;
+  border-bottom: 4px solid #d9d9d9;
+  cursor: pointer;
 }
-
+/*
 .row1 {
   height: 50%;
   display: flex;
   flex-direction: row;
   gap: 5%;
 }
+**/

@@ -9,9 +9,7 @@ const ProfessorList = (props) => {
   const [professorList, setProfessorList] = useState([]);
   useEffect(() => {
     fetch("/course-profs/" + course).then((response) =>
-      response.json().then((data) => {
-        const json_str = JSON.stringify(data);
-        const json = JSON.parse(json_str);
+      response.json().then((json) => {
         var professors = [];
         for (var key in json) {
           const name = json[key].name;

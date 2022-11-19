@@ -10,9 +10,7 @@ const Search = () => {
   const [profList, setProfList] = useState([]);
   useEffect(() => {
     fetch("/all-courses").then((response) =>
-      response.json().then((data) => {
-        const json_str = JSON.stringify(data);
-        const json = JSON.parse(json_str);
+      response.json().then((json) => {
         var classes = [];
         for (var key in json) {
           const code = json[key].cCode;
@@ -28,9 +26,7 @@ const Search = () => {
       })
     );
     fetch("/all-profs").then((response) =>
-      response.json().then((data) => {
-        const json_str = JSON.stringify(data);
-        const json = JSON.parse(json_str);
+      response.json().then((json) => {
         var professors = [];
         for (var key in json) {
           const name = json[key].name;
@@ -76,7 +72,7 @@ const Search = () => {
         <Typeahead
           id="search"
           onChange={setSelected}
-          labelKey={(option) => `${option.result}`}
+          labelKey={(option) => option.result}
           options={options}
           placeholder="Course or Professor (Ex: CS300)"
           selected={selected}

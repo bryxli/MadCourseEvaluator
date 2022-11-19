@@ -8,7 +8,7 @@ const Search = () => {
   // Initialize class list
   const [classList, setClassList] = useState([]);
   useEffect(() => {
-    fetch("/courselist").then((response) =>
+    fetch("/all-courses").then((response) =>
       response.json().then((data) => {
         const json_str = JSON.stringify(data);
         const json = JSON.parse(json_str);

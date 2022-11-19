@@ -25,7 +25,7 @@ const GPAGraph = ({ id }) => {
 
   //the returned gpa graph distribution for this course is converted into the required format for our graph API
   useEffect(() => {
-    fetch("/graphDistribution/" + id).then((response) =>
+    fetch("/grade-distribution/" + id).then((response) =>
       response.json().then((d) => {
         const json_str = JSON.stringify(d);
         const json = JSON.parse(json_str);

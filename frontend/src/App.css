@@ -29,6 +29,10 @@ body,
   padding-right: 3%;
 }
 
+.rbt-home {
+  width: 800px;
+}
+
 .white-box {
   height: 4%;
   background-color: #ffffff;
@@ -177,8 +181,6 @@ body,
   outline: none !important;
 }
 
-
-
 .pink-box h1,
 .pink-box h4 {
   font-weight: 400;
@@ -195,8 +197,6 @@ body,
   cursor: pointer;
 }
 */
-
-
 
 /**
 .professor-list {

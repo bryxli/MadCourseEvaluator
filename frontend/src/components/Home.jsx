@@ -17,7 +17,11 @@ const Home = () => {
         <Row>
           <h4>Detailed Course information at your fingertips</h4>
         </Row>
-        <Search />
+        <Row>
+          <div class="rbt-home">
+            <Search />
+          </div>
+        </Row>
       </Container>
     </Container>
   );

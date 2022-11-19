@@ -5,7 +5,7 @@ const Reddit = (props) => {
 
   const [redditList, setRedditList] = useState([]);
   useEffect(() => {
-    fetch("/redlist/" + id).then((response) =>
+    fetch("/reddit-comments/" + id).then((response) =>
       response.json().then((data) => {
         const json_str = JSON.stringify(data);
         const json = JSON.parse(json_str);

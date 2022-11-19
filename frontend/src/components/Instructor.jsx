@@ -13,10 +13,11 @@ const Instructor = ({ id }) => {
     navigate(path);
   };
 
+  // IMPORTANT CHANGE NEEDED: there are two endpoints: /prof-info and /prof-courses
   const [courses, setCourses] = useState([]);
   const [professor, setProfessor] = useState({});
   useEffect(() => {
-    fetch("/professor/" + id).then((response) =>
+    fetch("/prof-info/" + id).then((response) =>
       response.json().then((data) => {
         var courses = [];
         var courses_taught = data["courses-taught"];

@@ -6,8 +6,7 @@ madgrades_api_token = config.madgrades_api_token
 auth_header = {'Authorization': 'Token ' + madgrades_api_token} # Authorization header, required for API call
 
 # URL Constants
-madGrades_course_url = 'https://api.madgrades.com/v1/courses/'
-madGrades_query_url = madGrades_course_url +'?query='
+madGrades_query_url = 'https://api.madgrades.com/v1/courses/?query='
 
 def MadGrades(courseCode):
     """

@@ -7,7 +7,6 @@ from praw.models import MoreComments
 from RMP.ratemyprof_api import RateMyProfApi # Public & Modified RMP API for Professor Data
 import config
 import time
-import sys
 
 # Documentation Reference: README Subsection 1.1
 
@@ -21,7 +20,7 @@ conn = mysql.connector.connect(
 
 # Instantiate an instance of PRAW's Reddit object
 reddit = praw.Reddit(client_id = config.PRAW_client_id, 
-                    client_secret = config.PRAW_client_secret,
+                    client_secret = config.PRAW_client_secret, 
                     username = config.r_username, 
                     password = config.r_password,
                     user_agent = config.PRAW_user_agent)
@@ -59,7 +58,7 @@ def PopCourses(testing = False):
         try:
             cursor.execute("INSERT INTO courses (cName, cSubject, cCode, cCredits, cDescription, cReq) VALUES (%s, %s, %s, %s, %s, %s)", (cName, cSubject, cCode, cCredits, cDescription, cReq,))
             conn.commit()
-        except Exception as e:
+        except Exception as e: # cr:
             print(e)
             #print("Error inserting course into database")
             
@@ -183,7 +182,7 @@ def PopRedditComments(testing = False):
                             # Insert reddit comment into the database's rc table
                             cursor.execute("INSERT INTO rc (cUID, comBody, comLink, comVotes) VALUES (%s, %s, %s, %s)", (course[0], comment.body, reddit_url+comment.permalink, comment.score,))
                             conn.commit()
-                        except Exception as e:
+                        except Exception as e: # cr:
                             print(e)
     cursor.close()
     if testing:
@@ -193,7 +192,8 @@ def PopRedditComments(testing = False):
 def PopTeaches(testing = False):
     """
     Function to populate the teaches table with cUIDs and pUIDs for each course. Defining what courses each professor teaches.
-    Entries contain a cUID and a pUID.
+    
+    Data: Professor data scraped from MadGrades per course.
     """
     if testing:
         # Start a timer to measure the time it takes to populate the professors table
@@ -213,11 +213,11 @@ def PopTeaches(testing = False):
         course_professors = [] # List of professors that teach the course
         all_term_data = []     # List of all term data for the course
 
-        # MadGrades returns a dictionary of grade distribution data for each course
+        # Make sure MadGrades returns a dictionary of grade distribution data for each course
         if(grade_distributions is None):
             break
 
-        # Get the section data containing the professor's name for each term
+        # Get the section data for each term
         for i in range(len(grade_distributions["courseOfferings"])):
             single_term_data = grade_distributions["courseOfferings"][i]["sections"]
             all_term_data.append(single_term_data) # Store all term data into a list
@@ -251,7 +251,7 @@ def PopTeaches(testing = False):
             # If the professor is in the professors table, add them to the teaches table with the course's cUID
             if pUID is not None:
                 try:
-                    cursor.execute("INSERT INTO teaches (cUID, pUID) VALUES (%s, %s)", (cUID, pUID[0],))
+                    cursor.execute("INSERT INTO teaches (cUID, pUID) VALUES (%s, %s)", (cUID, pUID[0],)) 
                     conn.commit()
                 except Exception as e:
                     print(e)
@@ -284,6 +284,6 @@ def PopDB(testing = False):
         print("-------------------------------")
     pass
 
-if __name__ == '__main__':
+if __name__ == '__main__': 
     PopDB(testing = True) # Run all Pop Functions
     # PopDB(testing = False) # Run all Pop Functions

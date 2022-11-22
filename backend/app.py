@@ -3,7 +3,7 @@ import json
 import mysql.connector
 from flask import Flask, render_template, request, flash, redirect, url_for, session # Flask Imports
 import madgrades as mg # Custom MadGrades Script for Grade Distributions
-import config # Application Configuration (Private) Information
+import config          # Application Configuration (Private) Information
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine
 

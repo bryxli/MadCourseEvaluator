@@ -4,6 +4,7 @@ import os
 import sys
 import inspect
 import json
+import test_config
 
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parentdir = os.path.dirname(currentdir)
@@ -38,7 +39,7 @@ class TestCourseRoutes(unittest.TestCase):
                 break
 
     def test_course_info(self):
-        cs577_cUID = "58786" 
+        cs577_cUID = test_config.cs577_cUID
         route = '/course-info/'
         full_request = route + cs577_cUID
         request = app.test_client().get(full_request)     # Make a request to the /course-info/58786 endpoint
@@ -62,7 +63,7 @@ class TestCourseRoutes(unittest.TestCase):
         self.assertEqual(len(request.json.keys()), 7)
 
     def test_course_profs(self):
-        cs577_cUID = "58786" 
+        cs577_cUID = test_config.cs577_cUID
         route = '/course-profs/'
         full_request = route + cs577_cUID
         request = app.test_client().get(full_request)     # Make a request to the /course-info/58786 endpoint
@@ -97,7 +98,7 @@ class TestCourseRoutes(unittest.TestCase):
         self.assertEqual(contains_eric_bach, True)
 
     def test_course_reddit_comments(self):
-        cs577_cUID = "58786" 
+        cs577_cUID = test_config.cs577_cUID
         route = '/reddit-comments/'
         full_request = route + cs577_cUID
         request = app.test_client().get(full_request)     # Make a request to the /course-info/58786 endpoint
@@ -131,7 +132,7 @@ class TestCourseRoutes(unittest.TestCase):
     # is returning more than one name. I believe this is a bug in the MadGrades API itself,
     # but we should look into it further.
     def test_course_grade_distribution(self):
-        cs577_cUID = "58786" 
+        cs577_cUID = test_config.cs577_cUID
         route = '/grade-distribution/'
         full_request = route + cs577_cUID
         request = app.test_client().get(full_request)     # Make a request to the /course-info/58786 endpoint
@@ -190,7 +191,7 @@ class TestProfRoutes(unittest.TestCase):
                 break
 
     def test_prof_info(self): 
-        pUID_marc_renault = "96008" 
+        pUID_marc_renault = test_config.marc_renault_pUID
         route = '/prof-info/'
         full_request = route + pUID_marc_renault
         request = app.test_client().get(full_request)     # Make a request to the /all-courses endpoint
@@ -210,7 +211,7 @@ class TestProfRoutes(unittest.TestCase):
         self.assertEqual(request.json['dept'], "Computer Science")
 
     def test_prof_courses(self):
-        pUID_marc_renault = "96008" 
+        pUID_marc_renault = test_config.marc_renault_pUID
         route = '/prof-courses/'
         full_request = route + pUID_marc_renault
         request = app.test_client().get(full_request)     # Make a request to the /all-courses endpoint

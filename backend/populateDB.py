@@ -20,7 +20,7 @@ conn = mysql.connector.connect(
 
 # Instantiate an instance of PRAW's Reddit object
 reddit = praw.Reddit(client_id = config.PRAW_client_id, 
-                    client_secret = config.PRAW_client_secret,
+                    client_secret = config.PRAW_client_secret, 
                     username = config.r_username, 
                     password = config.r_password,
                     user_agent = config.PRAW_user_agent)
@@ -58,7 +58,7 @@ def PopCourses(testing = False):
         try:
             cursor.execute("INSERT INTO courses (cName, cSubject, cCode, cCredits, cDescription, cReq) VALUES (%s, %s, %s, %s, %s, %s)", (cName, cSubject, cCode, cCredits, cDescription, cReq,))
             conn.commit()
-        except Exception as e:
+        except Exception as e: # cr:
             print(e)
             #print("Error inserting course into database")
             
@@ -182,7 +182,7 @@ def PopRedditComments(testing = False):
                             # Insert reddit comment into the database's rc table
                             cursor.execute("INSERT INTO rc (cUID, comBody, comLink, comVotes) VALUES (%s, %s, %s, %s)", (course[0], comment.body, reddit_url+comment.permalink, comment.score,))
                             conn.commit()
-                        except Exception as e:
+                        except Exception as e: # cr:
                             print(e)
     cursor.close()
     if testing:
@@ -251,7 +251,7 @@ def PopTeaches(testing = False):
             # If the professor is in the professors table, add them to the teaches table with the course's cUID
             if pUID is not None:
                 try:
-                    cursor.execute("INSERT INTO teaches (cUID, pUID) VALUES (%s, %s)", (cUID, pUID[0],))
+                    cursor.execute("INSERT INTO teaches (cUID, pUID) VALUES (%s, %s)", (cUID, pUID[0],)) 
                     conn.commit()
                 except Exception as e:
                     print(e)
@@ -284,6 +284,6 @@ def PopDB(testing = False):
         print("-------------------------------")
     pass
 
-if __name__ == '__main__':
+if __name__ == '__main__': 
     PopDB(testing = True) # Run all Pop Functions
     # PopDB(testing = False) # Run all Pop Functions

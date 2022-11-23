@@ -67,28 +67,26 @@ def PopCourses(testing = False):
         print("PopCourses Runtime: ", time.time() - start, " seconds.")
     pass
 
-def PopProfessorsHelper(professor_data):
+# (DOCS: 1.1.1.2)
+def PopProfessors(testing = False):
     """
-    Helper function to populate the professors table with all professors at UW-Madison.
+    Function to populate the professors table with all professors at UW-Madison. Iterates over the two RMP school UIDs and calls the helper function to populate the table.
+    Entries contain a pUID, the professor's first name, last name, and pData (where pData is a dictionary of all RateMyProfessor data).
 
-    Data: Professor data parameter is the list of professors scraped from RateMyProfessors.com at 
-    each school ID.
+    Data: Professor data scraped from RateMyProfessorss.com.
     """
-    cursor = conn.cursor() 
+    if testing:
+        # Start a timer to measure the time it takes to populate the professors table
+        start = time.time()
+        print("----------PopProfessors-----------")
 
-    # Iterating through every UW professor on RMP, and store the information in a String
-    for professor in professor_data:
-        prof_json = {}                                          
-        professor = professor_data[professor] # Individual professor data      
+    file = open('all-professors.json', 'r') # Open the JSON file containing professors
+    data = json.load(file)          # Load the JSON file into a dictionary
+    cursor = conn.cursor()          # Create a cursor object to execute SQL queries
 
-        # Store the professor's data in a dictionary                      
-        prof_json['name'] = professor.first_name + " " + professor.last_name 
-        prof_json['dept'] = professor.department              
-        prof_json['RMPID'] = professor.ratemyprof_id          
-        prof_json['RMPRating'] = professor.overall_rating        
-        prof_json['RMPTotalRatings'] = professor.num_of_ratings 
-        prof_json['RMPRatingClass'] = professor.rating_class
-
+    # For each course, try inserting its course data into the DB
+    for key in data:
+        prof_json = data[key]
         pData = json.dumps(prof_json)  # Convert the JSON professor data to JSON formatted string
 
         try:
@@ -106,41 +104,12 @@ def PopProfessorsHelper(professor_data):
             print(e)
             # print("Error inserting professor into database")
 
+            
     cursor.close()
+    if testing:
+        print("PopProfessors: ", time.time() - start, " seconds.")
     pass
 
-# (DOCS: 1.1.1.2)
-def PopProfessors(testing = False):
-    """
-    Function to populate the professors table with all professors at UW-Madison. Iterates over the two RMP school UIDs and calls the helper function to populate the table.
-    Entries contain a pUID, the professor's first name, last name, and pData (where pData is a dictionary of all RateMyProfessor data).
-
-    Data: Professor data scraped from RateMyProfessorss.com.
-    """
-    if testing:
-        # Start a timer to measure the time it takes to populate the professors table
-        start = time.time()
-        print("---------PopProfessors---------")
-
-    # Instantiate UW-Madison RateMyProfessor Object (DOCS: 1.1.2.1)
-    uwm_rmp_sid_1 = "1256"  # RMP School ID #1
-    uwm_rmp_sid_2 = "18418" # RMP School ID #2
-    
-    api_1 = RateMyProfApi(uwm_rmp_sid_1) # (DOCS: 1.1.2.2)
-    api_2 = RateMyProfApi(uwm_rmp_sid_2)
-
-    # Scrape each list of professors for each school ID
-    professors_data = [] 
-    professors_data.append(api_1.ScrapeProfessors(testing)) # (DOCS: 1.1.2.3)
-    professors_data.append(api_2.ScrapeProfessors(testing))
-
-    # Iterate through each list of professors and call the helper function to populate the professors table.
-    for data in professors_data:
-        PopProfessorsHelper(data)
-    
-    if testing:
-        print("PopProfessors Runtime: ", time.time() - start, " seconds.")
-    pass
 
 # (DOCS: 1.1.1.3)
 def PopRedditComments(testing = False):

@@ -161,6 +161,7 @@ def gradeDistribution(cUID):
 
     cursor.execute("SELECT pName from professors p, courses c, teaches t WHERE c.cCode = %s and c.cUID = t.cUID and p.pUID = t.pUID", (cCode,))
     course_profs = cursor.fetchall()
+    print(course_profs)
 
     for prof in course_profs:
         prof_name = prof[0]
@@ -183,12 +184,18 @@ def gradeDistribution(cUID):
         grade_distribution['professor_cumulative_grade_distribution'][prof_name]['total'] = 0
         grade_distribution['professor_cumulative_grade_distribution'][prof_name]['uCount'] = 0
 
-        for section in grade_distribution["courseOfferings"][0]["sections"]:
-            if section["instructors"][0]['name'] == prof_name.upper():
-                for key in grade_distribution['professor_cumulative_grade_distribution'][prof_name].keys():
-                    grade_distribution['professor_cumulative_grade_distribution'][prof_name][key] += 1
-            
-     
+        for key in grade_distribution['professor_cumulative_grade_distribution'][prof_name].keys():
+                # print(section)
+            for i in range(len(grade_distribution["courseOfferings"])):
+                for j in range(len(range(len(grade_distribution["courseOfferings"][i]['sections'])))):
+                    # print(grade_distribution["courseOfferings"][i]['sections'][j])
+                    for k in range(len(grade_distribution["courseOfferings"][i]['sections'][j]['instructors'])):
+                        # print(grade_distribution["courseOfferings"][i]['sections'][j]['instructors'][k])
+                        if grade_distribution["courseOfferings"][i]['sections'][j]['instructors'][k]['name'] == prof_name.upper():
+                            # print("Flag")
+                            grade_distribution['professor_cumulative_grade_distribution'][prof_name][key] += grade_distribution["courseOfferings"][i]['sections'][j][key]
+                   
+ 
 
     cursor.close()
     connection.close()

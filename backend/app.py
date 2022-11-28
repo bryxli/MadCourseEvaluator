@@ -153,7 +153,45 @@ def gradeDistribution(cUID):
     cursor = connection.cursor()
     cursor.execute("SELECT cCode FROM courses WHERE cUID = %s", (cUID,))
     cCode = cursor.fetchall()[0][0]
+  
     grade_distribution = mg.MadGrades(cCode) # Get grade distribution for the course using the course code
+
+    # Get the cumulative grade distribution for each professor
+    grade_distribution['professor_cumulative_grade_distribution'] = {}
+
+    cursor.execute("SELECT pName from professors p, courses c, teaches t WHERE c.cCode = %s and c.cUID = t.cUID and p.pUID = t.pUID", (cCode,))
+    course_profs = cursor.fetchall()
+
+    for prof in course_profs:
+        prof_name = prof[0]
+        grade_distribution['professor_cumulative_grade_distribution'][prof_name] = {}
+        grade_distribution['professor_cumulative_grade_distribution'][prof_name]['aCount'] = 0
+        grade_distribution['professor_cumulative_grade_distribution'][prof_name]['abCount'] = 0
+        grade_distribution['professor_cumulative_grade_distribution'][prof_name]['bCount'] = 0
+        grade_distribution['professor_cumulative_grade_distribution'][prof_name]['bcCount'] = 0 
+        grade_distribution['professor_cumulative_grade_distribution'][prof_name]['cCount'] = 0
+        grade_distribution['professor_cumulative_grade_distribution'][prof_name]['crCount'] = 0
+        grade_distribution['professor_cumulative_grade_distribution'][prof_name]['dCount'] = 0
+        grade_distribution['professor_cumulative_grade_distribution'][prof_name]['fCount'] = 0
+        grade_distribution['professor_cumulative_grade_distribution'][prof_name]['iCount'] = 0
+        grade_distribution['professor_cumulative_grade_distribution'][prof_name]['nCount'] = 0
+        grade_distribution['professor_cumulative_grade_distribution'][prof_name]['nrCount'] = 0
+        grade_distribution['professor_cumulative_grade_distribution'][prof_name]['nwCount'] = 0
+        grade_distribution['professor_cumulative_grade_distribution'][prof_name]['otherCount'] = 0
+        grade_distribution['professor_cumulative_grade_distribution'][prof_name]['pCount'] = 0
+        grade_distribution['professor_cumulative_grade_distribution'][prof_name]['sCount'] = 0
+        grade_distribution['professor_cumulative_grade_distribution'][prof_name]['total'] = 0
+        grade_distribution['professor_cumulative_grade_distribution'][prof_name]['uCount'] = 0
+
+        for section in grade_distribution["courseOfferings"][0]["sections"]:
+            if section["instructors"][0]['name'] == prof_name.upper():
+                for key in grade_distribution['professor_cumulative_grade_distribution'][prof_name].keys():
+                    grade_distribution['professor_cumulative_grade_distribution'][prof_name][key] += 1
+            
+     
+
+    cursor.close()
+    connection.close()
     return grade_distribution
 
 @app.route('/prof-info/<pUID>', methods=['GET','POST'])

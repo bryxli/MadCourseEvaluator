@@ -161,7 +161,7 @@ def gradeDistribution(cUID):
 
     cursor.execute("SELECT pName from professors p, courses c, teaches t WHERE c.cCode = %s and c.cUID = t.cUID and p.pUID = t.pUID", (cCode,))
     course_profs = cursor.fetchall()
-    print(course_profs)
+    # print(course_profs)
 
     for prof in course_profs:
         prof_name = prof[0]
@@ -191,7 +191,12 @@ def gradeDistribution(cUID):
                     # print(grade_distribution["courseOfferings"][i]['sections'][j])
                     for k in range(len(grade_distribution["courseOfferings"][i]['sections'][j]['instructors'])):
                         # print(grade_distribution["courseOfferings"][i]['sections'][j]['instructors'][k])
-                        if grade_distribution["courseOfferings"][i]['sections'][j]['instructors'][k]['name'] == prof_name.upper():
+                        
+                        API_prof_name = grade_distribution["courseOfferings"][i]['sections'][j]['instructors'][k]['name']
+                        if "X / " in API_prof_name:
+                            API_prof_name = API_prof_name.split("X / ")[1]
+
+                        if API_prof_name== prof_name.upper():
                             # print("Flag")
                             grade_distribution['professor_cumulative_grade_distribution'][prof_name][key] += grade_distribution["courseOfferings"][i]['sections'][j][key]
                    

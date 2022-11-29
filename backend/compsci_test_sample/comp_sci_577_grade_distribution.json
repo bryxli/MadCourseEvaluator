@@ -2,6 +2,82 @@
     "courseOfferings": [
         {
             "cumulative": {
+                "aCount": 69,
+                "abCount": 75,
+                "bCount": 125,
+                "bcCount": 74,
+                "cCount": 51,
+                "crCount": 0,
+                "dCount": 6,
+                "fCount": 8,
+                "iCount": 0,
+                "nCount": 0,
+                "nrCount": 0,
+                "nwCount": 0,
+                "otherCount": 0,
+                "pCount": 0,
+                "sCount": 0,
+                "total": 408,
+                "uCount": 0
+            },
+            "sections": [
+                {
+                    "aCount": 21,
+                    "abCount": 26,
+                    "bCount": 47,
+                    "bcCount": 42,
+                    "cCount": 36,
+                    "crCount": 0,
+                    "dCount": 1,
+                    "fCount": 2,
+                    "iCount": 0,
+                    "instructors": [
+                        {
+                            "id": 3085603,
+                            "name": "JIN-YI CAI"
+                        }
+                    ],
+                    "nCount": 0,
+                    "nrCount": 0,
+                    "nwCount": 0,
+                    "otherCount": 0,
+                    "pCount": 0,
+                    "sCount": 0,
+                    "sectionNumber": 1,
+                    "total": 175,
+                    "uCount": 0
+                },
+                {
+                    "aCount": 48,
+                    "abCount": 49,
+                    "bCount": 78,
+                    "bcCount": 32,
+                    "cCount": 15,
+                    "crCount": 0,
+                    "dCount": 5,
+                    "fCount": 6,
+                    "iCount": 0,
+                    "instructors": [
+                        {
+                            "id": 6043085,
+                            "name": "MARC RENAULT"
+                        }
+                    ],
+                    "nCount": 0,
+                    "nrCount": 0,
+                    "nwCount": 0,
+                    "otherCount": 0,
+                    "pCount": 0,
+                    "sCount": 0,
+                    "sectionNumber": 2,
+                    "total": 233,
+                    "uCount": 0
+                }
+            ],
+            "termCode": 1224
+        },
+        {
+            "cumulative": {
                 "aCount": 112,
                 "abCount": 52,
                 "bCount": 124,
@@ -215,24 +291,24 @@
                     "iCount": 0,
                     "instructors": [
                         {
-                            "id": 4195806,
-                            "name": "SHUCHI CHAWLA"
+                            "id": 6217789,
+                            "name": "X / ROJIN REZVANSANGSARI"
                         },
                         {
                             "id": 5911784,
                             "name": "X / YUXIN SUN"
                         },
                         {
-                            "id": 6217789,
-                            "name": "X / ROJIN REZVANSANGSARI"
+                            "id": 6099078,
+                            "name": "X / JEREMY MCMAHAN"
+                        },
+                        {
+                            "id": 4195806,
+                            "name": "SHUCHI CHAWLA"
                         },
                         {
                             "id": 6099944,
                             "name": "KEXIN LI"
-                        },
-                        {
-                            "id": 6099078,
-                            "name": "X / JEREMY MCMAHAN"
                         }
                     ],
                     "nCount": 0,
@@ -257,8 +333,8 @@
                     "iCount": 0,
                     "instructors": [
                         {
-                            "id": 6088766,
-                            "name": "X / EVANGELIA GERGATSOULI"
+                            "id": 6123269,
+                            "name": "CHRISTOS TZAMOS"
                         },
                         {
                             "id": 6088839,
@@ -269,8 +345,8 @@
                             "name": "X / JONG HO PARK"
                         },
                         {
-                            "id": 6123269,
-                            "name": "CHRISTOS TZAMOS"
+                            "id": 6088766,
+                            "name": "X / EVANGELIA GERGATSOULI"
                         }
                     ],
                     "nCount": 0,
@@ -295,16 +371,16 @@
                     "iCount": 0,
                     "instructors": [
                         {
-                            "id": 6043085,
-                            "name": "MARC RENAULT"
+                            "id": 5022570,
+                            "name": "ALEXANDER BROOKS"
                         },
                         {
                             "id": 6210608,
                             "name": "X / HAILEY FIELDS"
                         },
                         {
-                            "id": 5022570,
-                            "name": "ALEXANDER BROOKS"
+                            "id": 6043085,
+                            "name": "MARC RENAULT"
                         }
                     ],
                     "nCount": 0,
@@ -1987,14 +2063,14 @@
     ],
     "courseUuid": "1f36cc02-0eee-3fcf-be09-1ad17aecf83c",
     "cumulative": {
-        "aCount": 1427,
-        "abCount": 707,
-        "bCount": 1517,
-        "bcCount": 704,
-        "cCount": 496,
+        "aCount": 1496,
+        "abCount": 782,
+        "bCount": 1642,
+        "bcCount": 778,
+        "cCount": 547,
         "crCount": 0,
-        "dCount": 104,
-        "fCount": 71,
+        "dCount": 110,
+        "fCount": 79,
         "iCount": 13,
         "nCount": 0,
         "nrCount": 8,
@@ -2002,7 +2078,189 @@
         "otherCount": 0,
         "pCount": 0,
         "sCount": 71,
-        "total": 5131,
+        "total": 5539,
         "uCount": 9
+    },
+    "professor_cumulative_grade_distribution": {
+        "132687": {
+            "aCount": 476,
+            "abCount": 103,
+            "bCount": 167,
+            "bcCount": 46,
+            "cCount": 40,
+            "crCount": 0,
+            "dCount": 18,
+            "fCount": 11,
+            "iCount": 3,
+            "nCount": 0,
+            "name": "Deborah Joseph",
+            "nrCount": 4,
+            "nwCount": 0,
+            "otherCount": 0,
+            "pCount": 0,
+            "sCount": 0,
+            "total": 868,
+            "uCount": 0
+        },
+        "132707": {
+            "aCount": 139,
+            "abCount": 89,
+            "bCount": 195,
+            "bcCount": 90,
+            "cCount": 80,
+            "crCount": 0,
+            "dCount": 19,
+            "fCount": 9,
+            "iCount": 3,
+            "nCount": 0,
+            "name": "Eric Bach",
+            "nrCount": 0,
+            "nwCount": 2,
+            "otherCount": 0,
+            "pCount": 0,
+            "sCount": 1,
+            "total": 627,
+            "uCount": 0
+        },
+        "132741": {
+            "aCount": 112,
+            "abCount": 87,
+            "bCount": 143,
+            "bcCount": 59,
+            "cCount": 27,
+            "crCount": 0,
+            "dCount": 14,
+            "fCount": 16,
+            "iCount": 5,
+            "nCount": 0,
+            "name": "Marc Renault",
+            "nrCount": 0,
+            "nwCount": 0,
+            "otherCount": 0,
+            "pCount": 0,
+            "sCount": 2,
+            "total": 469,
+            "uCount": 4
+        },
+        "132754": {
+            "aCount": 273,
+            "abCount": 194,
+            "bCount": 262,
+            "bcCount": 228,
+            "cCount": 142,
+            "crCount": 0,
+            "dCount": 21,
+            "fCount": 12,
+            "iCount": 2,
+            "nCount": 0,
+            "name": "Dieter Van Melkebeek",
+            "nrCount": 2,
+            "nwCount": 2,
+            "otherCount": 0,
+            "pCount": 0,
+            "sCount": 7,
+            "total": 1145,
+            "uCount": 0
+        },
+        "132976": {
+            "aCount": 300,
+            "abCount": 142,
+            "bCount": 538,
+            "bcCount": 155,
+            "cCount": 78,
+            "crCount": 0,
+            "dCount": 17,
+            "fCount": 14,
+            "iCount": 0,
+            "nCount": 0,
+            "name": "Shuchi Chawla",
+            "nrCount": 0,
+            "nwCount": 0,
+            "otherCount": 0,
+            "pCount": 0,
+            "sCount": 29,
+            "total": 1275,
+            "uCount": 2
+        },
+        "133068": {
+            "aCount": 91,
+            "abCount": 104,
+            "bCount": 164,
+            "bcCount": 139,
+            "cCount": 140,
+            "crCount": 0,
+            "dCount": 14,
+            "fCount": 13,
+            "iCount": 0,
+            "nCount": 0,
+            "name": "Jin-Yi Cai",
+            "nrCount": 2,
+            "nwCount": 0,
+            "otherCount": 0,
+            "pCount": 0,
+            "sCount": 0,
+            "total": 667,
+            "uCount": 0
+        },
+        "133509": {
+            "aCount": 15,
+            "abCount": 8,
+            "bCount": 5,
+            "bcCount": 5,
+            "cCount": 0,
+            "crCount": 0,
+            "dCount": 0,
+            "fCount": 0,
+            "iCount": 0,
+            "nCount": 0,
+            "name": "Alexander Brooks",
+            "nrCount": 0,
+            "nwCount": 0,
+            "otherCount": 0,
+            "pCount": 0,
+            "sCount": 2,
+            "total": 39,
+            "uCount": 4
+        },
+        "136126": {
+            "aCount": 114,
+            "abCount": 25,
+            "bCount": 44,
+            "bcCount": 5,
+            "cCount": 1,
+            "crCount": 0,
+            "dCount": 0,
+            "fCount": 0,
+            "iCount": 0,
+            "nCount": 0,
+            "name": "Jeremy McMahan",
+            "nrCount": 0,
+            "nwCount": 0,
+            "otherCount": 0,
+            "pCount": 0,
+            "sCount": 25,
+            "total": 216,
+            "uCount": 2
+        },
+        "136587": {
+            "aCount": 70,
+            "abCount": 25,
+            "bCount": 99,
+            "bcCount": 25,
+            "cCount": 15,
+            "crCount": 0,
+            "dCount": 3,
+            "fCount": 3,
+            "iCount": 0,
+            "nCount": 0,
+            "name": "Christos Tzamos",
+            "nrCount": 0,
+            "nwCount": 0,
+            "otherCount": 0,
+            "pCount": 0,
+            "sCount": 32,
+            "total": 275,
+            "uCount": 3
+        }
     }
 }

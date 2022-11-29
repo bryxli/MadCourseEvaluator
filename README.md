@@ -42,51 +42,204 @@ Use the built-in continuous integration in GitLab.
 - [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
 - [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
 
-***
+# Back End Documentation
 
-# Editing this README
+# Table of Contents
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!).  Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
+- [About the Project](#star2-about-the-project)
+  * [Tech Stack](#space_invader-tech-stack)
+  * [Features](#dart-features)
+  * [Environment Variables](#key-environment-variables)
+- [Getting Started](#toolbox-getting-started)
+  * [Prerequisites](#bangbang-prerequisites)
+  * [Installation](#gear-installation)
+  * [Running Tests](#test_tube-running-tests)
+  * [Run Locally](#running-run-locally)
+  * [Deployment](#triangular_flag_on_post-deployment)
+- [Usage](#eyes-usage)
+- [Roadmap](#compass-roadmap)
+- [Acknowledgements](#gem-acknowledgements)
 
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+## About the Project
 
-## Name
-Choose a self-explaining name for your project.
+### Tech Stack
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+- Flask (backend web API)
+- MySQL (relational database)
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+### Features
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+- Extracts data from madgrades, rate my professors, and reddit API 
+- ETL data procressing to populate a MySQL database
+- Loads data from a MySQL database formatted in json 
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+### Environment Variables
 
+To run this project, you will need to add the following environment variables to your .env file
+
+```bash
+python3 -m venv ./env
+```
+
+## Getting Started
+
+### Prerequisites
+
+This project must run in a virtual environment: 
+
+```bash
+Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
+```
+
+```bash
+env/Scripts/activate
+```
+### Installation
+
+Install any updates requirements in requirments.txt
+
+```bash
+python -m pip install -r requirements.txt
+```
+
+```bash
+pip install flask
+```
+
+```bash
+pip install requests
+```
+
+```bash
+pip install -U Flask-SQLAlchemy
+```
+
+### Running Tests
+
+To run tests, run the following command
+
+```bash
+
+```
+### Run Locally
+
+Clone the project
+
+```bash
+git clone https://git.doit.wisc.edu/cdis/cs/courses/cs506/madcourseevaluator.git
+```
+
+Go to the project directory
+
+```bash
+cd madcourseevaluator
+```
+
+```bash
+cd backend
+```
+
+Install dependencies
+
+```bash
+
+```
+
+Start the server
+
+```bash
+python ./app.py
+```
+
+```bash
+python populateDB.py
+```
 ## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+### 1.1 populateDB.py
+
+populateDB.py is a stand alone script used for populating our MySQL database. The back-end team decided this script would be very useful because having a database with most of our application data will reduce the amount of API requests we will need to make everytime a user requests a page. This script populates courses, professors, reddit comment data into a MySQL relational database for the front-end team to utilize when providing important information that the user needs when evaluating courses and professors. 
+
+#### 1.1.1 Functions
+
+#### 1.1.1.1 PopCourses()
+Function to populate the courses table with all courses at UW-Madison. The data is stored as a tuple in the database table (cUID (course unique identifier), the course's name, the course's subject, the course's 'course code', the course's credits, the course's description).
+
+#### 1.1.1.2 PopProfessors()
+Function to populate the professors table with all professors at UW-Madison. The data is stored as a tuple in the database table (pUID (professor unique identifier), the professor's full name, and pDate (where pDate is a dictionary of all RateMyProfessor data)). 
+
+#### 1.1.1.3 PopRedditComments()
+Function to populate the reddit comment table with top-level comments that are relevant to a certain course that were posted to r/UWMadison. The data is stored as a tuple into reddit comment table (comment ID, the comment's text, a link to the comment, the comment's upvotes, and the cUID of the course the comment is about). 
+
+#### 1.1.1.4 PopTeaches()
+Function to populate the teaches table with course ID and professor ID for each course. The data is stored as a tuple into the teaches table (course ID, professor ID).
+
+#### 1.1.1.5 PopDB()
+Function calling every function necessary to populate data into MYSQL relational database.
+
+### 1.1.2 Notes
+
+#### 1.1.2.1 UW-Madison RateMyProfessor Object ID
+It seems like RateMyProfessor.com has multiple unique ID #'s for UW-Madison associated with different records. These records are not the same, but they may contain overlapping information (i.e. Same professor names, same department, but with different reviews). We want to account for sets of reviews so that we have the most possible, so we use both UIDs ```1256``` and ```18418```
+
+#### 1.1.2.2 RateMyProfessor Public API + Modifications
+This project uses a public API found from <a href="https://github.com/tisuela/ratemyprof-api"> this Github repository<a> which has two files to create a Professor object and another to scrape RateMyProfessor for professor information who taught at a particular school. We have made slight modifications to their code to allow scraping for any school given a RateMyProfessor school ID, allowing us to make an instance of a RateMyProfApi object for each of the RateMyProfessor unique school IDs that contain records of information about professors at UW-Madison. 
+
+#### 1.1.2.3 Scraping Professors Data
+Here we are scraping all professor data from each of the RateMyProfessor school endpoints associated with UW-Madison, and storing it in a large array object. Where we will use that data to populate our DB in the helper function.
+ 
+#### 1.1.2.4 Creating Course Acronym
+When we were trying to search for relevent Reddit comments about a course, we realized that all comments don't usually state the entire course code (i.e. COMP SCI 506). When comments do directly reference a course, the usually us an abbreviation of the course name (i.e. CS506 or CS 506). We want to get relevant search results from more Reddit comments so we build the acronym for each course.
+
+
+### 1.2 app.py
+This is our back-end API to extract data from our database, transform, and load data into JSON. It returns JSON format for front-end components. 
+
+### 1.2.1 API Endpoints 
+
+#### 1.2.1.1 ~/all-courses
+Returns JSON of all courses at the university along with all fields associated with each course. Each course stores (cUID, cName, cSubject, cCode, cCredits, cDescription, cReq).
+
+#### 1.2.1.2 ~/all-profs
+Returns JSON of all professors at the university along with their data from RateMyProfessor. Each professor stores their name, deptartment, RMPID (RateMyProfessorID), RMPRating, RMPTotalRatings, and RMPRatingClass.
+
+#### 1.2.1.3 ~/course-info/<cUID>
+Returns JSON of course info corresponding to a unique course ID. The course info includes the course's: cUID, name, subject, course code, number of credits, description, and requisites. 
+
+#### 1.2.1.4  ~/course-profs/<cUID>
+Returns JSON of professor data for professors who have taught a course corresponding to a unique course ID recently. Each professor stores their name, deptartment, RMPID (RateMyProfessorID), RMPRating, RMPTotalRatings, and RMPRatingClass.
+ 
+#### 1.2.1.5 ~/reddit-comments/<cUID>
+Returns JSON of reddit comment data from comments on r/UWMadison relevant to the course corresponding to the unique course ID. The comments include description, link, and votes. 
+
+#### 1.2.1.6 ~/grade-distribution/<cUID>
+Returns JSON of grade distributions, section, and instructor of a course specified by course code ID.
+
+#### 1.2.1.7 ~/prof-info/<pUID>
+Returns JSON of professor information specified by profressor code ID.
+
+#### 1.2.1.8 ~/prof-courses/<pUID>
+Returns JSON of course information specificied by profressor code ID.
+
+### 1.3 config.py
+This configuration information provides credentials for MySQL database, Reddit API Qrapper, Reddit Bot and MadGrades API Token.
+
+### 1.4 madgrades.py
+This returns a JSON of grade distributions from the madgrades API.
+
+### 1.5 RMP_professor.py
+This extracts data from the rate my professor API and loads it into JSON format (professor's name, dept, id, rating, total rating, rating class).
 
 ## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+* [ ]  Todo 1
+* [ ]  Todo 2
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+## Acknowledgements
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+ - [Shields.io](https://shields.io/)
+ - [Awesome README](https://github.com/matiassingers/awesome-readme)
+ - [Emoji Cheat Sheet](https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md#travel--places)
+ - [Readme Template](https://github.com/othneildrew/Best-README-Template)
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
 
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.

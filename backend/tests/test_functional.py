@@ -127,10 +127,6 @@ class TestCourseRoutes(unittest.TestCase):
             link_request = requests.get(request.json[key]['comLink'])
             self.assertEqual(link_request.status_code, 200)
 
-    # TODO: We are getting an error when loading the professors names, for some instances 
-    # request.json['courseOfferings'][info]['sections'][section]['instructors'][0]['name'] 
-    # is returning more than one name. I believe this is a bug in the MadGrades API itself,
-    # but we should look into it further.
     def test_course_grade_distribution(self):
         cs577_cUID = test_config.cs577_cUID
         route = '/grade-distribution/'
@@ -155,7 +151,6 @@ class TestCourseRoutes(unittest.TestCase):
             # Assert that the per section course grade distribution data for courseOfferings contains instructors key with id and name for professor
             prof_list = []
             for section in range(len(info['sections'])):
-                print(info['sections'][section]['instructors'])
                 self.assertEqual(info['sections'][section]['instructors'][0]['id'] is not None, True)
                 self.assertEqual(info['sections'][section]['instructors'][0]['name'] is not None, True)
                 prof_list.append(info['sections'][section]['instructors'][0]['name'].lower().strip())

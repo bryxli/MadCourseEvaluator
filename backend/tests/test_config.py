@@ -1,5 +1,5 @@
 # CS 577 cUID
-cs577_cUID = '58818'
+cs577_cUID = '58874'
 
 # Marc Renault pUID
-marc_renault_pUID = '119719'
+marc_renault_pUID = '136944'

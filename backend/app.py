@@ -159,33 +159,36 @@ def gradeDistribution(cUID):
     # Get the cumulative grade distribution for each professor
     grade_distribution['professor_cumulative_grade_distribution'] = {}
 
-    cursor.execute("SELECT pName from professors p, courses c, teaches t WHERE c.cCode = %s and c.cUID = t.cUID and p.pUID = t.pUID", (cCode,))
+    # Get the name of all professors who have taught the course in the database
+    cursor.execute("SELECT p.pName from professors p, courses c, teaches t WHERE c.cCode = %s and c.cUID = t.cUID and p.pUID = t.pUID", (cCode,))
     course_profs = cursor.fetchall()
     # print(course_profs)
+    for prof_name in course_profs:
+        # Get the pUID of all professors who have taught the course in the database
+        cursor.execute("SELECT p.pUID from professors p, courses c, teaches t WHERE c.cCode = %s and c.cUID = t.cUID and p.pUID = t.pUID and p.pName = %s", (cCode, prof_name[0]))
+        prof_pUID = cursor.fetchall()[0][0]
+        prof_name = prof_name[0]
+        grade_distribution['professor_cumulative_grade_distribution'][prof_pUID] = {}
+        grade_distribution['professor_cumulative_grade_distribution'][prof_pUID]['name'] = prof_name
+        grade_distribution['professor_cumulative_grade_distribution'][prof_pUID]['aCount'] = 0
+        grade_distribution['professor_cumulative_grade_distribution'][prof_pUID]['abCount'] = 0
+        grade_distribution['professor_cumulative_grade_distribution'][prof_pUID]['bCount'] = 0
+        grade_distribution['professor_cumulative_grade_distribution'][prof_pUID]['bcCount'] = 0 
+        grade_distribution['professor_cumulative_grade_distribution'][prof_pUID]['cCount'] = 0
+        grade_distribution['professor_cumulative_grade_distribution'][prof_pUID]['crCount'] = 0
+        grade_distribution['professor_cumulative_grade_distribution'][prof_pUID]['dCount'] = 0
+        grade_distribution['professor_cumulative_grade_distribution'][prof_pUID]['fCount'] = 0
+        grade_distribution['professor_cumulative_grade_distribution'][prof_pUID]['iCount'] = 0
+        grade_distribution['professor_cumulative_grade_distribution'][prof_pUID]['nCount'] = 0
+        grade_distribution['professor_cumulative_grade_distribution'][prof_pUID]['nrCount'] = 0
+        grade_distribution['professor_cumulative_grade_distribution'][prof_pUID]['nwCount'] = 0
+        grade_distribution['professor_cumulative_grade_distribution'][prof_pUID]['otherCount'] = 0
+        grade_distribution['professor_cumulative_grade_distribution'][prof_pUID]['pCount'] = 0
+        grade_distribution['professor_cumulative_grade_distribution'][prof_pUID]['sCount'] = 0
+        grade_distribution['professor_cumulative_grade_distribution'][prof_pUID]['total'] = 0
+        grade_distribution['professor_cumulative_grade_distribution'][prof_pUID]['uCount'] = 0
 
-    for prof in course_profs:
-        prof_name = prof[0]
-        grade_distribution['professor_cumulative_grade_distribution'][prof_name] = {}
-        grade_distribution['professor_cumulative_grade_distribution'][prof_name]['aCount'] = 0
-        grade_distribution['professor_cumulative_grade_distribution'][prof_name]['abCount'] = 0
-        grade_distribution['professor_cumulative_grade_distribution'][prof_name]['bCount'] = 0
-        grade_distribution['professor_cumulative_grade_distribution'][prof_name]['bcCount'] = 0 
-        grade_distribution['professor_cumulative_grade_distribution'][prof_name]['cCount'] = 0
-        grade_distribution['professor_cumulative_grade_distribution'][prof_name]['crCount'] = 0
-        grade_distribution['professor_cumulative_grade_distribution'][prof_name]['dCount'] = 0
-        grade_distribution['professor_cumulative_grade_distribution'][prof_name]['fCount'] = 0
-        grade_distribution['professor_cumulative_grade_distribution'][prof_name]['iCount'] = 0
-        grade_distribution['professor_cumulative_grade_distribution'][prof_name]['nCount'] = 0
-        grade_distribution['professor_cumulative_grade_distribution'][prof_name]['nrCount'] = 0
-        grade_distribution['professor_cumulative_grade_distribution'][prof_name]['nwCount'] = 0
-        grade_distribution['professor_cumulative_grade_distribution'][prof_name]['otherCount'] = 0
-        grade_distribution['professor_cumulative_grade_distribution'][prof_name]['pCount'] = 0
-        grade_distribution['professor_cumulative_grade_distribution'][prof_name]['sCount'] = 0
-        grade_distribution['professor_cumulative_grade_distribution'][prof_name]['total'] = 0
-        grade_distribution['professor_cumulative_grade_distribution'][prof_name]['uCount'] = 0
-
-        for key in grade_distribution['professor_cumulative_grade_distribution'][prof_name].keys():
-                # print(section)
+        for key in grade_distribution['professor_cumulative_grade_distribution'][prof_pUID].keys() - {'name'}:
             for i in range(len(grade_distribution["courseOfferings"])):
                 for j in range(len(range(len(grade_distribution["courseOfferings"][i]['sections'])))):
                     # print(grade_distribution["courseOfferings"][i]['sections'][j])
@@ -195,10 +198,8 @@ def gradeDistribution(cUID):
                         API_prof_name = grade_distribution["courseOfferings"][i]['sections'][j]['instructors'][k]['name']
                         if "X / " in API_prof_name:
                             API_prof_name = API_prof_name.split("X / ")[1]
-
                         if API_prof_name== prof_name.upper():
-                            # print("Flag")
-                            grade_distribution['professor_cumulative_grade_distribution'][prof_name][key] += grade_distribution["courseOfferings"][i]['sections'][j][key]
+                            grade_distribution['professor_cumulative_grade_distribution'][prof_pUID][key] += grade_distribution["courseOfferings"][i]['sections'][j][key]
                    
  
 

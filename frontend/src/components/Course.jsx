@@ -16,10 +16,8 @@ const Course = () => {
 
   //the returned gpa graph distribution for this course is converted into the required format for our graph API
   useEffect(() => {
-    fetch("/course/" + courseID).then((response) =>
-      response.json().then((d) => {
-        const json_str = JSON.stringify(d);
-        const json = JSON.parse(json_str);
+    fetch("/course-info/" + courseID).then((response) =>
+      response.json().then((json) => {
         setCourseInfo(json);
       })
     );

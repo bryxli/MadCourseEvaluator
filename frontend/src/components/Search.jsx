@@ -7,19 +7,17 @@ import { createSearchParams, useNavigate } from "react-router-dom";
 const Search = () => {
   // Initialize class list
   const [classList, setClassList] = useState([]);
+  const [profList, setProfList] = useState([]);
   useEffect(() => {
-    fetch("/courselist").then((response) =>
-      response.json().then((data) => {
-        const json_str = JSON.stringify(data);
-        const json = JSON.parse(json_str);
+    fetch("/all-courses").then((response) =>
+      response.json().then((json) => {
         var classes = [];
         for (var key in json) {
           const code = json[key].cCode;
           const name = json[key].cName;
           const id = json[key].cUID;
           const classFull = {
-            code: code,
-            name: name,
+            result: code.concat(" - " + name),
             id: id,
           };
           classes.push(classFull);
@@ -27,21 +25,45 @@ const Search = () => {
         setClassList(classes);
       })
     );
+    fetch("/all-profs").then((response) =>
+      response.json().then((json) => {
+        var professors = [];
+        for (var key in json) {
+          const name = json[key].name;
+          const id = key;
+          const professorFull = {
+            result: name,
+            id: id,
+          };
+          professors.push(professorFull);
+        }
+        setProfList(professors);
+      })
+    );
   }, []);
 
   const [selected, setSelected] = useState([]);
-  const options = classList;
+  const options = classList.concat(profList);
 
   // Submit button navigation
   const navigate = useNavigate();
   const submit = (e) => {
     e.preventDefault();
-    navigate({
-      pathname: "/course",
-      search: createSearchParams({
-        id: selected[0].id,
-      }).toString(),
-    });
+    if (classList.includes(selected[0])) {
+      navigate({
+        pathname: "/course",
+        search: createSearchParams({
+          id: selected[0].id,
+        }).toString(),
+      });
+    } else if (profList.includes(selected[0])) {
+      navigate({
+        pathname: "/instructor",
+        search: createSearchParams({
+          id: selected[0].id,
+        }).toString(),
+      });
+    }
   };
 
   return (
@@ -50,9 +72,9 @@ const Search = () => {
         <Typeahead
           id="search"
           onChange={setSelected}
-          labelKey={(option) => `${option.code} - ${option.name}`}
+          labelKey={(option) => option.result}
           options={options}
-          placeholder="Course (Ex: CS300)"
+          placeholder="Course or Professor (Ex: CS300)"
           selected={selected}
         />
       </Form.Group>

@@ -13,13 +13,14 @@ const Instructor = ({ id }) => {
     navigate(path);
   };
 
+  // IMPORTANT CHANGE NEEDED: there are two endpoints: /prof-info and /prof-courses
   const [courses, setCourses] = useState([]);
   const [professor, setProfessor] = useState({});
   useEffect(() => {
-    fetch("/professor/" + id).then((response) =>
-      response.json().then((data) => {
+    fetch("/prof-info/" + id).then((response) =>
+      response.json().then((json) => {
         var courses = [];
-        var courses_taught = data["courses-taught"];
+        var courses_taught = json["courses-taught"];
         for (var key in courses_taught) {
           const id = key;
           const code = courses_taught[key].cCode;
@@ -30,12 +31,12 @@ const Instructor = ({ id }) => {
         setCourses(courses);
 
         setProfessor({
-          name: data.professor_data.name,
-          dept: data.professor_data.dept,
-          rating: data.professor_data.RMPRating,
+          name: json.professor_data.name,
+          dept: json.professor_data.dept,
+          rating: json.professor_data.RMPRating,
           id,
-          totalRatings: data.professor_data.RMPTotalRatings,
-          review: data.professor_data.RMPRatingClass,
+          totalRatings: json.professor_data.RMPTotalRatings,
+          review: json.professor_data.RMPRatingClass,
         });
       })
     );

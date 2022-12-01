@@ -15,10 +15,10 @@ const Reddit = (props) => {
           const votes = json[key].comVotes;
 
           comments.push({ id, body, link, votes });
-        } //this converts the JSON object of reddit threads into an array
+        } // This converts the JSON object of reddit threads into an array
         comments.sort((a, b) => {
           return b.votes - a.votes;
-        }); //sorting in descending order based on upvotes
+        }); // Sorting in descending order based on upvotes
         setRedditList(comments);
       })
     );

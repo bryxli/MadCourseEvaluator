@@ -30,7 +30,7 @@ const ProfessorList = (props) => {
   return (
     <div className="professor-list">
       {professorList.map((prof) => (
-        <Container className="professor-list-item" /*key={prof.RMPID}*/>
+        <Container className="professor-list-item">
           <Row
             onClick={() => {
               navigate({

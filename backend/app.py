@@ -35,7 +35,7 @@ def AllCourses():
     for course in all_courses:
         course_json_data = {'cUID': None, 'cName': None, 'cCode': None}
         course_json_data['cUID'] = course[0]
-        course_json_data['cName'] = course[1]
+        course_json_data['cName'] = course[1] 
         course_json_data['cCode'] = course[3] 
         all_course_json_data[course_json_data['cUID']] = course_json_data
 

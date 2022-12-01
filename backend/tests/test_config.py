@@ -21,7 +21,7 @@ conn = mysql.connector.connect(
     database = config.database
 )
     
-cur = conn.cursor()
+cur = conn.cursor() 
 
 # Update COMP SCI 577 cUID for testing
 cur.execute("SELECT cUID FROM courses WHERE cCode = 'Comp Sci 577'")

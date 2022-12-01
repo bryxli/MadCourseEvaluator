@@ -141,6 +141,8 @@ class TestCourseRoutes(unittest.TestCase):
         self.assertEqual('courseOfferings' in request.json.keys(), True)
         self.assertEqual('courseUuid' in request.json.keys(), True)
         self.assertEqual('cumulative' in request.json.keys(), True)
+        self.assertEqual('professor_cumulative_grade_distribution' in request.json.keys(), True)
+
 
         # Assert that the per term course grade distribution data for courseOfferings contains expected keys
         for info in request.json['courseOfferings']:
@@ -150,15 +152,18 @@ class TestCourseRoutes(unittest.TestCase):
 
             # Assert that the per section course grade distribution data for courseOfferings contains instructors key with id and name for professor
             prof_list = []
+            marc_flag = 0 
             for section in range(len(info['sections'])):
                 self.assertEqual(info['sections'][section]['instructors'][0]['id'] is not None, True)
                 self.assertEqual(info['sections'][section]['instructors'][0]['name'] is not None, True)
                 prof_list.append(info['sections'][section]['instructors'][0]['name'].lower().strip())
 
-            # Assert that the JSON returned contains at least the two known professors for this course
-            # print(prof_list)
-            # self.assertEqual('marc renault' in prof_list, True)
-            # self.assertEqual('eric bach' in prof_list, True)
+                print(info['sections'][section]['instructors'][0]['name'].lower().strip)
+
+                if 'marc renault' in info['sections'][section]['instructors'][0]['name'].lower().strip():
+                    marc_flag = 1
+        
+            self.assertEqual(marc_flag, 1)
 
 class TestProfRoutes(unittest.TestCase):
     """

@@ -5,21 +5,22 @@ from flask import Flask, render_template, request, flash, redirect, url_for, ses
 import madgrades as mg # Custom MadGrades Script for Grade Distributions
 import config          # Application Configuration (Private) Information
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import create_engine
+# from sqlalchemy import create_engine
 
-db_uri =  'mysql://' + config.user + ':' + config.password + '@' + config.host + '/' + config.database
-db = SQLAlchemy()
+# db_uri =  'mysql://' + config.user + ':' + config.password + '@' + config.host + '/' + config.database
+# db = SQLAlchemy()
 
 app = Flask(__name__)
 app.secret_key = config.secret
-app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
-engine = create_engine(db_uri)                 
+
+# app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
+# engine = create_engine(db_uri)                 
 
 ############################################################
 # TODO: Models.py script, need to initialize MySQL database 
-db.init_app(app) # Initialize the Database
-with app.app_context(): # Create the Database Tables from models.py
-    db.create_all()     # Create the Database
+# db.init_app(app) # Initialize the Database
+# with app.app_context(): # Create the Database Tables from models.py
+#     db.create_all()     # Create the Database
 ############################################################
 
 @app.route('/all-courses', methods=['GET','POST'])
@@ -27,8 +28,16 @@ def AllCourses():
     """
     All Courses endpoint: Returns JSON of all courses at the university along with all fields associated with each course.
     """
-    connection = engine.raw_connection()
-    cursor = connection.cursor()
+    # connection = engine.raw_connection()
+
+    # Establish connection to MySQL DB
+    conn = mysql.connector.connect(
+        user = config.user,
+        password = config.password, 
+        host = config.host,
+        database = config.database
+    )
+    cursor = conn.cursor()
     cursor.execute("SELECT * FROM courses") # Store all data on all courses
     all_courses = cursor.fetchall()
     all_course_json_data = {}
@@ -40,7 +49,7 @@ def AllCourses():
         all_course_json_data[course_json_data['cUID']] = course_json_data
 
     cursor.close()
-    connection.close()
+    conn.close()
     return all_course_json_data
 
 @app.route('/all-profs', methods=['GET','POST'])
@@ -50,8 +59,15 @@ def AllProfs():
 
     ex. Professors Data => pUID, pName, pData
     """
-    connection = engine.raw_connection()
-    cursor = connection.cursor()
+    # connection = engine.raw_connection()
+    # Establish connection to MySQL DB
+    conn = mysql.connector.connect(
+        user = config.user,
+        password = config.password, 
+        host = config.host,
+        database = config.database
+    )
+    cursor = conn.cursor()
     cursor.execute("SELECT pUID, pData FROM professors") # Execute SQL query
     all_profs = cursor.fetchall()  # Fetch all the rows from professors table
     all_profs_json_data = {}
@@ -60,7 +76,7 @@ def AllProfs():
         pData = json.loads(prof[1])
         all_profs_json_data[pUID] = pData
     cursor.close()
-    connection.close() 
+    conn.close()
     return all_profs_json_data
 
 @app.route('/course-info/<cUID>', methods=['GET','POST'])
@@ -68,8 +84,15 @@ def courseInfo(cUID):
     """
     Returns all course information from courses table.
     """
-    connection = engine.raw_connection()
-    cursor = connection.cursor()
+    # Establish connection to MySQL DB
+    conn = mysql.connector.connect(
+        user = config.user,
+        password = config.password, 
+        host = config.host,
+        database = config.database
+    )
+    # connection = engine.raw_connection()
+    cursor = conn.cursor()
     
     # 1. Get course data from courses table, 
     cursor.execute("SELECT * FROM courses WHERE cUID = %s", (cUID,)) # Execute SQL query
@@ -88,7 +111,7 @@ def courseInfo(cUID):
     course_json_data['cReq'] = course_data[6]
 
     cursor.close()
-    connection.close() 
+    conn.close() 
     return course_json_data
 
 @app.route('/course-profs/<cUID>', methods=['GET','POST'])
@@ -96,8 +119,15 @@ def courseProfs(cUID):
     """
     Returns all professors who have taught the course recently.
     """
-    connection = engine.raw_connection()
-    cursor = connection.cursor()
+    # Establish connection to MySQL DB
+    conn = mysql.connector.connect(
+        user = config.user,
+        password = config.password, 
+        host = config.host,
+        database = config.database
+    )
+    # connection = engine.raw_connection()
+    cursor = conn.cursor()
     
     # Get all the professors who have taught the course recently
     cursor.execute("SELECT pUID, pData FROM professors WHERE pUID IN (SELECT pUID FROM teaches WHERE cUID = %s)", (cUID,)) # Execute SQL query
@@ -113,7 +143,7 @@ def courseProfs(cUID):
         all_prof_json_data[pUID] = pData
 
     cursor.close()
-    connection.close()
+    conn.close()
     return all_prof_json_data
 
 @app.route('/reddit-comments/<cUID>', methods=['GET','POST'])
@@ -121,8 +151,15 @@ def redditComments(cUID):
     """
     Returns all Reddit comments associated with the course.
     """
-    connection = engine.raw_connection()
-    cursor = connection.cursor()
+    # Establish connection to MySQL DB
+    conn = mysql.connector.connect(
+        user = config.user,
+        password = config.password, 
+        host = config.host,
+        database = config.database
+    )
+    # connection = engine.raw_connection()
+    cursor = conn.cursor()
     
     # Get all Reddit comments associated with the course
     cursor.execute("SELECT * FROM rc WHERE cUID = %s", (cUID,)) # Execute SQL query
@@ -141,7 +178,7 @@ def redditComments(cUID):
         all_rc_json_data[comID] = {'comBody': comBody, 'comLink': comLink, 'comVotes': comVotes}
 
     cursor.close()
-    connection.close()
+    conn.close()
     return all_rc_json_data
 
 @app.route('/grade-distribution/<cUID>', methods=['GET','POST'])
@@ -149,8 +186,15 @@ def gradeDistribution(cUID):
     """
     Returns grade distributions for the course.
     """
-    connection = engine.raw_connection()
-    cursor = connection.cursor()
+    # Establish connection to MySQL DB
+    conn = mysql.connector.connect(
+        user = config.user,
+        password = config.password, 
+        host = config.host,
+        database = config.database
+    )
+    # connection = engine.raw_connection()
+    cursor = conn.cursor()
     cursor.execute("SELECT cCode FROM courses WHERE cUID = %s", (cUID,))
     cCode = cursor.fetchall()[0][0]
   
@@ -203,7 +247,7 @@ def gradeDistribution(cUID):
  
 
     cursor.close()
-    connection.close()
+    conn.close()
     return grade_distribution
 
 @app.route('/prof-info/<pUID>', methods=['GET','POST'])
@@ -212,8 +256,15 @@ def professorInfo(pUID):
     Specific Professor Info endpoint: returns all RateMyProfessor data for a professor
     associated with the given pUID.
     """
-    connection = engine.raw_connection()
-    cursor = connection.cursor()
+    # Establish connection to MySQL DB
+    conn = mysql.connector.connect(
+        user = config.user,
+        password = config.password, 
+        host = config.host,
+        database = config.database
+    )
+    # connection = engine.raw_connection()
+    cursor = conn.cursor()
     search = pUID
 
     # Get professor data from professors table,
@@ -222,7 +273,7 @@ def professorInfo(pUID):
     professor_data = json.loads(prof_data) # Store professor data in the full professor data json that will be returned
 
     cursor.close()
-    connection.close()
+    # connection.close()
     return professor_data
 
 @app.route('/prof-courses/<pUID>', methods=['GET','POST'])
@@ -230,8 +281,15 @@ def professorCourses(pUID):
     """
     Professor's Courses endpoint: returns all courses taught by a professor associated with the given pUID.
     """
-    connection = engine.raw_connection()
-    cursor = connection.cursor()
+    # Establish connection to MySQL DB
+    conn = mysql.connector.connect(
+        user = config.user,
+        password = config.password, 
+        host = config.host,
+        database = config.database
+    )
+    # connection = engine.raw_connection()
+    cursor = conn.cursor()
     search = pUID
     course_data_json = {}
 
@@ -256,7 +314,7 @@ def professorCourses(pUID):
         course_data_json[courseID] = course_json_data
 
     cursor.close()
-    connection.close()
+    conn.close()
     return course_data_json
 
 if __name__ == '__main__':

@@ -24,5 +24,10 @@
     "hooks": {
       "pre-commit": "lint-staged"
     }
+  },
+  "dependencies": {
+    "cypress": "^11.2.0",
+    "react-scripts": "^5.0.1",
+    "start": "^5.1.0"
   }
 }

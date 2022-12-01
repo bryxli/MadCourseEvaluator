@@ -1,6 +1,6 @@
 secret = 'not so secret key'
 
-# MySQL Database Credentials (Temporary)
+# MySQL Database Credentials
 user='bcd5a4d1040a6d'
 password='283995bc' 
 host='us-cdbr-east-06.cleardb.net'

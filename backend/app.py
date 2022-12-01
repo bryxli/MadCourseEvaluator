@@ -35,7 +35,7 @@ def AllCourses():
     for course in all_courses:
         course_json_data = {'cUID': None, 'cName': None, 'cCode': None}
         course_json_data['cUID'] = course[0]
-        course_json_data['cName'] = course[1]
+        course_json_data['cName'] = course[1] 
         course_json_data['cCode'] = course[3] 
         all_course_json_data[course_json_data['cUID']] = course_json_data
 
@@ -194,7 +194,6 @@ def gradeDistribution(cUID):
                     # print(grade_distribution["courseOfferings"][i]['sections'][j])
                     for k in range(len(grade_distribution["courseOfferings"][i]['sections'][j]['instructors'])):
                         # print(grade_distribution["courseOfferings"][i]['sections'][j]['instructors'][k])
-                        
                         API_prof_name = grade_distribution["courseOfferings"][i]['sections'][j]['instructors'][k]['name']
                         if "X / " in API_prof_name:
                             API_prof_name = API_prof_name.split("X / ")[1]
@@ -241,7 +240,7 @@ def professorCourses(pUID):
     list_courseID = cursor.fetchall()
 
     for courseID in list_courseID:
-        courseID = courseID[0]
+        courseID = str(courseID[0])
         cursor.execute("SELECT cName, cSubject, cCode, cCredits, cDescription, cReq FROM courses WHERE cUID = %s", (courseID,))
         course_data = cursor.fetchall()
         course_json_data = {'cName': None, 'cSubject': None, 'cCode': None, 'cCredits': None, 'cDescription': None, 'cReq': None} 

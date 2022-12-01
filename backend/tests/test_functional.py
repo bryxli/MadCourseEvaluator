@@ -127,10 +127,6 @@ class TestCourseRoutes(unittest.TestCase):
             link_request = requests.get(request.json[key]['comLink'])
             self.assertEqual(link_request.status_code, 200)
 
-    # TODO: We are getting an error when loading the professors names, for some instances 
-    # request.json['courseOfferings'][info]['sections'][section]['instructors'][0]['name'] 
-    # is returning more than one name. I believe this is a bug in the MadGrades API itself,
-    # but we should look into it further.
     def test_course_grade_distribution(self):
         cs577_cUID = test_config.cs577_cUID
         route = '/grade-distribution/'
@@ -145,6 +141,8 @@ class TestCourseRoutes(unittest.TestCase):
         self.assertEqual('courseOfferings' in request.json.keys(), True)
         self.assertEqual('courseUuid' in request.json.keys(), True)
         self.assertEqual('cumulative' in request.json.keys(), True)
+        self.assertEqual('professor_cumulative_grade_distribution' in request.json.keys(), True)
+
 
         # Assert that the per term course grade distribution data for courseOfferings contains expected keys
         for info in request.json['courseOfferings']:
@@ -154,16 +152,18 @@ class TestCourseRoutes(unittest.TestCase):
 
             # Assert that the per section course grade distribution data for courseOfferings contains instructors key with id and name for professor
             prof_list = []
+            marc_flag = 0 
             for section in range(len(info['sections'])):
-                print(info['sections'][section]['instructors'])
                 self.assertEqual(info['sections'][section]['instructors'][0]['id'] is not None, True)
                 self.assertEqual(info['sections'][section]['instructors'][0]['name'] is not None, True)
                 prof_list.append(info['sections'][section]['instructors'][0]['name'].lower().strip())
 
-            # Assert that the JSON returned contains at least the two known professors for this course
-            # print(prof_list)
-            # self.assertEqual('marc renault' in prof_list, True)
-            # self.assertEqual('eric bach' in prof_list, True)
+                print(info['sections'][section]['instructors'][0]['name'].lower().strip)
+
+                if 'marc renault' in info['sections'][section]['instructors'][0]['name'].lower().strip():
+                    marc_flag = 1
+        
+            self.assertEqual(marc_flag, 1)
 
 class TestProfRoutes(unittest.TestCase):
     """

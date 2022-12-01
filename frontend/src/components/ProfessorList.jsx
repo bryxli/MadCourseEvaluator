@@ -2,8 +2,11 @@ import React, { useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import { createSearchParams, useNavigate } from "react-router-dom";
 
 const ProfessorList = (props) => {
+  let navigate = useNavigate();
+
   const course = props.id;
 
   const [professorList, setProfessorList] = useState([]);
@@ -16,7 +19,8 @@ const ProfessorList = (props) => {
           const RMPRating = json[key].RMPRating;
           const dept = json[key].dept;
           const RMPRatingClass = json[key].RMPRatingClass;
-          professors.push({ name, RMPRating, dept, RMPRatingClass });
+          const id = key;
+          professors.push({ name, RMPRating, dept, RMPRatingClass, id });
         }
         setProfessorList(professors);
       })
@@ -27,7 +31,16 @@ const ProfessorList = (props) => {
     <div className="professor-list">
       {professorList.map((prof) => (
         <Container className="professor-list-item" /*key={prof.RMPID}*/>
-          <Row>
+          <Row
+            onClick={() => {
+              navigate({
+                pathname: "/instructor",
+                search: createSearchParams({
+                  id: prof.id,
+                }).toString(),
+              });
+            }}
+          >
             <Col>
               <Row>
                 <h6>

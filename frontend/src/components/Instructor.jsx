@@ -3,44 +3,43 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Header from "./Header";
-import { useNavigate } from "react-router-dom";
+import {
+  createSearchParams,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 
-const Instructor = ({ id }) => {
-  //sample id until professor component is connected to other pages
-  id = 125529;
+const Instructor = () => {
   let navigate = useNavigate();
-  const routeChange = (path) => {
-    navigate(path);
-  };
 
-  // IMPORTANT CHANGE NEEDED: there are two endpoints: /prof-info and /prof-courses
+  const [searchparams] = useSearchParams();
+  const professorID = searchparams.get("id");
+
   const [courses, setCourses] = useState([]);
   const [professor, setProfessor] = useState({});
   useEffect(() => {
-    fetch("/prof-info/" + id).then((response) =>
+    fetch("/prof-info/" + professorID).then((response) =>
       response.json().then((json) => {
-        var courses = [];
-        var courses_taught = json["courses-taught"];
-        for (var key in courses_taught) {
-          const id = key;
-          const code = courses_taught[key].cCode;
-          const name = courses_taught[key].cName;
-
-          courses.push({ id, code, name });
-        } //this converts the JSON object of courses-taught threads into an array
-        setCourses(courses);
-
-        setProfessor({
-          name: json.professor_data.name,
-          dept: json.professor_data.dept,
-          rating: json.professor_data.RMPRating,
-          id,
-          totalRatings: json.professor_data.RMPTotalRatings,
-          review: json.professor_data.RMPRatingClass,
-        });
+        setProfessor(json);
+      })
+    );
+    fetch("/prof-courses/" + professorID).then((response) =>
+      response.json().then((json) => {
+        console.log(json);
+        var classes = [];
+        for (var key in json) {
+          const classFull = {
+            code: json[key].cCode,
+            name: json[key].cName,
+            id: key,
+          };
+          classes.push(classFull);
+        }
+        setCourses(classes);
       })
     );
   }, []);
+
   return (
     <>
       <Container className="full">
@@ -64,24 +63,29 @@ const Instructor = ({ id }) => {
 
                 <h5 className="heading-style">
                   {"  - " +
-                    professor.rating +
+                    professor.RMPRating +
                     "/" +
-                    professor.totalRatings +
+                    professor.RMPTotalRatings +
                     "(" +
-                    professor.review +
+                    professor.RMPRatingClass +
                     ")"}
                 </h5>
               </Row>
             </Col>
           </Row>
-          <Row className="course-list">
-            {courses &&
-              courses.map((course) => (
+          {courses.length > 0 && (
+            <Row className="course-list">
+              {courses.map((course) => (
                 <p
                   className="course-list-item"
                   key={course.id}
                   onClick={() => {
-                    routeChange("/course/?id=" + course.id);
+                    navigate({
+                      pathname: "/course",
+                      search: createSearchParams({
+                        id: course.id,
+                      }).toString(),
+                    });
                   }}
                 >
                   <h4 className="course-id">
@@ -90,7 +94,8 @@ const Instructor = ({ id }) => {
                   </h4>
                 </p>
               ))}
-          </Row>
+            </Row>
+          )}
         </Container>
       </Container>
     </>

@@ -23,7 +23,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "flask": "cd ../frontend_route_test && flask run"
+    "flask": "cd ../backend && python app.py"
   },
   "eslintConfig": {
     "extends": [

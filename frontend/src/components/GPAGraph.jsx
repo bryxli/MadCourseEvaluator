@@ -10,20 +10,9 @@ import {
 } from "recharts";
 
 const GPAGraph = ({ id }) => {
-  // this is the fetch command to call the endpoint /distr/cUID assuming endpoint returns pre-formatted json file
-  // const [gradeDistribution, setGradeDistribution] = useState({});
-  /**  useEffect(() => {
-    fetch("/distr/" + course).then((response) =>
-      response.json().then((data) => {
-        setGradeDistribution(data);
-      })
-    );
-  }, []);
-  */
-
   const [graphInfo, setGraphInfo] = useState({});
 
-  //the returned gpa graph distribution for this course is converted into the required format for our graph API
+  // The returned gpa graph distribution for this course is converted into the required format for our graph API
   useEffect(() => {
     fetch("/grade-distribution/" + id).then((response) =>
       response.json().then((json) => {

@@ -14,7 +14,6 @@ const Course = () => {
 
   const [courseInfo, setCourseInfo] = useState({});
 
-  //the returned gpa graph distribution for this course is converted into the required format for our graph API
   useEffect(() => {
     fetch("/course-info/" + courseID).then((response) =>
       response.json().then((json) => {
@@ -23,10 +22,6 @@ const Course = () => {
     );
   }, []);
 
-  console.log(courseInfo);
-
-  // todo:create a GET request using course for course data, then pass in as props
-  // todo:after retrieving data, fill our heading-style, GPAGraph, Reddit, ProfessorList with props
   return (
     <Container className="full">
       <Row>

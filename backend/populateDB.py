@@ -42,7 +42,7 @@ def PopCourses(testing = False):
         start = time.time()
         print("----------PopCourses-----------")
 
-    file = open('./compsci_test_sample/comp_sci_test_courses.json', 'r') # Open the JSON file containing test CS courses
+    file = open('./major_test_sample/major_courses.json', 'r') # Open the JSON file containing test CS courses
     data = json.load(file)          # Load the JSON file into a dictionary
     cursor = conn.cursor()          # Create a cursor object to execute SQL queries
 
@@ -124,35 +124,39 @@ def PopRedditComments(testing = False):
         print("-------PopRedditComments-------")
 
     cursor = conn.cursor() 
-    cursor.execute("SELECT cUID, cName, cCode FROM courses") # Get the cUID, and cCode of all courses
+    cursor.execute("SELECT cUID, cName, cCode, cSubject FROM courses") # Get the cUID, and cCode of all courses
 
     courses = cursor.fetchall() # Store all course datac
 
     # Create a course acronym (DOCS: 1.1.2.4)
     for course in courses:
-        cNum = ''.join(filter(str.isdigit, course[2]))  # Extract all numeric characters from the course's code
-        search = course[2]
-        # Extract the first letter of all alphabetical characters in the course's code
-        acronym = ''
-        for word in course[2].split():
-            if word[0].isalpha():
-                acronym += word[0]
-                    
-        # Keyword analysis using full course code, or the courses acronym + course number (e.g. CS506 or CS 506)
-        for submission in uwmadison_subreddit.search(search, limit=50):
-            if (search.lower() in submission.title.lower()) or (acronym + cNum in submission.title) or (acronym + ' ' + cNum in submission.title): 
-                # A CommentForest is a list of top-level comments each of which contains a CommentForest of replies.
-                # Submission.comments attribute's comment forest (since each replacement requires a network request)
-
-                # Iterate through each top-level comment in the comment forest
-                for comment in submission.comments.list():
-                    if ((25 < len(comment.body) < 1000) and ((comment.score > 2) or (cNum in comment.body))):
-                        try:
-                            # Insert reddit comment into the database's rc table
-                            cursor.execute("INSERT INTO rc (cUID, comBody, comLink, comVotes) VALUES (%s, %s, %s, %s)", (course[0], comment.body, reddit_url+comment.permalink, comment.score,))
-                            conn.commit()
-                        except Exception as e: # cr:
-                            print(e)
+        if(course[3] == 'Statistics' or course[3] == 'Mathematics' or course[3] == 'Computer Sciences'): #only choose selective majors now
+            cNum = ''.join(filter(str.isdigit, course[2]))  # Extract all numeric characters from the course's code
+            search = course[2]
+            # Extract the first letter of all alphabetical characters in the course's code
+            acronym = ''
+            for word in course[2].split():
+                if word[0].isalpha():
+                    acronym += word[0]
+                        
+            # Keyword analysis using full course code, or the courses acronym + course number (e.g. CS506 or CS 506)
+            for submission in uwmadison_subreddit.search(search, limit=50):
+                if (search.lower() in submission.title.lower()) or (acronym + cNum in submission.title) or (acronym + ' ' + cNum in submission.title): 
+                    # A CommentForest is a list of top-level comments each of which contains a CommentForest of replies.
+                    # Submission.comments attribute's comment forest (since each replacement requires a network request)
+                    try:
+                    # Iterate through each top-level comment in the comment forest
+                        for comment in submission.comments.list():
+                            if ((25 < len(comment.body) < 1000) and ((comment.score > 2) or (cNum in comment.body))):
+                                
+                                    # Insert reddit comment into the database's rc table
+                                    cursor.execute("INSERT INTO rc (cUID, comBody, comLink, comVotes) VALUES (%s, %s, %s, %s)", (course[0], comment.body, reddit_url+comment.permalink, comment.score,))
+                                    conn.commit()
+                    except Exception as e: # cr:
+                        print(e)
+        else:
+            continue
+    
     cursor.close()
     if testing:
         print("PopRedditComments Runtime: ", time.time() - start, " seconds.")
@@ -210,20 +214,23 @@ def PopTeaches(testing = False):
 
         # For every professor that teaches a course, get their pUID and insert it into the teaches table for that course
         for professor in course_professors: 
-            prof_name = professor['name'] 
-            prof_name = prof_name.replace("X / ", "").replace("S / ", "") # Solution to a bug in the MadGrades API (depricated?)
+            try:
+                prof_name = professor['name'] 
+                prof_name = prof_name.replace("X / ", "").replace("S / ", "") # Solution to a bug in the MadGrades API (depricated?)
 
-            # Get the pUID of the professor
-            cursor.execute("SELECT pUID from professors where pName Like %s", (prof_name,))
-            pUID = cursor.fetchone()
+                # Get the pUID of the professor
+                cursor.execute("SELECT pUID from professors where pName Like %s", (prof_name,))
+                pUID = cursor.fetchone()
 
-            # If the professor is in the professors table, add them to the teaches table with the course's cUID
-            if pUID is not None:
-                try:
-                    cursor.execute("INSERT INTO teaches (cUID, pUID) VALUES (%s, %s)", (cUID, pUID[0],)) 
-                    conn.commit()
-                except Exception as e:
-                    print(e)
+                # If the professor is in the professors table, add them to the teaches table with the course's cUID
+                if pUID is not None:
+                    try:
+                        cursor.execute("INSERT INTO teaches (cUID, pUID) VALUES (%s, %s)", (cUID, pUID[0],)) 
+                        conn.commit()
+                    except Exception as e:
+                        print(e)
+            except Exception as e:
+                print(e)
                     # print("Error inserting into teaches table")
             # if testing and pUID is None:
                 # print("Professor not found in professors table: ", prof_name)
@@ -242,9 +249,9 @@ def PopDB(testing = False):
         print("-------------PopDB-------------")
         print("Populating Database...")
 
-    PopCourses(testing)
-    PopProfessors(testing)
-    PopRedditComments(testing)
+    # PopCourses(testing)
+    # PopProfessors(testing)
+    # PopRedditComments(testing)
     PopTeaches(testing)
 
     if testing:

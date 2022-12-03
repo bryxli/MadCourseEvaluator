@@ -130,34 +130,34 @@ def PopRedditComments(testing = False):
 
     # Create a course acronym (DOCS: 1.1.2.4)
     for course in courses:
-        
-        if(course[3] != 'Statistics' or course[3] != 'Mathematics' or course[3] != 'Computer Sciences'):
-            break
-        
-        cNum = ''.join(filter(str.isdigit, course[2]))  # Extract all numeric characters from the course's code
-        search = course[2]
-        print(search)
-        # Extract the first letter of all alphabetical characters in the course's code
-        acronym = ''
-        for word in course[2].split():
-            if word[0].isalpha():
-                acronym += word[0]
-                    
-        # Keyword analysis using full course code, or the courses acronym + course number (e.g. CS506 or CS 506)
-        for submission in uwmadison_subreddit.search(search, limit=50):
-            if (search.lower() in submission.title.lower()) or (acronym + cNum in submission.title) or (acronym + ' ' + cNum in submission.title): 
-                # A CommentForest is a list of top-level comments each of which contains a CommentForest of replies.
-                # Submission.comments attribute's comment forest (since each replacement requires a network request)
+        if(course[3] == 'Statistics' or course[3] == 'Mathematics' or course[3] == 'Computer Sciences'):
+            cNum = ''.join(filter(str.isdigit, course[2]))  # Extract all numeric characters from the course's code
+            search = course[2]
+            print(search)
+            # Extract the first letter of all alphabetical characters in the course's code
+            acronym = ''
+            for word in course[2].split():
+                if word[0].isalpha():
+                    acronym += word[0]
+                        
+            # Keyword analysis using full course code, or the courses acronym + course number (e.g. CS506 or CS 506)
+            for submission in uwmadison_subreddit.search(search, limit=50):
+                if (search.lower() in submission.title.lower()) or (acronym + cNum in submission.title) or (acronym + ' ' + cNum in submission.title): 
+                    # A CommentForest is a list of top-level comments each of which contains a CommentForest of replies.
+                    # Submission.comments attribute's comment forest (since each replacement requires a network request)
 
-                # Iterate through each top-level comment in the comment forest
-                for comment in submission.comments.list():
-                    if ((25 < len(comment.body) < 1000) and ((comment.score > 2) or (cNum in comment.body))):
-                        try:
-                            # Insert reddit comment into the database's rc table
-                            cursor.execute("INSERT INTO rc (cUID, comBody, comLink, comVotes) VALUES (%s, %s, %s, %s)", (course[0], comment.body, reddit_url+comment.permalink, comment.score,))
-                            conn.commit()
-                        except Exception as e: # cr:
-                            print(e)
+                    # Iterate through each top-level comment in the comment forest
+                    for comment in submission.comments.list():
+                        if ((25 < len(comment.body) < 1000) and ((comment.score > 2) or (cNum in comment.body))):
+                            try:
+                                # Insert reddit comment into the database's rc table
+                                cursor.execute("INSERT INTO rc (cUID, comBody, comLink, comVotes) VALUES (%s, %s, %s, %s)", (course[0], comment.body, reddit_url+comment.permalink, comment.score,))
+                                conn.commit()
+                            except Exception as e: # cr:
+                                print(e)
+        else:
+            continue
+    
     cursor.close()
     if testing:
         print("PopRedditComments Runtime: ", time.time() - start, " seconds.")

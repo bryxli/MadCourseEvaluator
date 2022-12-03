@@ -1,10 +1,10 @@
 secret = 'not so secret key'
 
 # MySQL Database Credentials
-user='bcd5a4d1040a6d'
-password='283995bc' 
-host='us-cdbr-east-06.cleardb.net'
-database='heroku_ae568016731f968'
+user='root'
+password='jia4dream@' 
+host='127.0.0.1'
+database='course'
 
 # Python Reddit API Wrapper
 PRAW_client_id = 'T6u5hwv_zwez-RrT33NCaA'

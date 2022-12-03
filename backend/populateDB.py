@@ -130,7 +130,7 @@ def PopRedditComments(testing = False):
 
     # Create a course acronym (DOCS: 1.1.2.4)
     for course in courses:
-        if(course[3] == 'Statistics' or course[3] == 'Mathematics' or course[3] == 'Computer Sciences'):
+        if(course[3] == 'Statistics' or course[3] == 'Mathematics' or course[3] == 'Computer Sciences'): #only choose selective majors now
             cNum = ''.join(filter(str.isdigit, course[2]))  # Extract all numeric characters from the course's code
             search = course[2]
             print(search)

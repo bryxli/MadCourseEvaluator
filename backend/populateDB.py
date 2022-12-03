@@ -42,7 +42,7 @@ def PopCourses(testing = False):
         start = time.time()
         print("----------PopCourses-----------")
 
-    file = open('./compsci_test_sample/comp_sci_test_courses.json', 'r') # Open the JSON file containing test CS courses
+    file = open('./major_test_sample/major_courses.json', 'r') # Open the JSON file containing test CS courses
     data = json.load(file)          # Load the JSON file into a dictionary
     cursor = conn.cursor()          # Create a cursor object to execute SQL queries
 
@@ -124,14 +124,19 @@ def PopRedditComments(testing = False):
         print("-------PopRedditComments-------")
 
     cursor = conn.cursor() 
-    cursor.execute("SELECT cUID, cName, cCode FROM courses") # Get the cUID, and cCode of all courses
+    cursor.execute("SELECT cUID, cName, cCode, cSubject FROM courses") # Get the cUID, and cCode of all courses
 
     courses = cursor.fetchall() # Store all course datac
 
     # Create a course acronym (DOCS: 1.1.2.4)
     for course in courses:
+        
+        if(course[3] != 'Statistics' or course[3] != 'Mathematics' or course[3] != 'Computer Sciences'):
+            break
+        
         cNum = ''.join(filter(str.isdigit, course[2]))  # Extract all numeric characters from the course's code
         search = course[2]
+        print(search)
         # Extract the first letter of all alphabetical characters in the course's code
         acronym = ''
         for word in course[2].split():
@@ -242,10 +247,10 @@ def PopDB(testing = False):
         print("-------------PopDB-------------")
         print("Populating Database...")
 
-    PopCourses(testing)
-    PopProfessors(testing)
+    #PopCourses(testing)
+    #PopProfessors(testing)
     PopRedditComments(testing)
-    PopTeaches(testing)
+    #PopTeaches(testing)
 
     if testing:
         print("Database Populated.")

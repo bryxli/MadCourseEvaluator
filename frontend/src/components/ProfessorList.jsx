@@ -29,7 +29,7 @@ const ProfessorList = ({ professorList }) => {
               });
             }}
           >
-            <Col xs={prof.graph && prof.graph.length === 0 ? 12 : undefined}>
+            <Col xs={prof.graph && prof.graph.length > 0 ? 12 : undefined}>
               <Row xs={12}>
                 <h6 className="center">
                   <b>{prof.name}</b>
@@ -57,7 +57,7 @@ const ProfessorList = ({ professorList }) => {
                 </h6>
               </Row>
             </Col>
-            {prof.graph && prof.graph.length === 0 && (
+            {prof.graph && prof.graph.length > 0 && (
               <Col xs={9}>
                 <BarChart width={300} height={200} data={prof.graph}>
                   <CartesianGrid strokeDasharray="3 3" />

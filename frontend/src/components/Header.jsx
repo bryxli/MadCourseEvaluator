@@ -9,12 +9,12 @@ const Header = () => {
   return (
     <Container className="full">
       <Row>
-        <Col className="header-text" xs={9}>
+        <Col className="header-text">
           <LinkContainer to="/">
             <h3>Madger Courses</h3>
           </LinkContainer>
         </Col>
-        <Col xs={2}>
+        <Col>
           <Search />
         </Col>
       </Row>

@@ -9,7 +9,7 @@ const Search = () => {
   const [classList, setClassList] = useState([]);
   const [profList, setProfList] = useState([]);
   useEffect(() => {
-    fetch("/all-courses").then((response) =>
+    fetch("https://madcourseevaluator.herokuapp.com/all-courses").then((response) =>
       response.json().then((json) => {
         var classes = [];
         for (var key in json) {
@@ -25,7 +25,7 @@ const Search = () => {
         setClassList(classes);
       })
     );
-    fetch("/all-profs").then((response) =>
+    fetch("https://madcourseevaluator.herokuapp.com/all-profs").then((response) =>
       response.json().then((json) => {
         var professors = [];
         for (var key in json) {

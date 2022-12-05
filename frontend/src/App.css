@@ -2,19 +2,23 @@ html,
 body,
 #root {
   font-family: Inter;
-  height: 100%;
+  min-height: 100%;
 }
 
 .container {
   max-width: 100%;
   margin: 0;
   padding: 0;
-  overflow: hidden;
 }
 
 .full {
   width: 100%;
   height: 100%;
+}
+
+.center {
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .header-text {
@@ -23,10 +27,9 @@ body,
   color: #000000;
   line-height: 100%;
   font-size: xx-large;
-  gap: 65%;
-  margin-top: 0.3%;
-  padding-left: 3%;
-  padding-right: 3%;
+  gap: 66%;
+  width: 100%;
+
 }
 
 .rbt-home {
@@ -53,12 +56,13 @@ body,
   width: 100%;
   display: flex;
   flex-direction: column;
-  padding: 1.3%;
+  padding: 2%;
+  overflow-x: hidden;
 }
 
 .pink-box {
   background-image: linear-gradient(239.54deg, #d9d9d9 12.81%, #ff7787 100.59%);
-  height: 100%;
+  height: 96vh;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -72,6 +76,10 @@ body,
   border-radius: 3%;
 }
 
+.reddit-box {
+  padding: 1%;
+}
+
 .reddit-box-header {
   display: flex;
   flex-direction: row;
@@ -82,10 +90,11 @@ body,
 
 .reddit-box-body {
   overflow: auto;
-  height: 30%;
+  height: 40vh;
   background: white;
   margin-bottom: 3%;
-  width: 80%;
+  width: 100%;
+  padding: 2%;
   border-radius: 4%;
 }
 
@@ -108,6 +117,7 @@ body,
   display: flex;
   gap: 3%;
   cursor: pointer;
+  background-color: white;
 }
 
 .reddit-list-item {
@@ -115,6 +125,7 @@ body,
   border-bottom: 4px solid #d9d9d9;
   margin-bottom: 2%;
   cursor: pointer;
+  background-color: white;
 }
 
 .heading-style {
@@ -180,10 +191,14 @@ body,
   width: 50%;
 }
 
+.professor-list-container {
+  height: 100%;
+}
+
 .professor-list {
   overflow-y: auto;
-  height: 680px;
-  background: white;
+  max-height: 94vh;
+  background: rgba(255, 255, 255);
   margin-bottom: 3%;
   width: 80%;
   border-radius: 4%;
@@ -193,5 +208,29 @@ body,
   padding: 20px;
   padding-left: 40px;
   border-bottom: 4px solid #d9d9d9;
+  width: 100%;
   cursor: pointer;
+}
+
+.header {
+  position: "fixed";
+}
+
+@media only screen and (max-width: 600px) {
+  .grey-box {
+    padding: 8%;
+  }
+
+  .white-box {
+    padding: 6%;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .grey-box {
+    padding: 4%;
+  }
+  .white-box {
+    padding: 4%;
+  }
 }

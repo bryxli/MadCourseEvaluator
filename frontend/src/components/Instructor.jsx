@@ -18,12 +18,12 @@ const Instructor = () => {
   const [courses, setCourses] = useState([]);
   const [professor, setProfessor] = useState({});
   useEffect(() => {
-    fetch("/prof-info/" + professorID).then((response) =>
+    fetch("https://madcourseevaluator.herokuapp.com/prof-info/" + professorID).then((response) =>
       response.json().then((json) => {
         setProfessor(json);
       })
     );
-    fetch("/prof-courses/" + professorID).then((response) =>
+    fetch("https://madcourseevaluator.herokuapp.com/prof-courses/" + professorID).then((response) =>
       response.json().then((json) => {
         console.log(json);
         var classes = [];

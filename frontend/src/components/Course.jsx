@@ -188,7 +188,7 @@ const Course = () => {
             )}
 
             {redditList && redditList.length > 0 ? (
-              <Row className="reddit-box">
+              <Row xs={12} md={6} className="reddit-box">
                 <Reddit redditList={redditList} />
               </Row>
             ) : (
@@ -200,7 +200,7 @@ const Course = () => {
               <Row>
                 <h5 className="bold-heading-style">Instructors</h5>
               </Row>
-              <Row className="professor-list-container">
+              <Row xs={12} lg={6} className="professor-list-container">
                 {<ProfessorList professorList={professorList} />}
               </Row>
             </Col>

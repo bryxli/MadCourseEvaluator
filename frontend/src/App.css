@@ -3,6 +3,7 @@ body,
 #root {
   font-family: Inter;
   min-height: 100%;
+  overflow-x: hidden;
 }
 
 .container {
@@ -29,7 +30,7 @@ body,
   font-size: xx-large;
   gap: 66%;
   width: 100%;
-
+  margin-left: 2%;
 }
 
 .rbt-home {
@@ -47,7 +48,7 @@ body,
   font-size: xx-large;
   gap: 65%;
   margin-top: 1%;
-  padding: 1%;
+  padding: 5%;
 }
 
 .grey-box {
@@ -78,6 +79,7 @@ body,
 
 .reddit-box {
   padding: 1%;
+  width:100%;
 }
 
 .reddit-box-header {
@@ -90,7 +92,7 @@ body,
 
 .reddit-box-body {
   overflow: auto;
-  height: 40vh;
+  height: 52vh;
   background: white;
   margin-bottom: 3%;
   width: 100%;
@@ -200,7 +202,7 @@ body,
   max-height: 94vh;
   background: rgba(255, 255, 255);
   margin-bottom: 3%;
-  width: 80%;
+  width: 100%;
   border-radius: 4%;
 }
 
@@ -221,8 +223,17 @@ body,
     padding: 8%;
   }
 
-  .white-box {
-    padding: 6%;
+  .header-text {
+    margin-left: 4%;
+  }
+
+  .professor-list-item{
+    padding:0;
+  }
+
+  .reddit-box{
+    margin-left:"auto";
+    margin-right:"auto";
   }
 }
 
@@ -230,7 +241,7 @@ body,
   .grey-box {
     padding: 4%;
   }
-  .white-box {
-    padding: 4%;
+  .header-text {
+    margin-left: 6%;
   }
 }

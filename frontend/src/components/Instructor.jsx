@@ -55,7 +55,7 @@ const Instructor = () => {
         <Header />
       </Row>
 
-      <Container className="pink-box2">
+      <Container className="black-box2">
         {/* Add a white card around prof information */}
         <div className="card">
           {/* Create a container to display the professor information and centers the information*/}
@@ -116,7 +116,9 @@ const Instructor = () => {
 
         <div style={{ textAlign: "center", paddingTop: "50px" }}>
           {/* Add a header that says Recently Taught Courses */}
-          <h5 className="bold-heading-style">Previously Taught Courses:</h5>
+          <h5 className="bold-heading-style">
+            Previously Taught Courses ({courses.length} courses found):
+          </h5>
         </div>
 
         {/* For each course in the courses array, create a new row with the course code and the course name */}

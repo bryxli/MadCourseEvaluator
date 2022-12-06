@@ -13,7 +13,9 @@ const Home = () => {
       <Container className="black-box">
         <Row>
           <h1>
-            <b>MadCourseEvaluator</b>
+            <b style={{ textShadow: ".6px .6px .6px #fff" }}>
+              MadCourseEvaluator
+            </b>
           </h1>
         </Row>
         <Row>

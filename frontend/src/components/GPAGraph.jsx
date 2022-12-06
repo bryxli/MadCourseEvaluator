@@ -9,8 +9,9 @@ import {
   Bar,
 } from "recharts";
 
+// GPAGraph: displays a BAR graph based on info passed in through graphInfo
 const GPAGraph = ({ graphInfo }) => {
-  //displaying a BAR graph
+  // graphInfo set in Course component
   return (
     <BarChart width={400} height={250} data={graphInfo}>
       <CartesianGrid strokeDasharray="3 3" />

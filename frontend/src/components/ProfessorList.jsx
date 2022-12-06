@@ -12,6 +12,11 @@ import {
   Legend,
   Bar,
 } from "recharts";
+
+// ProfessorList: Contains each instructor that teaches a particular course, as
+//    well as their department, rate my professor rating, average GPA, and a
+//    graph showing their average grade distribution for the class (GPAGraph)
+// This component is used by Course
 const ProfessorList = ({ professorList }) => {
   let navigate = useNavigate();
 

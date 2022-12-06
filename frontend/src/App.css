@@ -30,7 +30,12 @@ body,
   font-size: xx-large;
   gap: 66%;
   width: 100%;
-  margin-left: 2%;
+  margin-left: 10px;
+}
+
+.header-container {
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .rbt-home {
@@ -79,7 +84,7 @@ body,
 
 .reddit-box {
   padding: 1%;
-  width:100%;
+  width: 100%;
 }
 
 .reddit-box-header {
@@ -204,7 +209,7 @@ body,
   margin-bottom: 3%;
   width: 100%;
   border-radius: 4%;
-  height:fit-content;
+  height: fit-content;
 }
 
 .professor-list-item {
@@ -219,31 +224,37 @@ body,
   position: "fixed";
 }
 
+.header-logo {
+  display: none;
+}
+
 @media only screen and (max-width: 600px) {
   .grey-box {
     padding: 8%;
   }
 
+  .header-logo {
+    display: contents;
+    padding-left: 20px;
+  }
+
   .header-text {
-    margin-left: 4%;
+    display: none;
   }
 
-  .professor-list-item{
-    padding:0;
+  .professor-list-item {
+    padding: 0;
   }
 
-  .reddit-box{
-    margin-left:"auto";
-    margin-right:"auto";
-    height:fit-content;
+  .reddit-box {
+    margin-left: "auto";
+    margin-right: "auto";
+    height: fit-content;
   }
 }
 
 @media only screen and (max-width: 800px) {
   .grey-box {
     padding: 4%;
-  }
-  .header-text {
-    margin-left: 6%;
   }
 }

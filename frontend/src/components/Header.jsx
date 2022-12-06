@@ -5,6 +5,8 @@ import Col from "react-bootstrap/Col";
 import Search from "./Search";
 import { LinkContainer } from "react-router-bootstrap";
 
+// header: white bar with Madger Courses text that links back to homepage
+// contains search bar on left
 const Header = () => {
   return (
     <Container className="full">

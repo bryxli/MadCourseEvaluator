@@ -13,13 +13,11 @@ const Home = () => {
       <Container className="black-box">
         <Row>
           <h1>
-            <b style={{ textShadow: ".3px .3px .3px #fff" }}>
-              MadCourseEvaluator
-            </b>
+            <b>MadCourseEvaluator</b>
           </h1>
         </Row>
         <Row>
-          <h4 style={{ textShadow: ".2px .2px .2px #fff" }}>
+          <h4 style={{ XtextShadow: ".2px .2px .2px #fff" }}>
             Detailed Course information at your fingertips
           </h4>
         </Row>

@@ -116,10 +116,7 @@ const Instructor = () => {
 
         <div style={{ textAlign: "center", paddingTop: "50px" }}>
           {/* Add a header that says Recently Taught Courses */}
-          <h5
-            className="bold-heading-style"
-            style={{ textShadow: ".3px .3px .3px #fff" }}
-          >
+          <h5 className="bold-heading-style">
             Previously Taught Courses ({courses.length} courses found):
           </h5>
         </div>

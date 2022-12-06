@@ -21,7 +21,7 @@ const Course = () => {
 
   useEffect(() => {
     fetch(
-      "https://madcourseevaluator.herokuapp.com/grade-distribution/" + courseID
+      "http://127.0.0.1:5000/grade-distribution/" + courseID
     )
       .then((response) =>
         response.json().then((json) => {
@@ -35,7 +35,7 @@ const Course = () => {
   }, [courseInfo]);
 
   useEffect(() => {
-    fetch("https://madcourseevaluator.herokuapp.com/course-profs/" + courseID)
+    fetch("http://127.0.0.1:5000/course-profs/" + courseID)
       .then((response) =>
         response.json().then((json) => {
           var professors = [];
@@ -89,7 +89,7 @@ const Course = () => {
 
   useEffect(() => {
     fetch(
-      "https://madcourseevaluator.herokuapp.com/course-info/" + courseID
+      "http://127.0.0.1:5000/course-info/" + courseID
     ).then((response) =>
       response.json().then((json) => {
         setCourseInfo(json);
@@ -99,7 +99,7 @@ const Course = () => {
 
   useEffect(() => {
     fetch(
-      "https://madcourseevaluator.herokuapp.com/reddit-comments/" + courseID
+      "http://127.0.0.1:5000/reddit-comments/" + courseID
     ).then((response) =>
       response.json().then((json) => {
         var comments = [];
@@ -122,7 +122,7 @@ const Course = () => {
   // The returned gpa graph distribution for this course is converted into the required format for our graph API
   useEffect(() => {
     fetch(
-      "https://madcourseevaluator.herokuapp.com/grade-distribution/" + courseID
+      "http://127.0.0.1:5000/grade-distribution/" + courseID
     ).then((response) =>
       response.json().then((json) => {
         if (json && json.cumulative) {

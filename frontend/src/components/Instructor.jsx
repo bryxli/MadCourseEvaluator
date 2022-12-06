@@ -16,7 +16,7 @@ const Instructor = () => {
   useEffect(() => {
     // fetch the professor RMP data
     fetch(
-      "https://madcourseevaluator.herokuapp.com/prof-info/" + professorID
+      "http://127.0.0.1:5000/prof-info/" + professorID
     ).then((response) =>
       response.json().then((json) => {
         setProfessor(json); // set the professor state as the json response
@@ -25,7 +25,7 @@ const Instructor = () => {
 
     // fetch the courses RMP data
     fetch(
-      "https://madcourseevaluator.herokuapp.com/prof-courses/" + professorID
+      "http://127.0.0.1:5000/prof-courses/" + professorID
     ).then((response) =>
       response.json().then((json) => {
         console.log(json); // log the json response

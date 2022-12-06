@@ -2,7 +2,7 @@ import React from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { createSearchParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   BarChart,
   CartesianGrid,
@@ -14,7 +14,7 @@ import {
 } from "recharts";
 const ProfessorList = ({ professorList }) => {
   let navigate = useNavigate();
-
+  console.log(professorList);
   return (
     <div className="professor-list">
       {professorList.map((prof) => (

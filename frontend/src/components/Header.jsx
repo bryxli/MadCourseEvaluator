@@ -24,7 +24,7 @@ const Header = () => {
           <Col className="header-start">
             <img className="header-logo" src="/teamLogo.png" alt="team-logo" />
 
-            <h3 className="header-text">UW Madison</h3>
+            <h3 className="header-text">  UW </h3>
           </Col>
         </LinkContainer>
         {!isHome && (

@@ -49,6 +49,7 @@ const Search = () => {
 
   // Submit button navigation
   const navigate = useNavigate();
+  
   const submit = (e) => {
     e.preventDefault();
     if (classList.includes(selected[0])) {

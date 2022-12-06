@@ -1,22 +1,43 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Search from "./Search";
 import { LinkContainer } from "react-router-bootstrap";
+import { useLocation } from "react-router-dom";
 
 const Header = () => {
+  let location = useLocation();
+  const [isHome, setIsHome] = useState(location);
+
+  React.useEffect(() => {
+    // Google Analytics
+    console.log(location.pathname);
+    if (location.pathname === "/") setIsHome(true);
+    else setIsHome(false);
+  }, [location]);
+
   return (
     <Container className="full">
       <Row>
-        <Col className="header-text">
-          <LinkContainer to="/">
-            <h3>Madger Courses</h3>
-          </LinkContainer>
-        </Col>
-        <Col>
-          <Search />
-        </Col>
+        <LinkContainer to="/">
+          <Col className="header-start">
+            <img
+              className="header-logo"
+              height="10px"
+              width="10px"
+              src="/teamLogo.ico"
+              alt="team-logo"
+            />
+
+            <h3 className="header-text">Madger Courses</h3>
+          </Col>
+        </LinkContainer>
+        {!isHome && (
+          <Col>
+            <Search />
+          </Col>
+        )}
       </Row>
     </Container>
   );

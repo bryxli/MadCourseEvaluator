@@ -22,15 +22,9 @@ body,
   margin-right: auto;
 }
 
-.header-text {
-  display: flex;
-  flex-direction: column;
-  color: #000000;
-  line-height: 100%;
-  font-size: xx-large;
-  gap: 66%;
-  width: 100%;
-  margin-left: 2%;
+.header-container {
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .rbt-home {
@@ -79,7 +73,7 @@ body,
 
 .reddit-box {
   padding: 1%;
-  width:100%;
+  width: 100%;
 }
 
 .reddit-box-header {
@@ -138,52 +132,6 @@ body,
   font-weight: bolder !important;
 }
 
-.search-box {
-  width: 30%;
-  color: black;
-  outline: none;
-  display: flex;
-  padding: 2px;
-  border: 1px solid currentColor;
-  border-radius: 5px;
-}
-
-.search-box input[type="search"] {
-  border: none;
-  background: transparent;
-  margin: 0;
-  padding: 7px 8px;
-  font-size: 14px;
-  color: inherit;
-  border: 1px solid transparent;
-  border-radius: inherit;
-  width: 90%;
-}
-
-.search-box button[type="submit"] {
-  text-indent: -999px;
-  overflow: hidden;
-  width: 40px;
-  padding: 0;
-  margin: 0;
-  border: 1px solid transparent;
-  border-radius: inherit;
-  background: transparent
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' class='bi bi-search' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z'%3E%3C/path%3E%3C/svg%3E")
-    no-repeat center;
-  cursor: pointer;
-  opacity: 0.8;
-}
-
-.search-box button[type="submit"]:hover {
-  opacity: 1;
-}
-
-.search-box button[type="submit"]:focus,
-.search-box input[type="search"]:focus {
-  outline: none !important;
-}
-
 .pink-box h1,
 .pink-box h4 {
   font-weight: 400;
@@ -204,7 +152,7 @@ body,
   margin-bottom: 3%;
   width: 100%;
   border-radius: 4%;
-  height:fit-content;
+  height: fit-content;
 }
 
 .professor-list-item {
@@ -215,8 +163,26 @@ body,
   cursor: pointer;
 }
 
-.header {
-  position: "fixed";
+.header-logo {
+  height: 55px;
+  width: 50px;
+  align-self: center;
+}
+
+.header-start {
+  margin-left: 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 1%;
+  cursor:pointer;
+}
+
+.header-text {
+  color: #000000;
+  line-height: 100%;
+  font-size: xx-large;
+  width: 100%;
+  align-self: center;
 }
 
 @media only screen and (max-width: 600px) {
@@ -225,25 +191,22 @@ body,
   }
 
   .header-text {
-    margin-left: 4%;
+    display: none;
   }
 
-  .professor-list-item{
-    padding:0;
+  .professor-list-item {
+    padding: 0;
   }
 
-  .reddit-box{
-    margin-left:"auto";
-    margin-right:"auto";
-    height:fit-content;
+  .reddit-box {
+    margin-left: "auto";
+    margin-right: "auto";
+    height: fit-content;
   }
 }
 
 @media only screen and (max-width: 800px) {
   .grey-box {
     padding: 4%;
-  }
-  .header-text {
-    margin-left: 6%;
   }
 }

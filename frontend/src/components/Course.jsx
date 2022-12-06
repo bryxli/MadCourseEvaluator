@@ -8,7 +8,11 @@ import GPAGraph from "./GPAGraph";
 import Reddit from "./Reddit";
 import ProfessorList from "./ProfessorList";
 
-// when in course page, pssing in a new search parameter does not rerender the data (also applies to professor page)
+// Course: displays Header and all course info: basic course info,
+//    cumulative GPA graph, list of reddit comments, and info on instructors
+//    that teach that course.
+// when in course page, pssing in a new search parameter does not rerender the
+//    data (also applies to professor page)
 const Course = () => {
   const courseID = useParams().id;
 
@@ -19,6 +23,7 @@ const Course = () => {
   const [professorList, setProfessorList] = useState([]);
   const [profGraphInfo, setProfGraphInfo] = useState([]);
 
+  // fetch professor grade distribution to use in GPAGraph
   useEffect(() => {
     fetch(
       "https://madcourseevaluator.herokuapp.com/grade-distribution/" + courseID
@@ -33,6 +38,7 @@ const Course = () => {
       .catch((e) => console.log("error while calling grade-distribution API"));
   }, [courseInfo]);
 
+  // fetch professor list and professor GPA info to be used in ProfessorList
   useEffect(() => {
     fetch("https://madcourseevaluator.herokuapp.com/course-profs/" + courseID)
       .then((response) =>
@@ -76,6 +82,7 @@ const Course = () => {
     console.log(professorList);
   }, [profGraphInfo]);
 
+  // fetch course info
   useEffect(() => {
     fetch(
       "https://madcourseevaluator.herokuapp.com/course-info/" + courseID
@@ -86,6 +93,7 @@ const Course = () => {
     );
   }, []);
 
+  // fetch Reddit comments to be used in Reddit component, sorting by popularity
   useEffect(() => {
     fetch(
       "https://madcourseevaluator.herokuapp.com/reddit-comments/" + courseID
@@ -108,7 +116,8 @@ const Course = () => {
     );
   }, [courseInfo]);
 
-  // The returned gpa graph distribution for this course is converted into the required format for our graph API
+  // The returned gpa graph distribution for this course is converted into the
+  //    required format for our graph API
   useEffect(() => {
     fetch(
       "https://madcourseevaluator.herokuapp.com/grade-distribution/" + courseID

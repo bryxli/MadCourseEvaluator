@@ -7,7 +7,7 @@ import { LinkContainer } from "react-router-bootstrap";
 
 // header: white bar with Madger Courses text that links back to homepage
 //    contains search bar on left
-// this component is used by Course and Home
+// this component is used by Course, Instructor and Home
 const Header = () => {
   return (
     <Container className="full">

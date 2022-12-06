@@ -22,15 +22,9 @@ const Header = () => {
       <Row>
         <LinkContainer to="/">
           <Col className="header-start">
-            <img
-              className="header-logo"
-              height="10px"
-              width="10px"
-              src="/teamLogo.ico"
-              alt="team-logo"
-            />
+            <img className="header-logo" src="/teamLogo.png" alt="team-logo" />
 
-            <h3 className="header-text">Madger Courses</h3>
+            <h3 className="header-text">UW Madison</h3>
           </Col>
         </LinkContainer>
         {!isHome && (

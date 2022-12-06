@@ -14,8 +14,8 @@ function App() {
       <Router>
         <Routes>
           <Route exact path="/" element={<Home />} />
-          <Route path="/course" element={<Course />} />
-          <Route path="/instructor" element={<Instructor />} />
+          <Route path="/course/:id" element={<Course />} />
+          <Route path="/instructor/:id" element={<Instructor />} />
         </Routes>
       </Router>
     </>

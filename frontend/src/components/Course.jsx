@@ -8,6 +8,7 @@ import GPAGraph from "./GPAGraph";
 import Reddit from "./Reddit";
 import ProfessorList from "./ProfessorList";
 
+// when in course page, pssing in a new search parameter does not rerender the data (also applies to professor page)
 const Course = () => {
   const [searchparams] = useSearchParams();
   const courseID = searchparams.get("id");
@@ -129,7 +130,6 @@ const Course = () => {
     );
   }, [courseInfo]);
 
-  console.log(graphInfo && graphInfo.length > 0);
   return (
     <Container className="full">
       <Row>
@@ -188,11 +188,13 @@ const Course = () => {
             )}
 
             {redditList && redditList.length > 0 ? (
-              <Row className="reddit-box">
+              <Row xs={12} md={6} className="reddit-box">
                 <Reddit redditList={redditList} />
               </Row>
             ) : (
-              <></>
+              <h5 className="heading-style">
+                No reddit threads found for this course
+              </h5>
             )}
           </Col>
           {professorList && professorList.length > 0 ? (
@@ -200,12 +202,16 @@ const Course = () => {
               <Row>
                 <h5 className="bold-heading-style">Instructors</h5>
               </Row>
-              <Row className="professor-list-container">
+              <Row xs={12} lg={6} className="professor-list-container">
                 {<ProfessorList professorList={professorList} />}
               </Row>
             </Col>
           ) : (
-            <></>
+            <>
+              <h5 className="heading-style">
+                No Intructor Info found for this course
+              </h5>
+            </>
           )}
         </Row>
       </Container>

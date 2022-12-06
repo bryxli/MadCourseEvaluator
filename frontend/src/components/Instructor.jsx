@@ -3,27 +3,26 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Header from "./Header";
-import {
-  createSearchParams,
-  useNavigate,
-  useSearchParams,
-} from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 const Instructor = () => {
   let navigate = useNavigate();
 
-  const [searchparams] = useSearchParams();
-  const professorID = searchparams.get("id");
+  const professorID = useParams().id;
 
   const [courses, setCourses] = useState([]);
   const [professor, setProfessor] = useState({});
   useEffect(() => {
-    fetch("https://madcourseevaluator.herokuapp.com/prof-info/" + professorID).then((response) =>
+    fetch(
+      "https://madcourseevaluator.herokuapp.com/prof-info/" + professorID
+    ).then((response) =>
       response.json().then((json) => {
         setProfessor(json);
       })
     );
-    fetch("https://madcourseevaluator.herokuapp.com/prof-courses/" + professorID).then((response) =>
+    fetch(
+      "https://madcourseevaluator.herokuapp.com/prof-courses/" + professorID
+    ).then((response) =>
       response.json().then((json) => {
         console.log(json);
         var classes = [];
@@ -81,10 +80,7 @@ const Instructor = () => {
                   key={course.id}
                   onClick={() => {
                     navigate({
-                      pathname: "/course",
-                      search: createSearchParams({
-                        id: course.id,
-                      }).toString(),
+                      pathname: `/course/${course.id}`,
                     });
                   }}
                 >

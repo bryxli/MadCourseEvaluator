@@ -3,15 +3,14 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Header from "./Header";
-import { useSearchParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import GPAGraph from "./GPAGraph";
 import Reddit from "./Reddit";
 import ProfessorList from "./ProfessorList";
 
 // when in course page, pssing in a new search parameter does not rerender the data (also applies to professor page)
 const Course = () => {
-  const [searchparams] = useSearchParams();
-  const courseID = searchparams.get("id");
+  const courseID = useParams().id;
 
   const [courseInfo, setCourseInfo] = useState({});
   const [redditList, setRedditList] = useState([]);

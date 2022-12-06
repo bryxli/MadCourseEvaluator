@@ -73,6 +73,7 @@ body,
   padding-bottom: 10%;
 }
 
+/*  NEW Down */
 .pink-box2 {
   background-image: linear-gradient(239.54deg, #d9d9d9 12.81%, #ff7787 100.59%);
   height: 100%;
@@ -92,6 +93,48 @@ body,
   border-radius: 5px; /* 5px rounded corners */
   text-align: center;
 }
+
+/* Add a black background color to the top navigation */
+.topnav {
+  background-color: black;
+  overflow: hidden;
+}
+
+/* Style the links inside the navigation bar */
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 25px;
+}
+
+/* Change the color of links on hover */
+.topnav a:hover {
+  background-color: #fff;
+  color: black;
+}
+
+/* Add a color to the active/current link */
+.topnav a.active {
+  background-color: black;
+  color: white;
+}
+
+.black-box {
+  background-image: linear-gradient(239.54deg, #d9d9d9 12.81%, black 100.59%);
+  height: 96vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3%;
+  padding-bottom: 10%;
+}
+
+/* NEW Up */
 
 .graph-box {
   border-radius: 3%;

@@ -8,16 +8,13 @@ import { LinkContainer } from "react-router-bootstrap";
 const Header = () => {
   return (
     <Container className="full">
-      <Row>
-        <Col className="header-text">
-          <LinkContainer to="/">
-            <h3>Madger Courses</h3>
-          </LinkContainer>
-        </Col>
-        <Col>
-          <Search />
-        </Col>
-      </Row>
+      <div class="topnav">
+        <a class="active" href="/" style={{ fontWeight: "bold" }}>
+          &nbsp;&nbsp;&nbsp;MadCourseEvaluator
+        </a>
+        <a href="/">Home</a>
+        <a href="/Docs">Docs</a>
+      </div>
     </Container>
   );
 };

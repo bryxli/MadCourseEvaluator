@@ -10,9 +10,11 @@ const Home = () => {
       <Row>
         <Header />
       </Row>
-      <Container className="pink-box">
+      <Container className="black-box">
         <Row>
-          <h1>Madger Courses</h1>
+          <h1>
+            <b>MadCourseEvaluator</b>
+          </h1>
         </Row>
         <Row>
           <h4>Detailed Course information at your fingertips</h4>

@@ -130,7 +130,6 @@ const Course = () => {
     );
   }, [courseInfo]);
 
-  console.log(graphInfo && graphInfo.length > 0);
   return (
     <Container className="full">
       <Row>
@@ -193,7 +192,9 @@ const Course = () => {
                 <Reddit redditList={redditList} />
               </Row>
             ) : (
-              <></>
+              <h5 className="heading-style">
+                No reddit threads found for this course
+              </h5>
             )}
           </Col>
           {professorList && professorList.length > 0 ? (
@@ -206,7 +207,11 @@ const Course = () => {
               </Row>
             </Col>
           ) : (
-            <></>
+            <>
+              <h5 className="heading-style">
+                No Intructor Info found for this course
+              </h5>
+            </>
           )}
         </Row>
       </Container>

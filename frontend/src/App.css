@@ -204,6 +204,7 @@ body,
   margin-bottom: 3%;
   width: 100%;
   border-radius: 4%;
+  height:fit-content;
 }
 
 .professor-list-item {
@@ -234,6 +235,7 @@ body,
   .reddit-box{
     margin-left:"auto";
     margin-right:"auto";
+    height:fit-content;
   }
 }
 

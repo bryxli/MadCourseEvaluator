@@ -10,16 +10,12 @@ const Home = () => {
       <Row>
         <Header />
       </Row>
-      <Container className="black-box">
+      <Container className="pink-box">
         <Row>
-          <h1>
-            <b>MadCourseEvaluator</b>
-          </h1>
+          <h1>Madger Courses</h1>
         </Row>
         <Row>
-          <h4 style={{ XtextShadow: ".2px .2px .2px #fff" }}>
-            Detailed Course information at your fingertips
-          </h4>
+          <h4>Detailed Course information at your fingertips</h4>
         </Row>
         <Row>
           <div class="rbt-home">

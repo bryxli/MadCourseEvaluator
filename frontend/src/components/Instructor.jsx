@@ -3,17 +3,12 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Header from "./Header";
-import {
-  createSearchParams,
-  useNavigate,
-  useSearchParams,
-} from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 const Instructor = () => {
   let navigate = useNavigate(); // useNavigate hook which is used to navigate to a different route
 
-  const [searchparams] = useSearchParams(); // useSearchParams hook which returns an array of search params
-  const professorID = searchparams.get("id"); // get the value of the id param
+  const professorID = useParams().id; // get the value of the id param
   const [courses, setCourses] = useState([]); // useState hook to store the courses
   const [professor, setProfessor] = useState({}); // useState hook to store the professor
 
@@ -142,10 +137,7 @@ const Instructor = () => {
                         onClick={() => {
                           // set the onClick function to navigate to the course page for the course at the course id
                           navigate({
-                            pathname: "/course",
-                            search: createSearchParams({
-                              id: course.id,
-                            }).toString(),
+                            pathname: `/course/${course.id}`,
                           });
                         }}
                       >

@@ -22,10 +22,7 @@ const ProfessorList = ({ professorList }) => {
           <Row
             onClick={() => {
               navigate({
-                pathname: "/instructor",
-                search: createSearchParams({
-                  id: prof.id,
-                }).toString(),
+                pathname: `/instructor/${prof.id}`,
               });
             }}
           >

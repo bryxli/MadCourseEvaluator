@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Typeahead } from "react-bootstrap-typeahead";
 import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
 import { createSearchParams, useNavigate } from "react-router-dom";
 
 const Search = () => {
@@ -48,28 +49,24 @@ const Search = () => {
 
   // Submit button navigation
   const navigate = useNavigate();
+  
   const submit = (e) => {
     e.preventDefault();
     if (classList.includes(selected[0])) {
       navigate({
-        pathname: "/course",
-        search: createSearchParams({
-          id: selected[0].id,
-        }).toString(),
+        pathname: `/course/${selected[0].id}`,
       });
     } else if (profList.includes(selected[0])) {
       navigate({
-        pathname: "/instructor",
-        search: createSearchParams({
-          id: selected[0].id,
-        }).toString(),
+        pathname: `/instructor/${selected[0].id}`,
       });
     }
+    window.location.reload(true);
   };
 
   return (
     <Form onSubmit={submit}>
-      <div>
+      <Form.Group>
         <Typeahead
           id="search"
           onChange={setSelected}
@@ -78,10 +75,8 @@ const Search = () => {
           placeholder="Course or Professor (Ex: CS300)"
           selected={selected}
         />
-        <div style={{ paddingTop: "5px" }}>
-          <button type="submit">Search</button>
-        </div>
-      </div>
+      </Form.Group>
+      <Button type="submit" hidden></Button>
     </Form>
   );
 };

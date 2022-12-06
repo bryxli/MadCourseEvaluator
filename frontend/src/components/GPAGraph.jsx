@@ -10,6 +10,7 @@ import {
 } from "recharts";
 
 // GPAGraph: displays a BAR graph based on info passed in through graphInfo
+// This component is used by Course
 const GPAGraph = ({ graphInfo }) => {
   // graphInfo set in Course component
   return (

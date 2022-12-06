@@ -74,8 +74,8 @@ body,
 }
 
 /*  NEW Down */
-.pink-box2 {
-  background-image: linear-gradient(239.54deg, #d9d9d9 12.81%, #ff7787 100.59%);
+.black-box2 {
+  background-image: linear-gradient(239.54deg, #d9d9d9 12.81%, black 100.59%);
   height: 100%;
   width: 100%;
   flex-direction: column;

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Typeahead } from "react-bootstrap-typeahead";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import { createSearchParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Search = () => {
   // Initialize class list
@@ -49,7 +49,7 @@ const Search = () => {
 
   // Submit button navigation
   const navigate = useNavigate();
-  
+
   const submit = (e) => {
     e.preventDefault();
     if (classList.includes(selected[0])) {

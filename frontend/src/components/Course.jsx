@@ -31,7 +31,7 @@ const Course = () => {
         })
       )
       .catch((e) => console.log("error while calling grade-distribution API"));
-  }, [courseInfo]);
+  }, [courseInfo, courseID]);
 
   useEffect(() => {
     fetch("https://madcourseevaluator.herokuapp.com/course-profs/" + courseID)
@@ -82,69 +82,71 @@ const Course = () => {
         })
       )
       .catch((e) => console.log("error while calling course-profs API", e));
-
-    console.log(professorList);
-  }, [profGraphInfo]);
+  }, [profGraphInfo, courseID]);
 
   useEffect(() => {
-    fetch("https://madcourseevaluator.herokuapp.com/course-info/" + courseID).then((response) =>
+    fetch(
+      "https://madcourseevaluator.herokuapp.com/course-info/" + courseID
+    ).then((response) =>
       response.json().then((json) => {
         setCourseInfo(json);
       })
     );
-  }, []);
+  }, [courseID]);
 
   useEffect(() => {
-    fetch("https://madcourseevaluator.herokuapp.com/reddit-comments/" + courseID).then(
-      (response) =>
-        response.json().then((json) => {
-          var comments = [];
-          for (var key in json) {
-            const id = key;
-            const body = json[key].comBody;
-            const link = json[key].comLink;
-            const votes = json[key].comVotes;
+    fetch(
+      "https://madcourseevaluator.herokuapp.com/reddit-comments/" + courseID
+    ).then((response) =>
+      response.json().then((json) => {
+        var comments = [];
+        for (var key in json) {
+          const id = key;
+          const body = json[key].comBody;
+          const link = json[key].comLink;
+          const votes = json[key].comVotes;
 
-            comments.push({ id, body, link, votes });
-          } // This converts the JSON object of reddit threads into an array
-          comments.sort((a, b) => {
-            return b.votes - a.votes;
-          }); // Sorting in descending order based on upvotes
-          setRedditList(comments);
-        })
+          comments.push({ id, body, link, votes });
+        } // This converts the JSON object of reddit threads into an array
+        comments.sort((a, b) => {
+          return b.votes - a.votes;
+        }); // Sorting in descending order based on upvotes
+        setRedditList(comments);
+      })
     );
-  }, [courseInfo]);
+  }, [courseInfo, courseID]);
 
   // The returned gpa graph distribution for this course is converted into the required format for our graph API
   useEffect(() => {
-    fetch("https://madcourseevaluator.herokuapp.com/grade-distribution/" + courseID).then(
-      (response) =>
-        response.json().then((json) => {
-          if (json && json.cumulative) {
-            if (
-              json.cumulative.aCount === 0 &&
-              json.cumulative.abCount === 0 &&
-              json.cumulative.bCount === 0 &&
-              json.cumulative.bcCount === 0 &&
-              json.cumulative.cCount === 0 &&
-              json.cumulative.dCount === 0 &&
-              json.cumulative.fCount === 0
-            )
-              setGraphInfo([]);
-            else
-              setGraphInfo([
-                { name: "A", grade: json.cumulative.aCount },
-                { name: "AB", grade: json.cumulative.abCount },
-                { name: "B", grade: json.cumulative.bCount },
-                { name: "BC", grade: json.cumulative.bcCount },
-                { name: "C", grade: json.cumulative.cCount },
-                { name: "D", grade: json.cumulative.dCount },
-                { name: "F", grade: json.cumulative.fCount },
-              ]);
-          } else setGraphInfo([]);
-        })
+    fetch(
+      "https://madcourseevaluator.herokuapp.com/grade-distribution/" + courseID
+    ).then((response) =>
+      response.json().then((json) => {
+        if (json && json.cumulative) {
+          if (
+            json.cumulative.aCount === 0 &&
+            json.cumulative.abCount === 0 &&
+            json.cumulative.bCount === 0 &&
+            json.cumulative.bcCount === 0 &&
+            json.cumulative.cCount === 0 &&
+            json.cumulative.dCount === 0 &&
+            json.cumulative.fCount === 0
+          )
+            setGraphInfo([]);
+          else
+            setGraphInfo([
+              { name: "A", grade: json.cumulative.aCount },
+              { name: "AB", grade: json.cumulative.abCount },
+              { name: "B", grade: json.cumulative.bCount },
+              { name: "BC", grade: json.cumulative.bcCount },
+              { name: "C", grade: json.cumulative.cCount },
+              { name: "D", grade: json.cumulative.dCount },
+              { name: "F", grade: json.cumulative.fCount },
+            ]);
+        } else setGraphInfo([]);
+      })
     );
-  }, [courseInfo]);
+  }, [courseInfo, courseID]);
 
   return (
     <Container className="full">

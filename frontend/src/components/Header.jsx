@@ -10,7 +10,7 @@ const Header = () => {
   let location = useLocation();
   const [isHome, setIsHome] = useState(location);
 
-  React.useEffect(() => {
+  useEffect(() => {
     // Google Analytics
     console.log(location.pathname);
     if (location.pathname === "/") setIsHome(true);
@@ -24,7 +24,7 @@ const Header = () => {
           <Col className="header-start">
             <img className="header-logo" src="/teamLogo.png" alt="team-logo" />
 
-            <h3 className="header-text">  UW </h3>
+            <h3 className="header-text"> UW </h3>
           </Col>
         </LinkContainer>
         {!isHome && (

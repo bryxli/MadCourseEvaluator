@@ -48,16 +48,26 @@ const Course = () => {
             let graph = {};
             if (profGraphInfo.hasOwnProperty(id)) {
               const temp = profGraphInfo[id];
-
-              graph = [
-                { name: "A", grade: temp.aCount ?? 0 },
-                { name: "AB", grade: temp.abCount ?? 0 },
-                { name: "B", grade: temp.bCount ?? 0 },
-                { name: "BC", grade: temp.bcCount ?? 0 },
-                { name: "C", grade: temp.cCount ?? 0 },
-                { name: "D", grade: temp.dCount ?? 0 },
-                { name: "F", grade: temp.fCount ?? 0 },
-              ];
+              if (
+                temp.aCount === 0 &&
+                temp.abCount === 0 &&
+                temp.bCount === 0 &&
+                temp.bcCount === 0 &&
+                temp.cCount === 0 &&
+                temp.dCount === 0 &&
+                temp.fCount === 0
+              )
+                graph = [];
+              else
+                graph = [
+                  { name: "A", grade: temp.aCount ?? 0 },
+                  { name: "AB", grade: temp.abCount ?? 0 },
+                  { name: "B", grade: temp.bCount ?? 0 },
+                  { name: "BC", grade: temp.bcCount ?? 0 },
+                  { name: "C", grade: temp.cCount ?? 0 },
+                  { name: "D", grade: temp.dCount ?? 0 },
+                  { name: "F", grade: temp.fCount ?? 0 },
+                ];
             }
             professors.push({
               name,
@@ -77,9 +87,7 @@ const Course = () => {
   }, [profGraphInfo]);
 
   useEffect(() => {
-    fetch(
-      "https://madcourseevaluator.herokuapp.com/course-info/" + courseID
-    ).then((response) =>
+    fetch("https://madcourseevaluator.herokuapp.com/course-info/" + courseID).then((response) =>
       response.json().then((json) => {
         setCourseInfo(json);
       })
@@ -87,45 +95,54 @@ const Course = () => {
   }, []);
 
   useEffect(() => {
-    fetch(
-      "https://madcourseevaluator.herokuapp.com/reddit-comments/" + courseID
-    ).then((response) =>
-      response.json().then((json) => {
-        var comments = [];
-        for (var key in json) {
-          const id = key;
-          const body = json[key].comBody;
-          const link = json[key].comLink;
-          const votes = json[key].comVotes;
+    fetch("https://madcourseevaluator.herokuapp.com/reddit-comments/" + courseID).then(
+      (response) =>
+        response.json().then((json) => {
+          var comments = [];
+          for (var key in json) {
+            const id = key;
+            const body = json[key].comBody;
+            const link = json[key].comLink;
+            const votes = json[key].comVotes;
 
-          comments.push({ id, body, link, votes });
-        } // This converts the JSON object of reddit threads into an array
-        comments.sort((a, b) => {
-          return b.votes - a.votes;
-        }); // Sorting in descending order based on upvotes
-        setRedditList(comments);
-      })
+            comments.push({ id, body, link, votes });
+          } // This converts the JSON object of reddit threads into an array
+          comments.sort((a, b) => {
+            return b.votes - a.votes;
+          }); // Sorting in descending order based on upvotes
+          setRedditList(comments);
+        })
     );
   }, [courseInfo]);
 
   // The returned gpa graph distribution for this course is converted into the required format for our graph API
   useEffect(() => {
-    fetch(
-      "https://madcourseevaluator.herokuapp.com/grade-distribution/" + courseID
-    ).then((response) =>
-      response.json().then((json) => {
-        if (json && json.cumulative) {
-          setGraphInfo([
-            { name: "A", grade: json.cumulative.aCount },
-            { name: "AB", grade: json.cumulative.abCount },
-            { name: "B", grade: json.cumulative.bCount },
-            { name: "BC", grade: json.cumulative.bcCount },
-            { name: "C", grade: json.cumulative.cCount },
-            { name: "D", grade: json.cumulative.dCount },
-            { name: "F", grade: json.cumulative.fCount },
-          ]);
-        } else setGraphInfo([]);
-      })
+    fetch("https://madcourseevaluator.herokuapp.com/grade-distribution/" + courseID).then(
+      (response) =>
+        response.json().then((json) => {
+          if (json && json.cumulative) {
+            if (
+              json.cumulative.aCount === 0 &&
+              json.cumulative.abCount === 0 &&
+              json.cumulative.bCount === 0 &&
+              json.cumulative.bcCount === 0 &&
+              json.cumulative.cCount === 0 &&
+              json.cumulative.dCount === 0 &&
+              json.cumulative.fCount === 0
+            )
+              setGraphInfo([]);
+            else
+              setGraphInfo([
+                { name: "A", grade: json.cumulative.aCount },
+                { name: "AB", grade: json.cumulative.abCount },
+                { name: "B", grade: json.cumulative.bCount },
+                { name: "BC", grade: json.cumulative.bcCount },
+                { name: "C", grade: json.cumulative.cCount },
+                { name: "D", grade: json.cumulative.dCount },
+                { name: "F", grade: json.cumulative.fCount },
+              ]);
+          } else setGraphInfo([]);
+        })
     );
   }, [courseInfo]);
 
@@ -177,25 +194,31 @@ const Course = () => {
         </Row>
 
         <Row>
-          <Col>
-            {graphInfo && graphInfo.length > 0 ? (
-              <div xs={12} lg={6} className="graph-box">
-                <GPAGraph graphInfo={graphInfo} />
-              </div>
-            ) : (
-              <></>
-            )}
+          {graphInfo &&
+          graphInfo.length > 0 &&
+          redditList &&
+          redditList.length > 0 ? (
+            <Col>
+              {graphInfo && graphInfo.length > 0 ? (
+                <div xs={12} lg={6} className="graph-box">
+                  <GPAGraph graphInfo={graphInfo} />
+                </div>
+              ) : (
+                <></>
+              )}
 
-            {redditList && redditList.length > 0 ? (
-              <Row xs={12} md={6} className="reddit-box">
-                <Reddit redditList={redditList} />
-              </Row>
-            ) : (
-              <h5 className="heading-style">
-                No reddit threads found for this course
-              </h5>
-            )}
-          </Col>
+              {redditList && redditList.length > 0 ? (
+                <Row xs={12} md={6} className="reddit-box">
+                  <Reddit redditList={redditList} />
+                </Row>
+              ) : (
+                <></>
+              )}
+            </Col>
+          ) : (
+            <></>
+          )}
+
           {professorList && professorList.length > 0 ? (
             <Col xs={12} lg={6}>
               <Row>

@@ -214,7 +214,7 @@ body,
   max-height: 94vh;
   background: rgba(255, 255, 255);
   margin-bottom: 3%;
-  width: 100%;
+  max-width: 100%;
   border-radius: 4%;
   height: fit-content;
 }

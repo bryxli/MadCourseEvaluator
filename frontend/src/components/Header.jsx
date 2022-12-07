@@ -28,11 +28,11 @@ const Header = () => {
           </Col>
         </LinkContainer>
         {/** Search bar render on other pages, commented to ease number of endpoint calls */}
-        {!isHome && (
+        {/**!isHome && (
           <Col>
             <Search />
           </Col>
-        )}
+        )*/}
       </Row>
     </Container>
   );

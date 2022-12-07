@@ -14,7 +14,6 @@ import {
 } from "recharts";
 const ProfessorList = ({ professorList }) => {
   let navigate = useNavigate();
-  console.log(professorList);
   return (
     <div className="professor-list">
       {professorList.map((prof) => (

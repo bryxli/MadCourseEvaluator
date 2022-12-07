@@ -31,7 +31,6 @@ const Course = () => {
         })
       )
       .catch((e) => console.log("error while calling grade-distribution API"));
-    console.log(profGraphInfo);
   }, [courseInfo]);
 
   useEffect(() => {

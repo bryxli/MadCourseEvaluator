@@ -5,6 +5,8 @@ import Col from "react-bootstrap/Col";
 import Header from "./Header";
 import { useParams, useNavigate } from "react-router-dom";
 
+// Instructor: component that shows instructor info as well as a list of all
+//    classes taught by the instructor(and links to each one)
 const Instructor = () => {
   let navigate = useNavigate();
 
@@ -12,6 +14,7 @@ const Instructor = () => {
 
   const [courses, setCourses] = useState([]);
   const [professor, setProfessor] = useState({});
+  // fetch professor info and professor courses for a particular professorID
   useEffect(() => {
     fetch(
       "https://madcourseevaluator.herokuapp.com/prof-info/" + professorID

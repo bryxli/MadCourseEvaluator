@@ -27,11 +27,12 @@ const Header = () => {
             <h3 className="header-text"> UW </h3>
           </Col>
         </LinkContainer>
-        {!isHome && (
+        {/** Search bar render on other pages, commented to ease number of endpoint calls */}
+        {/**!isHome && (
           <Col>
             <Search />
           </Col>
-        )}
+        )**/}
       </Row>
     </Container>
   );

@@ -233,9 +233,9 @@ body,
 }
 
 .header-logo {
-  height: 65px;
-  width: 65px;
-  align-self: center;
+  height: 35px;
+  width: 40px;
+  align-self: auto;
 }
 
 .header-start {

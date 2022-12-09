@@ -16,10 +16,11 @@ def MadGrades(courseCode):
     search = courseCode
     response = requests.get(madGrades_query_url + search, headers=auth_header) # API request to access list of courses matching search query
     course_listings = response.json()
+    if course_listings == {'error': 'Unauthorized'}:                           # If API token is invalid, return
+        return('Error: Regenerate MadGrades API Token')
     try:
         course_url = course_listings['results'][0]['url']                      # Endpoint of first course in list (i.es. the course matching the course code)
     except Exception as e:
-        print(e)
         return
     response = requests.get(course_url, headers=auth_header)                   # API request to get course data associated with the course
     full_course_data = response.json()                                  

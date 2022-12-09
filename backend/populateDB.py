@@ -231,8 +231,8 @@ def PopTeaches(testing = False):
                         print(e)
             except Exception as e:
                 print(e)
-                    # print("Error inserting into teaches table")
-            # if testing and pUID is None:
+                # print("Error inserting into teaches table")
+                # if testing and pUID is None:
                 # print("Professor not found in professors table: ", prof_name)
         
     cursor.close()

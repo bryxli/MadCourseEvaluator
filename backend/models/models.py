@@ -1,12 +1,17 @@
 import os
 import sys
 import inspect
+import config
 
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parentdir = os.path.dirname(currentdir)
 sys.path.insert(0, parentdir) 
 
-from app import db
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import create_engine
+
+db_uri =  'mysql://' + config.user + ':' + config.password + '@' + config.host + '/' + config.database
+db = SQLAlchemy()
 
 # Create a MySQL database Courses table
 class Courses(db.Model):

@@ -1,5 +1,4 @@
 import unittest
-import pytest
 import os
 import sys
 import inspect
@@ -9,7 +8,6 @@ currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentfram
 parentdir = os.path.dirname(currentdir)
 sys.path.insert(0, parentdir) 
 
-from app import db
 from models.models import Courses, Professors, RC, Teaches
 import madgrades as mg
 from RMP.ratemyprof_api import RateMyProfApi

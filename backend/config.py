@@ -1,10 +1,17 @@
 secret = 'not so secret key'
 
+# AWS RDS MySQL Database Instance Credentials
+# user='b180bff08471d1'
+# password='d48075f6' 
+# host='us-cdbr-east-06.cleardb.net'
+# database='heroku_d0fe89841154465'
+
+
 # Heroku MySQL Database Credentials
-user='b180bff08471d1'
-password='d48075f6' 
-host='us-cdbr-east-06.cleardb.net'
-database='heroku_d0fe89841154465'
+user='admin'
+password='mce_password' 
+host='ec2-3-145-22-97.us-east-2.compute.amazonaws.com'
+database='MCE'
 
 # MySQL Database Credentials
 # user='root'

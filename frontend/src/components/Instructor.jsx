@@ -15,18 +15,14 @@ const Instructor = () => {
   // useEffect hook to fetch the data from the API
   useEffect(() => {
     // fetch the professor RMP data
-    fetch(
-      "https://madcourseevaluator.herokuapp.com/prof-info/" + professorID
-    ).then((response) =>
+    fetch("http://3.145.22.97/prof-info/" + professorID).then((response) =>
       response.json().then((json) => {
         setProfessor(json); // set the professor state as the json response
       })
     );
 
     // fetch the courses RMP data
-    fetch(
-      "https://madcourseevaluator.herokuapp.com/prof-courses/" + professorID
-    ).then((response) =>
+    fetch("http://3.145.22.97/prof-courses/" + professorID).then((response) =>
       response.json().then((json) => {
         console.log(json); // log the json response
         var classes = [];

@@ -9,38 +9,36 @@ const Search = () => {
   const [classList, setClassList] = useState([]);
   const [profList, setProfList] = useState([]);
   useEffect(() => {
-    fetch("https://madcourseevaluator.herokuapp.com/all-courses").then(
-      (response) =>
-        response.json().then((json) => {
-          var classes = [];
-          for (var key in json) {
-            const code = json[key].cCode;
-            const name = json[key].cName;
-            const id = json[key].cUID;
-            const classFull = {
-              result: code.concat(" - " + name),
-              id: id,
-            };
-            classes.push(classFull);
-          }
-          setClassList(classes);
-        })
+    fetch("http://3.145.22.97/all-courses").then((response) =>
+      response.json().then((json) => {
+        var classes = [];
+        for (var key in json) {
+          const code = json[key].cCode;
+          const name = json[key].cName;
+          const id = json[key].cUID;
+          const classFull = {
+            result: code.concat(" - " + name),
+            id: id,
+          };
+          classes.push(classFull);
+        }
+        setClassList(classes);
+      })
     );
-    fetch("https://madcourseevaluator.herokuapp.com/all-profs").then(
-      (response) =>
-        response.json().then((json) => {
-          var professors = [];
-          for (var key in json) {
-            const name = json[key].name;
-            const id = key;
-            const professorFull = {
-              result: name,
-              id: id,
-            };
-            professors.push(professorFull);
-          }
-          setProfList(professors);
-        })
+    fetch("http://3.145.22.97/all-profs").then((response) =>
+      response.json().then((json) => {
+        var professors = [];
+        for (var key in json) {
+          const name = json[key].name;
+          const id = key;
+          const professorFull = {
+            result: name,
+            id: id,
+          };
+          professors.push(professorFull);
+        }
+        setProfList(professors);
+      })
     );
   }, []);
 

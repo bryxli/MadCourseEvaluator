@@ -1,17 +1,33 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+__author__ = "Peter Bryant, Jarvis Jia"
+__version__ = "1.0.0"
+__maintainer__ = "Peter Bryant"
+__email__ = "pbryant2@wisc.edu"
+__status__ = "Development"
+
 """
 Flask application for MadCourseEvaluator back end web API.
+- Public IP: 3.145.22.97
+- Hosted React Front End: https://madgers.netlify.app/
+- Routes:
+    /all-courses
+    /all-profs
+    /course-info/<cUID>
+    /course-profs/<cUID>
+    /reddit-comments/<cUID>
+    /grade-distribution/<cUID>
+    /prof-info/<pUID>
+    /prof-courses/<pUID>
 """
-__author__ = "Peter Bryant, Jarvis Jia"
 
 import json
-import mysql.connector
 from flask import Flask
 import madgrades as mg # Custom MadGrades Script for Grade Distributions
 import config          # Application Configuration (Private) Information
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine
-from flask_cors import CORS, cross_origin
-
+from flask_cors import CORS
 
 db_uri =  'mysql://' + config.user + ':' + config.password + '@' + config.host + '/' + config.database
 db = SQLAlchemy()

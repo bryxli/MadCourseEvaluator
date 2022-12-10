@@ -29,7 +29,7 @@ def AllCourses():
     cursor.execute("SELECT * FROM courses") # Store all data on all courses
 
     if cursor.rowcount == 0: # If no rows are returned, return an empty dictionary with key 'error'
-        return {'error': 'No courses found for route /all-cpurses.'}
+        return {'error': 'No courses found for route /all-courses.'}
 
     all_courses = cursor.fetchall()
     all_course_json_data = {}

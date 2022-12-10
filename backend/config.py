@@ -1,17 +1,16 @@
 secret = 'not so secret key'
 
 # Heroku MySQL Database Credentials
-user='bcd5a4d1040a6d'
-password='283995bc' 
+user='b180bff08471d1'
+password='d48075f6' 
 host='us-cdbr-east-06.cleardb.net'
-database='heroku_ae568016731f968'
+database='heroku_d0fe89841154465'
 
 # MySQL Database Credentials
 # user='root'
 # password='Orion007' 
 # host='127.0.0.1'
 # database='madcourseevaluator'
-
 
 # Python Reddit API Wrapper
 PRAW_client_id = 'T6u5hwv_zwez-RrT33NCaA'

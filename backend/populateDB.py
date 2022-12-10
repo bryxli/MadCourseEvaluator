@@ -1,4 +1,3 @@
-import requests
 import json
 import mysql.connector
 import madgrades as mg # Custom MadGrades Script for Grade Distributions
@@ -42,7 +41,9 @@ def PopCourses(testing = False):
         start = time.time()
         print("----------PopCourses-----------")
 
-    file = open('./major_test_sample/major_courses.json', 'r') # Open the JSON file containing test CS courses
+    # file = open('./major_test_sample/major_courses.json', 'r') # Open the JSON file containing test CS courses
+    file = open('all-courses.json', 'r') # Open the JSON file containing test CS courses
+
     data = json.load(file)          # Load the JSON file into a dictionary
     cursor = conn.cursor()          # Create a cursor object to execute SQL queries
 
@@ -102,7 +103,6 @@ def PopProfessors(testing = False):
 
         except Exception as e:
             print(e)
-            # print("Error inserting professor into database")
 
             
     cursor.close()
@@ -182,13 +182,13 @@ def PopTeaches(testing = False):
         cUID = course[0]
         cCode = course[1]
         grade_distributions = mg.MadGrades(cCode) # Get the grade distribution for the course from MadGrades.com
-        
-        course_professors = [] # List of professors that teach the course
-        all_term_data = []     # List of all term data for the course
 
         # Make sure MadGrades returns a dictionary of grade distribution data for each course
         if(grade_distributions is None):
-            break
+            continue
+        
+        course_professors = [] # List of professors that teach the course
+        all_term_data = []     # List of all term data for the course
 
         # Get the section data for each term
         for i in range(len(grade_distributions["courseOfferings"])):
@@ -230,11 +230,9 @@ def PopTeaches(testing = False):
                     except Exception as e:
                         print(e)
             except Exception as e:
-                print(e)
-                # print("Error inserting into teaches table")
-                # if testing and pUID is None:
-                # print("Professor not found in professors table: ", prof_name)
-        
+                # print(e)
+                print("Error inserting into teaches table")
+            
     cursor.close()
     if testing:
         print("PopTeaches Runtime: ", time.time() - start, " seconds.")
@@ -255,6 +253,7 @@ def PopDB(testing = False):
     PopTeaches(testing)
 
     if testing:
+        print("-------------------------------")
         print("Database Populated.")
         print("PopDB Runtime: ", time.time() - start, " seconds.")
         print("-------------------------------")
@@ -263,3 +262,4 @@ def PopDB(testing = False):
 if __name__ == '__main__': 
     PopDB(testing = True) # Run all Pop Functions
     # PopDB(testing = False) # Run all Pop Functions
+    conn.close()

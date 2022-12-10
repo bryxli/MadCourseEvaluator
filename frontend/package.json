@@ -49,5 +49,6 @@
     "eslint": "^8.26.0",
     "eslint-plugin-react": "^7.31.10",
     "prettier": "^2.7.1"
-  }
+  },
+  "proxy": "http://3.145.22.97"
 }

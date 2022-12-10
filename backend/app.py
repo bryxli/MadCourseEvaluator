@@ -10,11 +10,15 @@ import madgrades as mg # Custom MadGrades Script for Grade Distributions
 import config          # Application Configuration (Private) Information
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine
+from flask_cors import CORS, cross_origin
+
 
 db_uri =  'mysql://' + config.user + ':' + config.password + '@' + config.host + '/' + config.database
 db = SQLAlchemy()
 
 app = Flask(__name__) 
+CORS(app) # Enable CORS for all routes
+app.config['CORS_HEADERS'] = 'Content-Type'
 app.secret_key = config.secret 
 app.config['SQLALCHEMY_DATABASE_URI'] = db_uri  # Set SQLAlchemy URI
 engine = create_engine(db_uri)                  # Create SQLAlchemy Engine

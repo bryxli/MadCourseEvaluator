@@ -23,19 +23,19 @@ Flask application for MadCourseEvaluator back end web API.
 
 import json
 from flask import Flask
-import madgrades as mg # Custom MadGrades Script for Grade Distributions
-import config          # Application Configuration (Private) Information
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import create_engine
-from flask_cors import CORS
+import madgrades as mg                  # Custom MadGrades Script for Grade Distributions
+import config                           # Application Configuration (Private) Information
+from flask_sqlalchemy import SQLAlchemy # SQLAlchemy ORM
+from sqlalchemy import create_engine    # SQLAlchemy Engine
+from flask_cors import CORS             # CORS: Cross Origin Resource Sharing
 
 db_uri =  'mysql://' + config.user + ':' + config.password + '@' + config.host + '/' + config.database
 db = SQLAlchemy()
 
 app = Flask(__name__) 
-CORS(app) # Enable CORS for all routes
-app.config['CORS_HEADERS'] = 'Content-Type'
-app.secret_key = config.secret 
+CORS(app)                                       # Enable CORS for all routes
+app.config['CORS_HEADERS'] = 'Content-Type'     # Set CORS header
+app.secret_key = config.secret                  # Set Flask Secret Key
 app.config['SQLALCHEMY_DATABASE_URI'] = db_uri  # Set SQLAlchemy URI
 engine = create_engine(db_uri)                  # Create SQLAlchemy Engine
 

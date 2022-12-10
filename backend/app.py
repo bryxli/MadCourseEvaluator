@@ -25,13 +25,18 @@ Flask application for MadCourseEvaluator back end web API.
     pUID = Professor Unique ID
 """
 
-import json
+# Flask Imports
 from flask import Flask
-import madgrades as mg                  # Custom MadGrades Script for Grade Distributions
-import config                           # Application Configuration (Private) Information
 from flask_sqlalchemy import SQLAlchemy # SQLAlchemy ORM
-from sqlalchemy import create_engine    # SQLAlchemy Engine
 from flask_cors import CORS             # CORS: Cross Origin Resource Sharing
+
+# Python Imports
+from sqlalchemy import create_engine    # SQLAlchemy Engine
+import json
+
+# Custom Scripts
+import madgrades as mg                  # Custom MadGrades Script for Grade Distributions
+import config                           # Application Configuration
 
 db_uri =  'mysql://' + config.user + ':' + config.password + '@' + config.host + '/' + config.database
 db = SQLAlchemy()

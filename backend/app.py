@@ -9,7 +9,7 @@ __status__ = "Development"
 
 """
 Flask application for MadCourseEvaluator back end web API.
-- Public IP: 3.145.22.97
+- AWS EC2 Public IP: 3.145.22.97
 - Hosted React Front End: https://madgers.netlify.app/
 - Routes:
     /all-courses
@@ -20,6 +20,9 @@ Flask application for MadCourseEvaluator back end web API.
     /grade-distribution/<cUID>
     /prof-info/<pUID>
     /prof-courses/<pUID>
+- URL Params: 
+    cUID = Course Unique ID
+    pUID = Professor Unique ID
 """
 
 import json

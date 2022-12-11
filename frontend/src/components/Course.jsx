@@ -19,14 +19,16 @@ import ProfessorList from "./ProfessorList";
 const Course = () => {
   const courseID = useParams().id;
 
-  const [courseInfo, setCourseInfo] = useState({});
-  const [redditList, setRedditList] = useState([]);
-  const [graphInfo, setGraphInfo] = useState({});
+  const [courseInfo, setCourseInfo] = useState({}); // useState hook to store the courseInfo
+  const [redditList, setRedditList] = useState([]); // useState hook to store the redditList
+  const [graphInfo, setGraphInfo] = useState({}); // // useState hook to store the graphInfo
 
-  const [professorList, setProfessorList] = useState([]);
-  const [profGraphInfo, setProfGraphInfo] = useState([]);
+  const [professorList, setProfessorList] = useState([]); // useState hook to store the professorList
+  const [profGraphInfo, setProfGraphInfo] = useState([]); // useState hook to store the professor graph info
 
+  // useEffect hook to fetch the data from the API
   useEffect(() => {
+    // fetch professor grade distributions
     fetch("http://3.145.22.97/grade-distribution/" + courseID)
       .then((response) =>
         response.json().then((json) => {
@@ -39,6 +41,7 @@ const Course = () => {
   }, [courseInfo, courseID]);
 
   useEffect(() => {
+    // fetch professor info
     fetch("http://3.145.22.97/course-profs/" + courseID)
       .then((response) =>
         response.json().then((json) => {
@@ -90,6 +93,7 @@ const Course = () => {
   }, [profGraphInfo, courseID]);
 
   useEffect(() => {
+    // fetch course info
     fetch("http://3.145.22.97/course-info/" + courseID).then((response) =>
       response.json().then((json) => {
         setCourseInfo(json);
@@ -98,6 +102,7 @@ const Course = () => {
   }, [courseID]);
 
   useEffect(() => {
+    // fetch reddit info
     fetch("http://3.145.22.97/reddit-comments/" + courseID).then((response) =>
       response.json().then((json) => {
         var comments = [];
@@ -119,6 +124,7 @@ const Course = () => {
 
   // The returned gpa graph distribution for this course is converted into the required format for our graph API
   useEffect(() => {
+    // fetch cumulative GPA data
     fetch("http://3.145.22.97/grade-distribution/" + courseID).then(
       (response) =>
         response.json().then((json) => {

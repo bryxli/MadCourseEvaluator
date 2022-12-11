@@ -13,8 +13,10 @@ const Search = () => {
   // Initialize class list and professor list
   const [classList, setClassList] = useState([]);
   const [profList, setProfList] = useState([]);
+
+  // useEffect hook to fetch the data from the API
   useEffect(() => {
-    // get data from host
+    // fetch class data from host
     fetch("http://3.145.22.97/all-courses").then((response) =>
       response.json().then((json) => {
         var classes = [];
@@ -28,10 +30,10 @@ const Search = () => {
           };
           classes.push(classFull);
         }
-        setClassList(classes);
+        setClassList(classes); // set the class state as the classes array
       })
     );
-    // get data from host
+    // fetch professor data from host
     fetch("http://3.145.22.97/all-profs").then((response) =>
       response.json().then((json) => {
         var professors = [];
@@ -42,13 +44,14 @@ const Search = () => {
             result: name,
             id: id,
           };
-          professors.push(professorFull);
+          professors.push(professorFull); // push the new object to the professors array
         }
-        setProfList(professors);
+        setProfList(professors); // set the professorList state as the profList array
       })
     );
   }, []);
 
+  // make search options classList and profList
   const [selected, setSelected] = useState([]);
   const options = classList.concat(profList);
 

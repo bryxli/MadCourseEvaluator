@@ -70,7 +70,7 @@ const Search = () => {
           onChange={setSelected}
           labelKey={(option) => option.result}
           options={options}
-          placeholder="Course or Professor (Ex: CS300)"
+          placeholder="Course or Professor (Ex: COMP SCI 300)"
           selected={selected}
         />
       </Form.Group>

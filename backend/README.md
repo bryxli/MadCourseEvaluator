@@ -38,17 +38,21 @@ Not necessary if the database has already been populated.
 python3 populate_db.py
 ```
 
-### 2. Run course_scrapper/fetch_all.py to scrape the course information to a JSON file
+### 2. Run course_scrape/fetch_all.py to scrape the course information to a JSON file
 
-If you want to rescrape UW course data: When the `fetch_all.py` script is run, it will scrape the course information from the [UW Course Guide](https://guide.wisc.edu/courses/) and save it to a JSON file names all_courses.json in the back end root directory.
+If you want to rescrape UW course data: When the `fetch_all.py` script is run, it will scrape the course information from the [UW Course Guide](https://guide.wisc.edu/courses/) and save it to a JSON file `all_courses.json` in the back end root directory.
 
 ```bash
-python3 course_scrapper/fetch_all.py # to scrape the course information
-cat all_courses.json                 # to see the scraped data
+python3 course_scrape/fetch_all.py # to scrape the course information
 ```
 
-### 3.
+### 3. Run rmp_scrape/fetch_all.py to scrape the RMP data to a JSON file.
 
+If you want to rescrape RMP data: When the `fetch_all.py` script is run, it will scrape the RMP data from [RMP](https://www.ratemyprofessors.com/) and save it to a JSON file `all_professors.json` in the back end root directory. *Note* Under maintenance, the script will not be able to scrape the RMP data consistently.
+
+```bash
+python3 rmp_scrape/fetch_all.py # to scrape the RMP data
+```
 
 
 

@@ -19,6 +19,14 @@ const Course = () => {
   const [profGraphInfo, setProfGraphInfo] = useState([]);
 
   useEffect(() => {
+    fetch("http://3.145.22.97/course-info/" + courseID).then((response) =>
+      response.json().then((json) => {
+        setCourseInfo(json);
+      })
+    );
+  }, [courseID]);
+
+  useEffect(() => {
     fetch("http://3.145.22.97/grade-distribution/" + courseID)
       .then((response) =>
         response.json().then((json) => {
@@ -80,14 +88,6 @@ const Course = () => {
       )
       .catch((e) => console.log("error while calling course-profs API", e));
   }, [profGraphInfo, courseID]);
-
-  useEffect(() => {
-    fetch("http://3.145.22.97/course-info/" + courseID).then((response) =>
-      response.json().then((json) => {
-        setCourseInfo(json);
-      })
-    );
-  }, [courseID]);
 
   useEffect(() => {
     fetch("http://3.145.22.97/reddit-comments/" + courseID).then((response) =>

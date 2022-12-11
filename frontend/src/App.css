@@ -28,7 +28,12 @@ body,
 }
 
 .rbt-home {
-  width: 800px;
+  width: 100%;
+  padding: 0% 10% 0%;
+}
+
+.hidden {
+  visibility: hidden;
 }
 
 .white-box {
@@ -228,9 +233,9 @@ body,
 }
 
 .header-logo {
-  height: 65px;
-  width: 65px;
-  align-self: center;
+  height: 35px;
+  width: 40px;
+  align-self: auto;
 }
 
 .header-start {
@@ -238,7 +243,7 @@ body,
   display: flex;
   flex-direction: row;
   gap: 1%;
-  cursor:pointer;
+  cursor: pointer;
 }
 
 .header-text {
@@ -273,5 +278,4 @@ body,
   .grey-box {
     padding: 4%;
   }
-
 }

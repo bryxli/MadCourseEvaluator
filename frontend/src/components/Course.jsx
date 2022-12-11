@@ -8,7 +8,6 @@ import GPAGraph from "./GPAGraph";
 import Reddit from "./Reddit";
 import ProfessorList from "./ProfessorList";
 
-// when in course page, pssing in a new search parameter does not rerender the data (also applies to professor page)
 const Course = () => {
   const courseID = useParams().id;
 
@@ -20,9 +19,7 @@ const Course = () => {
   const [profGraphInfo, setProfGraphInfo] = useState([]);
 
   useEffect(() => {
-    fetch(
-      "https://madcourseevaluator.herokuapp.com/grade-distribution/" + courseID
-    )
+    fetch("http://3.145.22.97/grade-distribution/" + courseID)
       .then((response) =>
         response.json().then((json) => {
           if (json && json["professor_cumulative_grade_distribution"]) {
@@ -31,10 +28,10 @@ const Course = () => {
         })
       )
       .catch((e) => console.log("error while calling grade-distribution API"));
-  }, [courseInfo]);
+  }, [courseInfo, courseID]);
 
   useEffect(() => {
-    fetch("https://madcourseevaluator.herokuapp.com/course-profs/" + courseID)
+    fetch("http://3.145.22.97/course-profs/" + courseID)
       .then((response) =>
         response.json().then((json) => {
           var professors = [];
@@ -82,42 +79,39 @@ const Course = () => {
         })
       )
       .catch((e) => console.log("error while calling course-profs API", e));
-
-    console.log(professorList);
-  }, [profGraphInfo]);
+  }, [profGraphInfo, courseID]);
 
   useEffect(() => {
-    fetch("https://madcourseevaluator.herokuapp.com/course-info/" + courseID).then((response) =>
+    fetch("http://3.145.22.97/course-info/" + courseID).then((response) =>
       response.json().then((json) => {
         setCourseInfo(json);
       })
     );
-  }, []);
+  }, [courseID]);
 
   useEffect(() => {
-    fetch("https://madcourseevaluator.herokuapp.com/reddit-comments/" + courseID).then(
-      (response) =>
-        response.json().then((json) => {
-          var comments = [];
-          for (var key in json) {
-            const id = key;
-            const body = json[key].comBody;
-            const link = json[key].comLink;
-            const votes = json[key].comVotes;
+    fetch("http://3.145.22.97/reddit-comments/" + courseID).then((response) =>
+      response.json().then((json) => {
+        var comments = [];
+        for (var key in json) {
+          const id = key;
+          const body = json[key].comBody;
+          const link = json[key].comLink;
+          const votes = json[key].comVotes;
 
-            comments.push({ id, body, link, votes });
-          } // This converts the JSON object of reddit threads into an array
-          comments.sort((a, b) => {
-            return b.votes - a.votes;
-          }); // Sorting in descending order based on upvotes
-          setRedditList(comments);
-        })
+          comments.push({ id, body, link, votes });
+        } // This converts the JSON object of reddit threads into an array
+        comments.sort((a, b) => {
+          return b.votes - a.votes;
+        }); // Sorting in descending order based on upvotes
+        setRedditList(comments);
+      })
     );
-  }, [courseInfo]);
+  }, [courseInfo, courseID]);
 
   // The returned gpa graph distribution for this course is converted into the required format for our graph API
   useEffect(() => {
-    fetch("https://madcourseevaluator.herokuapp.com/grade-distribution/" + courseID).then(
+    fetch("http://3.145.22.97/grade-distribution/" + courseID).then(
       (response) =>
         response.json().then((json) => {
           if (json && json.cumulative) {
@@ -144,7 +138,7 @@ const Course = () => {
           } else setGraphInfo([]);
         })
     );
-  }, [courseInfo]);
+  }, [courseInfo, courseID]);
 
   return (
     <Container className="full">

@@ -4,11 +4,17 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useNavigate } from "react-router-dom";
 
+/**
+ * Search: search bar for users to search by course or instructor
+ * This component is used by Home and Course (previously also Header)
+ * @returns Search React element
+ */
 const Search = () => {
-  // Initialize class list
+  // Initialize class list and professor list
   const [classList, setClassList] = useState([]);
   const [profList, setProfList] = useState([]);
   useEffect(() => {
+    // get data from host
     fetch("http://3.145.22.97/all-courses").then((response) =>
       response.json().then((json) => {
         var classes = [];
@@ -25,6 +31,7 @@ const Search = () => {
         setClassList(classes);
       })
     );
+    // get data from host
     fetch("http://3.145.22.97/all-profs").then((response) =>
       response.json().then((json) => {
         var professors = [];

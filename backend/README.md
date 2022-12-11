@@ -24,9 +24,9 @@ flask run
 
 ### 3. Routes
 
-The back end is hosted on a AWS EC2 instance with public IP [3.145.22.97/](3.145.22.97/) and a RDS MySQL database connection. The following routes are publicly accessible:
+The back end is hosted on a AWS EC2 instance with public IP [3.145.22.97](3.145.22.97) and a RDS MySQL database connection. The following routes are publicly accessible:
 
-http://3.145.22.97/route
+http://3.145.22.97/ + route
 
 route:
 - `/all-courses` - returns all courses records in the database

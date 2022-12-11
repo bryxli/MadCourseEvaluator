@@ -6,6 +6,12 @@ import Search from "./Search";
 import { LinkContainer } from "react-router-bootstrap";
 import { useLocation } from "react-router-dom";
 
+/**
+ * header: white bar with Madger Courses text that links back to homepage
+ * contains search bar on left
+ * this component is used by Course, Instructor and Home
+ * @returns Header React element
+ */
 const Header = () => {
   let location = useLocation();
   const [isHome, setIsHome] = useState(location);

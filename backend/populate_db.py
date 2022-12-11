@@ -1,13 +1,32 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+__author__ = "Peter Bryant, Jarvis Jia"
+__credits__ = ["Peter Bryant", "Jarvis Jia", "Bryan Li", "Swathi Annamaneni", "Aidan Shine"]
+__version__ = "1.0.0"
+__maintainer__ = "Peter Bryant"
+__email__ = "pbryant2@wisc.edu"
+__status__ = "Development"
+
+"""
+Script to populate the database whose connection is defined in config.py.
+- Database is MySQL DB hosted on AWS RDS
+- Tables: courses, professors, rc (reddit comments), and teaches
+- Static File Dependencies: config.py, all-courses.json, all-professors.json
+- Function/Script Dependencies: madgrades.py, rmp_scrape/fetch_all.py, course_scrape/fetch_all.py
+"""
+# Python Standard Library Imports
 import json
-import mysql.connector
-import madgrades as mg # Custom MadGrades Script for Grade Distributions
-import praw            # PRAW: Python Reddit API Wrapper
-from praw.models import MoreComments
-from RMP.ratemyprof_api import RateMyProfApi # Public & Modified RMP API for Professor Data
-import config
 import time
 
-# Documentation Reference: README Subsection 1.1
+# Python 3rd Party Imports
+import praw            # PRAW: Python Reddit API Wrapper
+from praw.models import MoreComments
+import mysql.connector
+
+# Custom Script Imports
+import madgrades as mg                         # MadGrades Script for Grade Distributions
+from rmp_scrape.fetch_all import RateMyProfApi # Public & Modified RMP API for Professor Data
+import config
 
 # Establish connection to MySQL DB
 conn = mysql.connector.connect(
@@ -28,7 +47,6 @@ reddit = praw.Reddit(client_id = config.PRAW_client_id,
 uwmadison_subreddit = reddit.subreddit('UWMadison')
 reddit_url = 'https://www.reddit.com'
 
-# (DOCS: 1.1.1.1)
 def PopCourses(testing = False):
     """
     Function to populate the courses table with all courses at UW-Madison. Entries contain a cUID, the course's name, 
@@ -68,7 +86,6 @@ def PopCourses(testing = False):
         print("PopCourses Runtime: ", time.time() - start, " seconds.")
     pass
 
-# (DOCS: 1.1.1.2)
 def PopProfessors(testing = False):
     """
     Function to populate the professors table with all professors at UW-Madison. Iterates over the two RMP school UIDs and calls the helper function to populate the table.
@@ -111,7 +128,6 @@ def PopProfessors(testing = False):
     pass
 
 
-# (DOCS: 1.1.1.3)
 def PopRedditComments(testing = False):
     """
     Function to populate the rc (reddit comments) table with all comments that are relevant to a certain course that were posted to r/UWMadison. 
@@ -128,7 +144,7 @@ def PopRedditComments(testing = False):
 
     courses = cursor.fetchall() # Store all course datac
 
-    # Create a course acronym (DOCS: 1.1.2.4)
+    # Create a course acronym 
     for course in courses:
         if(course[3] == 'Statistics' or course[3] == 'Mathematics' or course[3] == 'Computer Sciences'): #only choose selective majors now
             cNum = ''.join(filter(str.isdigit, course[2]))  # Extract all numeric characters from the course's code
@@ -247,9 +263,9 @@ def PopDB(testing = False):
         print("-------------PopDB-------------")
         print("Populating Database...")
 
-    # PopCourses(testing)
-    # PopProfessors(testing)
-    # PopRedditComments(testing)
+    PopCourses(testing)
+    PopProfessors(testing)
+    PopRedditComments(testing)
     PopTeaches(testing)
 
     if testing:

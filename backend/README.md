@@ -25,7 +25,7 @@ flask run
 ### 3. Routes
 
 - `/all-courses` - returns all courses records in the database
-- `/all-profs` - returns all professor recors in the database'
+- `/all-profs` - returns all professor records in the database'
 - `/course-info/<cUID>` - returns a course record with the given course id
 - `/course-profs/<cUID>` - returns all professor records who have taught a given course id
 - `/reddit-comments/<cUID>` - returns all reddit comments for the given course id

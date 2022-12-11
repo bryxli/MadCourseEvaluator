@@ -22,6 +22,17 @@ pip3 install -r requirements.txt # install all dependencies
 flask run
 ```
 
+### 3. Routes
+
+- `/all-courses` - returns all courses records in the database
+- `/all-profs` - returns all professor recors in the database'
+- `/course-info/<cUID>` - returns a course record with the given course id
+- `/course-profs/<cUID>` - returns all professor records who have taught a given course id
+- `/reddit-comments/<cUID>` - returns all reddit comments for the given course id
+- `/grade-distribution/<cUID>` - returns the grade distribution for the given course id
+- `/prof-info/<pUID>` - returns a professor record with the given professor id
+- `/prof-courses/<pUID>` - returns all course records taught by a given professor id
+
 ## Populating the Database
 
 - Make sure you have the virtual environment activated before running the following commands.

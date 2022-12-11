@@ -21,3 +21,36 @@ pip3 install -r requirements.txt # install all dependencies
 ```bash
 flask run
 ```
+
+## Populating the Database
+
+- Make sure you have the virtual environment activated before running the following commands.
+
+- The database configuration is set in `config.py`; as long as the database is being hosted and the connection configuration is correct, the API will be able to connect to the database. 
+
+- You should only run `populate_db.py` when you want to populate the database with new data, when the database has not been populated yet, so it has no records (failure may result with duplicate entries). At the moment, we have different scripts to scrape and create JSON files with 
+the data we would like to use, and then `populate_db.py` will depend on them to populate the database tables with the data.
+
+### 1. Run populate_db.py to populate the database with the scraped data
+Not necessary if the database has already been populated.
+
+```bash
+python3 populate_db.py
+```
+
+### 2. Run course_scrapper/fetch_all.py to scrape the course information to a JSON file
+
+If you want to rescrape UW course data: When the `fetch_all.py` script is run, it will scrape the course information from the [UW Course Guide](https://guide.wisc.edu/courses/) and save it to a JSON file names all_courses.json in the back end root directory.
+
+```bash
+python3 course_scrapper/fetch_all.py # to scrape the course information
+cat all_courses.json                 # to see the scraped data
+```
+
+### 3.
+
+
+
+
+
+

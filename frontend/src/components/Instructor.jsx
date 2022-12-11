@@ -14,36 +14,30 @@ const Instructor = () => {
 
   // useEffect hook to fetch the data from the API
   useEffect(() => {
-    const fetchData = async () => {
-      // fetch the professor RMP data
-      await fetch("http://3.145.22.97/prof-info/" + professorID).then(
-        (response) =>
-          response.json().then((json) => {
-            setProfessor(json); // set the professor state as the json response
-          })
-      );
+    // fetch the professor RMP data
+    fetch("http://3.145.22.97/prof-info/" + professorID).then((response) =>
+      response.json().then((json) => {
+        setProfessor(json); // set the professor state as the json response
+      })
+    );
 
-      // fetch the courses RMP data
-      await fetch("http://3.145.22.97/prof-courses/" + professorID).then(
-        (response) =>
-          response.json().then((json) => {
-            console.log(json); // log the json response
-            var classes = [];
-            // For each course in the json response, create a new object with the course code and the course name
-            for (var key in json) {
-              const classFull = {
-                code: json[key].cCode,
-                name: json[key].cName,
-                id: key,
-              };
-              classes.push(classFull); // push the new object to the classes array
-            }
-            setCourses(classes); // set the courses state as the classes array
-          })
-      );
-    };
-
-    fetchData().catch((e) => console.log("error while fetching data"));
+    // fetch the courses RMP data
+    fetch("http://3.145.22.97/prof-courses/" + professorID).then((response) =>
+      response.json().then((json) => {
+        console.log(json); // log the json response
+        var classes = [];
+        // For each course in the json response, create a new object with the course code and the course name
+        for (var key in json) {
+          const classFull = {
+            code: json[key].cCode,
+            name: json[key].cName,
+            id: key,
+          };
+          classes.push(classFull); // push the new object to the classes array
+        }
+        setCourses(classes); // set the courses state as the classes array
+      })
+    );
   }, [professorID]);
 
   return (

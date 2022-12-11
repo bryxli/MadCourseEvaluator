@@ -1,6 +1,6 @@
 # MadCourseEvaluator Back End Web API
 
-The back end web API for our MadCourseEvaluator application is built using Python3 and Flask. The API is hosted on AWS EC2 and is accessible at [http://3.145.22.97/](http://3.145.22.97/), the front end React application is hosted with Netlify and is accessible at [https://madgers.netlify.app/](https://madgers.netlify.app/).
+The back end web API for our MadCourseEvaluator application is built using Python3 and Flask. The API is hosted on AWS EC2 and is accessible at [http://3.145.22.97/](http://3.145.22.97/).
 
 ## Running the API Locally
 

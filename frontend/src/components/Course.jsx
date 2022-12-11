@@ -19,7 +19,7 @@ const Course = () => {
   const [profGraphInfo, setProfGraphInfo] = useState([]);
 
   useEffect(() => {
-    fetch("/grade-distribution/" + courseID)
+    fetch("http://3.145.22.97/grade-distribution/" + courseID)
       .then((response) =>
         response.json().then((json) => {
           if (json && json["professor_cumulative_grade_distribution"]) {
@@ -31,7 +31,7 @@ const Course = () => {
   }, [courseInfo, courseID]);
 
   useEffect(() => {
-    fetch("/course-profs/" + courseID)
+    fetch("http://3.145.22.97/course-profs/" + courseID)
       .then((response) =>
         response.json().then((json) => {
           var professors = [];
@@ -82,7 +82,7 @@ const Course = () => {
   }, [profGraphInfo, courseID]);
 
   useEffect(() => {
-    fetch("/course-info/" + courseID).then((response) =>
+    fetch("http://3.145.22.97/course-info/" + courseID).then((response) =>
       response.json().then((json) => {
         setCourseInfo(json);
       })
@@ -90,7 +90,7 @@ const Course = () => {
   }, [courseID]);
 
   useEffect(() => {
-    fetch("/reddit-comments/" + courseID).then((response) =>
+    fetch("http://3.145.22.97/reddit-comments/" + courseID).then((response) =>
       response.json().then((json) => {
         var comments = [];
         for (var key in json) {
@@ -111,31 +111,32 @@ const Course = () => {
 
   // The returned gpa graph distribution for this course is converted into the required format for our graph API
   useEffect(() => {
-    fetch("/grade-distribution/" + courseID).then((response) =>
-      response.json().then((json) => {
-        if (json && json.cumulative) {
-          if (
-            json.cumulative.aCount === 0 &&
-            json.cumulative.abCount === 0 &&
-            json.cumulative.bCount === 0 &&
-            json.cumulative.bcCount === 0 &&
-            json.cumulative.cCount === 0 &&
-            json.cumulative.dCount === 0 &&
-            json.cumulative.fCount === 0
-          )
-            setGraphInfo([]);
-          else
-            setGraphInfo([
-              { name: "A", grade: json.cumulative.aCount },
-              { name: "AB", grade: json.cumulative.abCount },
-              { name: "B", grade: json.cumulative.bCount },
-              { name: "BC", grade: json.cumulative.bcCount },
-              { name: "C", grade: json.cumulative.cCount },
-              { name: "D", grade: json.cumulative.dCount },
-              { name: "F", grade: json.cumulative.fCount },
-            ]);
-        } else setGraphInfo([]);
-      })
+    fetch("http://3.145.22.97/grade-distribution/" + courseID).then(
+      (response) =>
+        response.json().then((json) => {
+          if (json && json.cumulative) {
+            if (
+              json.cumulative.aCount === 0 &&
+              json.cumulative.abCount === 0 &&
+              json.cumulative.bCount === 0 &&
+              json.cumulative.bcCount === 0 &&
+              json.cumulative.cCount === 0 &&
+              json.cumulative.dCount === 0 &&
+              json.cumulative.fCount === 0
+            )
+              setGraphInfo([]);
+            else
+              setGraphInfo([
+                { name: "A", grade: json.cumulative.aCount },
+                { name: "AB", grade: json.cumulative.abCount },
+                { name: "B", grade: json.cumulative.bCount },
+                { name: "BC", grade: json.cumulative.bcCount },
+                { name: "C", grade: json.cumulative.cCount },
+                { name: "D", grade: json.cumulative.dCount },
+                { name: "F", grade: json.cumulative.fCount },
+              ]);
+          } else setGraphInfo([]);
+        })
     );
   }, [courseInfo, courseID]);
 

@@ -29,4 +29,4 @@ r_username = 'badger-bot-2022'
 r_password = 'kOV7Nc5#m'
 
 # MadGrades API Token
-madgrades_api_token = 'cb8a029c688d46ea99a5d13f90296f18'
+madgrades_api_token = 'd04a5a1e792743ce930d4727d74afcdb'

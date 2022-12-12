@@ -25,6 +25,7 @@ const Home = () => {
         </Row>
         <Row>
           <div class="rbt-home">
+            {/* Search component */}
             <Search />
           </div>
         </Row>

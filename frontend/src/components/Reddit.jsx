@@ -13,7 +13,7 @@ const Reddit = ({redditList }) => {
   return (
     <>
       {/* Reddit box */}
-      {redditList && redditList.length > 0 ? (
+      {redditList && redditList.length > 0 ? ( // if Reddit data exists, display it
         <Container>
           <Row className="reddit-box-header">
             <img

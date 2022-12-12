@@ -39,6 +39,7 @@ const ProfessorList = ({ professorList }) => {
             <Col xs={prof.graph && prof.graph.length > 0 ? undefined : 12}>
               <Row>
                 <h6 className="center">
+                  {/* Professor Name */}
                   <b>{prof.name}</b>
                 </h6>
               </Row>
@@ -51,6 +52,7 @@ const ProfessorList = ({ professorList }) => {
                 </h6>
               </Row>
               <Row>
+                {/* Professor Department */}
                 <h6 className="center">{prof.dept}</h6>
               </Row>
               <Row>
@@ -60,10 +62,12 @@ const ProfessorList = ({ professorList }) => {
               </Row>
               <Row>
                 <h6 className="center">
+                  {/* Professor rating out of 5 */}
                   {prof.RMPRating + "/5, " + prof.RMPRatingClass}
                 </h6>
               </Row>
             </Col>
+            // if there is professor GPA info, display a GPA graph
             {prof.graph && prof.graph.length > 0 && (
               <Col xs={8}>
                 <BarChart width={300} height={200} data={prof.graph}>

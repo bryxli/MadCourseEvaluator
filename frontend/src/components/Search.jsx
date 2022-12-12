@@ -20,10 +20,12 @@ const Search = () => {
     fetch("http://3.145.22.97/all-courses").then((response) =>
       response.json().then((json) => {
         var classes = [];
+        // for each class get their course code, name, and course ID
         for (var key in json) {
           const code = json[key].cCode;
           const name = json[key].cName;
           const id = json[key].cUID;
+          // concatenate class code and name so that either can be used in search
           const classFull = {
             result: code.concat(" - " + name),
             id: id,
@@ -37,6 +39,7 @@ const Search = () => {
     fetch("http://3.145.22.97/all-profs").then((response) =>
       response.json().then((json) => {
         var professors = [];
+        // for each professor get their name and professor ID
         for (var key in json) {
           const name = json[key].name;
           const id = key;

@@ -46,6 +46,9 @@ const Course = () => {
       .then((response) =>
         response.json().then((json) => {
           var professors = [];
+          // For professor course in the json response, create a new object with
+          // the professor name, rate my professor rating, department, rate my
+          // professor rating class, and professor ID
           for (var key in json) {
             const name = json[key].name;
             const RMPRating = json[key].RMPRating;
@@ -53,10 +56,10 @@ const Course = () => {
             const RMPRatingClass = json[key].RMPRatingClass;
             const id = key;
 
-            let graph = {};
+            let graph = {}; // populate professor graph with prof-specific GPA's
             if (profGraphInfo.hasOwnProperty(id)) {
               const temp = profGraphInfo[id];
-              if (
+              if ( // if no prof graph info exists, make an empty graph
                 temp.aCount === 0 &&
                 temp.abCount === 0 &&
                 temp.bCount === 0 &&
@@ -66,7 +69,7 @@ const Course = () => {
                 temp.fCount === 0
               )
                 graph = [];
-              else
+              else // otherwise, set the values of graph to
                 graph = [
                   { name: "A", grade: temp.aCount ?? 0 },
                   { name: "AB", grade: temp.abCount ?? 0 },
@@ -77,7 +80,7 @@ const Course = () => {
                   { name: "F", grade: temp.fCount ?? 0 },
                 ];
             }
-            professors.push({
+            professors.push({ // push the prof data to the professors array
               name,
               RMPRating,
               dept,
@@ -86,7 +89,7 @@ const Course = () => {
               graph,
             });
           }
-          setProfessorList(professors);
+          setProfessorList(professors); //set the ProfessorList state as the professors array
         })
       )
       .catch((e) => console.log("error while calling course-profs API", e));
@@ -117,7 +120,7 @@ const Course = () => {
         comments.sort((a, b) => {
           return b.votes - a.votes;
         }); // Sorting in descending order based on upvotes
-        setRedditList(comments);
+        setRedditList(comments); // set the RedditList state as the comments array
       })
     );
   }, [courseInfo, courseID]);
@@ -128,7 +131,7 @@ const Course = () => {
     fetch("http://3.145.22.97/grade-distribution/" + courseID).then(
       (response) =>
         response.json().then((json) => {
-          if (json && json.cumulative) {
+          if (json && json.cumulative) { // check if there is cumulative grade data for the class
             if (
               json.cumulative.aCount === 0 &&
               json.cumulative.abCount === 0 &&
@@ -138,9 +141,9 @@ const Course = () => {
               json.cumulative.dCount === 0 &&
               json.cumulative.fCount === 0
             )
-              setGraphInfo([]);
+              setGraphInfo([]); // set the graph to an empty graph if no data
             else
-              setGraphInfo([
+              setGraphInfo([ // set the graph to the cumulative values if there is data
                 { name: "A", grade: json.cumulative.aCount },
                 { name: "AB", grade: json.cumulative.abCount },
                 { name: "B", grade: json.cumulative.bCount },
@@ -161,9 +164,11 @@ const Course = () => {
       </Row>
       <Container className="grey-box full">
         <Row>
+          {/*Course Name */}
           <h3 className="bold-heading-style">{courseInfo.cName}</h3>
         </Row>
         <Row className="heading-style">
+          {/*Course Code */}
           <h3>{courseInfo.cCode}</h3>
         </Row>
 
@@ -173,6 +178,7 @@ const Course = () => {
               <h5 className="bold-heading-style">Subject</h5>
             </Row>
             <Row>
+              {/*Course Subject */}
               <h5 className="heading-style">{courseInfo.cSubject}</h5>
             </Row>
           </Col>
@@ -182,6 +188,7 @@ const Course = () => {
               <h5 className="bold-heading-style">Credits</h5>
             </Row>
             <Row>
+              {/*Number of course credits */}
               <h5 className="heading-style">{courseInfo.cCredits}</h5>
             </Row>
           </Col>
@@ -191,23 +198,26 @@ const Course = () => {
           <h5 className="bold-heading-style">Description</h5>
         </Row>
         <Row>
+          {/*Course description */}
           <h5 className="heading-style">{courseInfo.cDescription}</h5>
         </Row>
 
         <Row>
           <h5 className="heading-style">
+            {/*Course requisities */}
             <b>Requisites</b>
             {": " + courseInfo.cReq}
           </h5>
         </Row>
 
         <Row>
-          {graphInfo &&
+          {graphInfo && // if there is graph data and reddit data, make a row to
+                        // hold them
           graphInfo.length > 0 &&
           redditList &&
           redditList.length > 0 ? (
             <Col>
-              {graphInfo && graphInfo.length > 0 ? (
+              {graphInfo && graphInfo.length > 0 ? ( // if there is graph data, display the graph
                 <div xs={12} lg={6} className="graph-box">
                   <GPAGraph graphInfo={graphInfo} />
                 </div>
@@ -215,7 +225,7 @@ const Course = () => {
                 <></>
               )}
 
-              {redditList && redditList.length > 0 ? (
+              {redditList && redditList.length > 0 ? ( // if there is reddit infoo display reddit comments
                 <Row xs={12} md={6} className="reddit-box">
                   <Reddit redditList={redditList} />
                 </Row>
@@ -226,7 +236,7 @@ const Course = () => {
           ) : (
             <></>
           )}
-
+          // if there is course instructor information, display the professorList
           {professorList && professorList.length > 0 ? (
             <Col xs={12} lg={6}>
               <Row>
@@ -236,7 +246,7 @@ const Course = () => {
                 {<ProfessorList professorList={professorList} />}
               </Row>
             </Col>
-          ) : (
+          ) : ( // if there is no prof info, tell the user
             <>
               <h5 className="heading-style">
                 No Intructor Info found for this course

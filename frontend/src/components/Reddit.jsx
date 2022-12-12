@@ -1,6 +1,10 @@
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
-const Reddit = ({redditList }) => {
+
+// Reddit: This component shows Reddit comments about a certain class, using
+//    comment specified by redditList
+// This component is used by Course
+const Reddit = ({ redditList }) => {
   return (
     <>
       {redditList && redditList.length > 0 ? (

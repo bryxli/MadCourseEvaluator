@@ -2,7 +2,7 @@ import React from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { useNavigate } from "react-router-dom";
+import { createSearchParams, useNavigate } from "react-router-dom";
 import {
   BarChart,
   CartesianGrid,
@@ -12,8 +12,14 @@ import {
   Legend,
   Bar,
 } from "recharts";
+
+// ProfessorList: Contains each instructor that teaches a particular course, as
+//    well as their department, rate my professor rating, average GPA, and a
+//    graph showing their average grade distribution for the class (GPAGraph)
+// This component is used by Course
 const ProfessorList = ({ professorList }) => {
   let navigate = useNavigate();
+
   return (
     <div className="professor-list">
       {professorList.map((prof) => (

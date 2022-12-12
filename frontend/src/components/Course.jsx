@@ -8,6 +8,11 @@ import GPAGraph from "./GPAGraph";
 import Reddit from "./Reddit";
 import ProfessorList from "./ProfessorList";
 
+// Course: displays Header and all course info: basic course info,
+//    cumulative GPA graph, list of reddit comments, and info on instructors
+//    that teach that course.
+// when in course page, pssing in a new search parameter does not rerender the
+//    data (also applies to professor page)
 const Course = () => {
   const courseID = useParams().id;
 
@@ -18,6 +23,7 @@ const Course = () => {
   const [professorList, setProfessorList] = useState([]);
   const [profGraphInfo, setProfGraphInfo] = useState([]);
 
+  // fetch course info
   useEffect(() => {
     fetch("http://3.145.22.97/course-info/" + courseID).then((response) =>
       response.json().then((json) => {
@@ -38,6 +44,7 @@ const Course = () => {
       .catch((e) => console.log("error while calling grade-distribution API"));
   }, [courseInfo, courseID]);
 
+  // fetch professor list and professor GPA info to be used in ProfessorList
   useEffect(() => {
     fetch("http://3.145.22.97/course-profs/" + courseID)
       .then((response) =>
@@ -89,6 +96,7 @@ const Course = () => {
       .catch((e) => console.log("error while calling course-profs API", e));
   }, [profGraphInfo, courseID]);
 
+  // fetch Reddit comments to be used in Reddit component, sorting by popularity
   useEffect(() => {
     fetch("http://3.145.22.97/reddit-comments/" + courseID).then((response) =>
       response.json().then((json) => {
@@ -109,7 +117,8 @@ const Course = () => {
     );
   }, [courseInfo, courseID]);
 
-  // The returned gpa graph distribution for this course is converted into the required format for our graph API
+  // The returned gpa graph distribution for this course is converted into the
+  //    required format for our graph API
   useEffect(() => {
     fetch("http://3.145.22.97/grade-distribution/" + courseID).then(
       (response) =>

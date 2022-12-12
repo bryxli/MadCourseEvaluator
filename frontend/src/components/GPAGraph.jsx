@@ -1,3 +1,10 @@
+/**
+ * Authors: Aidan Shine, Bryan Li, Jarvis Jia, Peter Bryant, Swathi Annamaneni, Tong Yang
+ * Revision History: 11/01/2022:12/12/2022
+ * Organization: Madgers
+ * Version: 1.0.0
+ */
+
 import React from "react";
 import {
   BarChart,

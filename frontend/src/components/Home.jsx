@@ -21,6 +21,7 @@ const Home = () => {
           <h4>Detailed Course information at your fingertips</h4>
         </Row>
         <Row>
+          {/* Search bar */}
           <div class="rbt-home">
             <Search />
           </div>

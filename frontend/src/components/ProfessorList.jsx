@@ -1,3 +1,10 @@
+/**
+ * Authors: Aidan Shine, Bryan Li, Jarvis Jia, Peter Bryant, Swathi Annamaneni, Tong Yang
+ * Revision History: 11/01/2022:12/12/2022
+ * Organization: Madgers
+ * Version: 1.0.0
+ */
+
 import React from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -18,20 +25,23 @@ import {
 //    graph showing their average grade distribution for the class (GPAGraph)
 // This component is used by Course
 const ProfessorList = ({ professorList }) => {
-  let navigate = useNavigate();
+  const navigate = useNavigate(); // useNavigate hook which is used to navigate to a different route
 
   return (
     <div className="professor-list">
+      {/* Map each professor to a seperate container */}
       {professorList.map((prof) => (
         <Container key={prof.id} className="professor-list-item">
           <Row
             onClick={() => {
+              // Navigates to corresponding professor upon clicking instructor box
               navigate({
                 pathname: `/instructor/${prof.id}`,
               });
             }}
           >
             <Col xs={prof.graph && prof.graph.length > 0 ? undefined : 12}>
+              {/* Professor Name */}
               <Row>
                 <h6 className="center">
                   <b>{prof.name}</b>
@@ -40,6 +50,8 @@ const ProfessorList = ({ professorList }) => {
               <Row>
                 <p> </p>
               </Row>
+
+              {/* Professor Department */}
               <Row>
                 <h6 className="center">
                   <b>{"Dept"}</b>
@@ -48,6 +60,8 @@ const ProfessorList = ({ professorList }) => {
               <Row>
                 <h6 className="center">{prof.dept}</h6>
               </Row>
+
+              {/* Professor Rating */}
               <Row>
                 <h6 className="center">
                   <b>{"Rating"}</b>
@@ -59,6 +73,8 @@ const ProfessorList = ({ professorList }) => {
                 </h6>
               </Row>
             </Col>
+
+            {/* Professor Graph */}
             {prof.graph && prof.graph.length > 0 && (
               <Col xs={8}>
                 <BarChart width={300} height={200} data={prof.graph}>

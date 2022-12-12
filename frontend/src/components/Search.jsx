@@ -27,7 +27,7 @@ const Search = () => {
     fetch("http://3.145.22.97/all-courses").then((response) =>
       response.json().then((json) => {
         var classes = [];
-        // For each course in the json response, create a new object with the course code and the course name
+        // for each course in the json response, create a new object with the course code and the course name
         for (var key in json) {
           const code = json[key].cCode;
           const name = json[key].cName;
@@ -46,7 +46,7 @@ const Search = () => {
     fetch("http://3.145.22.97/all-profs").then((response) =>
       response.json().then((json) => {
         var professors = [];
-        // For each professor in the json response, create a new object with the professor name
+        // for each professor in the json response, create a new object with the professor name
         for (var key in json) {
           const name = json[key].name;
           const id = key;

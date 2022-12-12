@@ -15,7 +15,7 @@ import { useParams, useNavigate } from "react-router-dom";
 // Instructor: component that shows instructor info as well as a list of all
 //    classes taught by the instructor(and links to each one)
 const Instructor = () => {
-  let navigate = useNavigate(); // useNavigate hook which is used to navigate to a different route
+  const navigate = useNavigate(); // useNavigate hook which is used to navigate to a different route
 
   const professorID = useParams().id; // get the value of the id param
 
@@ -35,7 +35,7 @@ const Instructor = () => {
     fetch("http://3.145.22.97/prof-courses/" + professorID).then((response) =>
       response.json().then((json) => {
         var classes = [];
-        // For each course in the json response, create a new object with the course code and the course name
+        // for each course in the json response, create a new object with the course code and the course name
         for (var key in json) {
           const classFull = {
             code: json[key].cCode,

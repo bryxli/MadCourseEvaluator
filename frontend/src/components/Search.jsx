@@ -84,7 +84,7 @@ const Search = () => {
     // Wrapper for Typeahead to allow submission
     <Form onSubmit={submit}>
       <Form.Group>
-        {/* Search box dropdown */}
+        {/* Search box dropdown / Bootstrap Typeahead */}
         <Typeahead
           id="search"
           onChange={setSelected}

@@ -8,16 +8,16 @@ secret = 'not so secret key'
 
 
 # Heroku MySQL Database Credentials
-user='admin'
-password='mce_password' 
-host='ec2-3-145-22-97.us-east-2.compute.amazonaws.com'
-database='MCE'
+# user='admin'
+# password='mce_password' 
+# host='ec2-3-145-22-97.us-east-2.compute.amazonaws.com'
+# database='MCE'
 
 # MySQL Database Credentials
-# user='root'
-# password='Orion007' 
-# host='127.0.0.1'
-# database='madcourseevaluator'
+user='root'
+password='Orion007' 
+host='127.0.0.1'
+database='madcourseevaluator'
 
 # Python Reddit API Wrapper
 PRAW_client_id = 'T6u5hwv_zwez-RrT33NCaA'

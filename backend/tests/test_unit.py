@@ -73,7 +73,6 @@ class TestUtil(unittest.TestCase):
         
         grade_distributions = mg.MadGrades(compsci_577_cCode) # Get grade distributions for COMP SCI 577
 
-        print(grade_distributions['courseOfferings'][0])
         # Test that grade distributions are returned with correct keys
         self.assertIsInstance(grade_distributions, dict)
         keys = list(grade_distributions.keys())
@@ -98,8 +97,22 @@ class TestUtil(unittest.TestCase):
         keys = grade_distributions['courseOfferings'][0]['termCode']
         self.assertEqual(keys, termCode)
 
+        # Check that the cumulative grades within each term
+        self.assertIsInstance(grade_distributions['courseOfferings'], list)
+        self.assertIsInstance(grade_distributions['courseOfferings'][0]['cumulative'], dict)
+        cumulative_cols = ['total', 'aCount', 'abCount', 'bCount', 'bcCount', 'cCount', 'dCount', 'fCount', 'sCount', 'uCount', 'crCount', 'nCount', 'pCount', 'iCount', 'nwCount', 'nrCount', 'otherCount']
+        keys = list(grade_distributions['courseOfferings'][0]['cumulative'].keys())
+        self.assertEqual(keys, cumulative_cols)
 
         # Check that the madgrade api get correct instructor information
+        self.assertIsInstance(grade_distributions['courseOfferings'], list)
+        self.assertIsInstance(grade_distributions['courseOfferings'][0]['sections'], list)
+        self.assertIsInstance(grade_distributions['courseOfferings'][0]['sections'][0]['instructors'], list)
+        instructorName = 'JIN-YI CAI'
+        keys = grade_distributions['courseOfferings'][0]['sections'][0]['instructors'][0]['name']
+        self.assertEqual(keys, instructorName)
+
+        
     '''''
     We used to use this test for RMP api, but now RMP changed their whole website,
     so we just list our test here to show that 

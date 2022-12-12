@@ -10,7 +10,7 @@ sys.path.insert(0, parentdir)
 
 from models.models import Courses, Professors, RC, Teaches
 import madgrades as mg
-from RMP.ratemyprof_api import RateMyProfApi
+from rmp_scrape.fetch_all import RateMyProfApi
 
 """
 # Unit Tests: DB Models, Utility Functions called by View Functions

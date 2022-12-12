@@ -1,6 +1,6 @@
 import requests
 import json
-from RMP.ratemyprof_api import RateMyProfApi # Public & Modified RMP API for Professor Data
+from rmp_scrape.fetch_all import RateMyProfApi # Public & Modified RMP API for Professor Data
 
 prof_json = {} 
 count = 0
@@ -25,14 +25,15 @@ def PopProfessors():
     professors_data = [] 
     professors_data.append(api_1.ScrapeProfessors(True)) # (DOCS: 1.1.2.3)
     professors_data.append(api_2.ScrapeProfessors(True))
+
     j = 0
     prof_json = {}
     # Iterate through each list of professors and call the helper function to populate the professors table.
     for data in professors_data:
         for professor in data:
-
-                                                 
-            professor = data[professor] # Individual professor data      
+            
+            # Individual professor data    
+            professor = data[professor]  
 
             # Store the professor's data in a dictionary   
             prof_json[f'professor {j}'] = {}                   
@@ -44,9 +45,10 @@ def PopProfessors():
             prof_json[f'professor {j}']['RMPRatingClass'] = professor.rating_class
             j = j + 1
 
+    # save all the professor into files
     with open("all-professors.json", "a") as outfile:
         json.dump(prof_json,  outfile, indent = 4)
     outfile.close()
 
-
-PopProfessors()
+if __name__ == '__main__':
+    PopProfessors()

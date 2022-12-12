@@ -2,7 +2,7 @@ import requests
 import json
 import math
 import os
-from professor import Professor
+from .professor import Professor
 
 class RateMyProfApi:
     """

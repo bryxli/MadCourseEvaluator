@@ -73,6 +73,7 @@ class TestUtil(unittest.TestCase):
         
         grade_distributions = mg.MadGrades(compsci_577_cCode) # Get grade distributions for COMP SCI 577
 
+        print(grade_distributions['courseOfferings'][0])
         # Test that grade distributions are returned with correct keys
         self.assertIsInstance(grade_distributions, dict)
         keys = list(grade_distributions.keys())
@@ -84,20 +85,40 @@ class TestUtil(unittest.TestCase):
         keys = list(grade_distributions['cumulative'].keys())
         self.assertEqual(keys, cumulative_cols)
 
+        # Check that the cumulative grade distribution is returned with correct keys
+        self.assertIsInstance(grade_distributions['courseUuid'], str)
+        courseId = '1f36cc02-0eee-3fcf-be09-1ad17aecf83c'
+        keys = grade_distributions['courseUuid']
+        self.assertEqual(keys, courseId)
+
+        # Check that the madgrade api get correct termCode (per semester based)
+        self.assertIsInstance(grade_distributions['courseOfferings'], list)
+        self.assertIsInstance(grade_distributions['courseOfferings'][0], dict)
+        termCode = 1224
+        keys = grade_distributions['courseOfferings'][0]['termCode']
+        self.assertEqual(keys, termCode)
+
+
+        # Check that the madgrade api get correct instructor information
+    '''''
+    We used to use this test for RMP api, but now RMP changed their whole website,
+    so we just list our test here to show that 
+    '''''
     def test_RMP_api(self):
         """Test that ratemyprof_api.py returns the expected professor data for each professor"""
 
-        # Instantiate UW-Madison RateMyProfessor Object (DOCS: 1.1.2.1)
-        uwm_rmp_sid_1 = "1256"  # RMP School ID #1
-        uwm_rmp_sid_2 = "18418" # RMP School ID #2
 
-        api_1 = RateMyProfApi(uwm_rmp_sid_1) # (DOCS: 1.1.2.2)
-        api_2 = RateMyProfApi(uwm_rmp_sid_2)
+        # # Instantiate UW-Madison RateMyProfessor Object (DOCS: 1.1.2.1)
+        # uwm_rmp_sid_1 = "1256"  # RMP School ID #1
+        # uwm_rmp_sid_2 = "18418" # RMP School ID #2
 
-        professor_data = []
+        # api_1 = RateMyProfApi(uwm_rmp_sid_1) # (DOCS: 1.1.2.2)
+        # api_2 = RateMyProfApi(uwm_rmp_sid_2)
 
-        professor_data.append(api_1.ScrapeProfessors()) 
-        professor_data.append(api_2.ScrapeProfessors())
+        # professor_data = []
+
+        # professor_data.append(api_1.ScrapeProfessors()) 
+        # professor_data.append(api_2.ScrapeProfessors())
 
         # self.assertEqual(len(professor_data), 4322) # RMP has 4322 professors at UW-Madison for SID = 1256
         # # prof_json = {}                                   

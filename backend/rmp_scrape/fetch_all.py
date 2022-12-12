@@ -2,7 +2,7 @@ import requests
 import json
 import math
 import os
-from .professor import Professor
+from professor import Professor
 
 class RateMyProfApi:
     """
@@ -83,13 +83,13 @@ class RateMyProfApi:
         if self.UniversityId == '1256':
             # first RMP seed 1256
             page = requests.get(
-                "http://www.ratemyprofessors.com/filter/professor/?&page=1&queryoption=TEACHER&queryBy=schoolId&sid="
+                "http://www.ratemyprofessors.com/filter/professor/?&page=1&queryoption=TEACHER&query=*&sid="
                 + str(self.UniversityId)
             )
         else: 
             # second RMP seed 18418
             page = requests.get(
-                "http://www.ratemyprofessors.com/filter/professor/?&page=2&queryoption=TEACHER&query=*&sid="
+                "http://www.ratemyprofessors.com/filter/professor/?&page=1&queryoption=TEACHER&query=*&sid="
                 + str(self.UniversityId)
             )
 

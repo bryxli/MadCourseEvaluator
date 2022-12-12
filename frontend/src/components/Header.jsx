@@ -1,3 +1,10 @@
+/**
+ * Authors: Aidan Shine, Bryan Li, Jarvis Jia, Peter Bryant, Swathi Annamaneni, Tong Yang
+ * Revision History: 11/01/2022:12/12/2022
+ * Organization: Madgers
+ * Version: 1.0.0
+ */
+
 import React, { useState, useEffect } from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -24,12 +31,13 @@ const Header = () => {
     <Container className="full">
       <Row>
         <LinkContainer to="/">
+          {/* Team Logo and Header Text */}
           <Col className="header-start">
             <img className="header-logo" src="/teamLogo.png" alt="team-logo" />
-
             <h3 className="header-text"> UW </h3>
           </Col>
         </LinkContainer>
+
         {/** Search bar render on other pages, commented to ease number of endpoint calls */}
         {/**!isHome && (
           <Col>

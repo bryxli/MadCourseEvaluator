@@ -1,3 +1,10 @@
+/**
+ * Authors: Aidan Shine, Bryan Li, Jarvis Jia, Peter Bryant, Swathi Annamaneni, Tong Yang
+ * Revision History: 11/01/2022:12/12/2022
+ * Organization: Madgers
+ * Version: 1.0.0
+ */
+
 html,
 body,
 #root {
@@ -6,50 +13,37 @@ body,
   overflow-x: hidden;
 }
 
+/* Default container used to wrap components */
 .container {
   max-width: 100%;
   margin: 0;
   padding: 0;
 }
 
+/* Used for containers that need to take up the full width and height */
 .full {
   width: 100%;
   height: 100%;
 }
 
+/* Used in ProfessorList to ensure professor information stays centered */
 .center {
   margin-left: auto;
   margin-right: auto;
 }
 
-.header-container {
-  padding-left: 10px;
-  padding-right: 10px;
-}
-
+/* Used in Home component to make search bar reactive */
 .rbt-home {
   width: 100%;
   padding: 0% 10% 0%;
 }
 
+/* Used in Home component to stretch container */
 .hidden {
   visibility: hidden;
 }
 
-.white-box {
-  height: 4%;
-  background-color: #ffffff;
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  color: #000000;
-  line-height: 100%;
-  font-size: xx-large;
-  gap: 65%;
-  margin-top: 1%;
-  padding: 5%;
-}
-
+/* Used in Course component as background */
 .grey-box {
   background-image: linear-gradient(180deg, #d9d9d9 0%, #bcbbbb 100%);
   height: 100%;
@@ -60,6 +54,7 @@ body,
   overflow-x: hidden;
 }
 
+/* Used in Home component as background */
 .pink-box {
   background-image: linear-gradient(239.54deg, #d9d9d9 12.81%, #ff7787 100.59%);
   height: 96vh;
@@ -72,7 +67,7 @@ body,
   padding-bottom: 10%;
 }
 
-/*  NEW Down */
+/* Used in Instructor component as bottom background */
 .black-box2 {
   background-image: linear-gradient(239.54deg, #d9d9d9 12.81%, black 100.59%);
   height: 100%;
@@ -84,6 +79,7 @@ body,
   padding-bottom: 10%;
 }
 
+/* Used in Instructor component as top background */
 .card {
   padding-top: 2%;
   padding-bottom: 2%;
@@ -122,29 +118,18 @@ body,
   color: white;
 }
 
-.black-box {
-  background-image: linear-gradient(239.54deg, #d9d9d9 12.81%, black 100.59%);
-  height: 96vh;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 3%;
-  padding-bottom: 10%;
-}
-
-/* NEW Up */
-
+/* Used in Course component to create a radius for the cumulative course GPA */
 .graph-box {
   border-radius: 3%;
 }
 
+/* Used in Course component to make Reddit box reactive */
 .reddit-box {
   padding: 1%;
   width: 100%;
 }
 
+/* Used in Reddit component to create the Reddit logo */
 .reddit-box-header {
   display: flex;
   flex-direction: row;
@@ -153,6 +138,7 @@ body,
   margin-right: auto;
 }
 
+/* Used in Reddit component to create the comments from Reddit */
 .reddit-box-body {
   overflow: auto;
   height: 52vh;
@@ -163,6 +149,7 @@ body,
   border-radius: 4%;
 }
 
+/* Used in Instructor component to create list of courses */
 .course-list {
   background-color: white;
   border-radius: 3%;
@@ -176,6 +163,7 @@ body,
   padding: 1%;
 }
 
+/* Used in Instuctor component to create each item in the course list */
 .course-list-item {
   border-bottom: 4px solid #d9d9d9;
   flex-direction: row;
@@ -185,6 +173,7 @@ body,
   background-color: white;
 }
 
+/* Used in Reddit component to create each item in the comment list */
 .reddit-list-item {
   padding: 10px;
   border-bottom: 4px solid #d9d9d9;
@@ -193,27 +182,28 @@ body,
   background-color: white;
 }
 
+/* Used in Course and Instructor components to make font weight heavier */
 .heading-style {
   font-weight: 400;
 }
 
+/* Used in Course and Instructor components to make text bold */
 .bold-heading-style {
   font-weight: bolder !important;
 }
 
+/* Used in Home component to increase weight of text of h1 and h4 */
 .pink-box h1,
 .pink-box h4 {
   font-weight: 400;
 }
 
-.white-box p {
-  width: 50%;
-}
-
+/* Used in Course component to ensure list takes up full height */
 .professor-list-container {
   height: 100%;
 }
 
+/* Used in ProfessorList component to create list of professors */
 .professor-list {
   overflow-y: auto;
   max-height: 94vh;
@@ -224,6 +214,7 @@ body,
   height: fit-content;
 }
 
+/* Used in ProfessorList to create each item in the professor list */
 .professor-list-item {
   padding: 20px;
   padding-left: 40px;
@@ -232,12 +223,14 @@ body,
   cursor: pointer;
 }
 
+/* Used in Header component to create the Madgers logo */
 .header-logo {
   height: 35px;
   width: 40px;
   align-self: auto;
 }
 
+/* Used in Header component to create header */
 .header-start {
   margin-left: 20px;
   display: flex;
@@ -246,6 +239,7 @@ body,
   cursor: pointer;
 }
 
+/* Used in Header component to create the header text */
 .header-text {
   color: #000000;
   line-height: 100%;

@@ -52,7 +52,7 @@ engine = create_engine(db_uri)                  # Create SQLAlchemy Engine
 
 
 @app.route('/all-courses', methods=['GET', 'POST'])
-def AllCourses():
+def all_courses():
     """
     Returns JSON of all courses at the university along with all fields associated with each course.
 
@@ -86,7 +86,7 @@ def AllCourses():
 
 
 @app.route('/all-profs', methods=['GET', 'POST'])
-def AllProfs():
+def all_profs():
     """
     Returns a dictionary of all professors at the university along with all fields associated with each professor.
 
@@ -118,7 +118,7 @@ def AllProfs():
 
 
 @app.route('/course-info/<cUID>', methods=['GET', 'POST'])
-def courseInfo(cUID):
+def course_info(cUID):
     """
     Returns all of a single course's information from courses table corresponding to the given cUID.
 
@@ -158,7 +158,7 @@ def courseInfo(cUID):
 
 
 @app.route('/course-profs/<cUID>', methods=['GET', 'POST'])
-def courseProfs(cUID):
+def course_profs(cUID):
     """
     Returns all professors who have taught the a course corresponding to the given cUID. 
 
@@ -194,7 +194,7 @@ def courseProfs(cUID):
 
 
 @app.route('/reddit-comments/<cUID>', methods=['GET', 'POST'])
-def redditComments(cUID):
+def reddit_comments(cUID):
     """
     Returns all Reddit comments associated with the course corresponding to the given cUID.
 
@@ -236,9 +236,15 @@ def redditComments(cUID):
 
 
 @app.route('/grade-distribution/<cUID>', methods=['GET', 'POST'])
-def gradeDistribution(cUID):
+def grade_distribution(cUID):
     """
-    Returns grade distributions for the provided course.
+    Returns grade distributions for the provided course cUID.
+
+    Args:
+        cUID (str): Course Unique ID
+
+    Returns:
+        grade_distribution (dict): Dictionary containing grade distribution data for the course corresponding to the given cUID.
     """
     conn = engine.raw_connection()
     cursor = conn.cursor()
@@ -312,10 +318,10 @@ def gradeDistribution(cUID):
 
 
 @app.route('/prof-info/<pUID>', methods=['GET', 'POST'])
-def professorInfo(pUID):
+def professor_info(pUID):
     """
-    Specific Professor Info endpoint: returns all RateMyProfessor data for a professor
-    associated with the given pUID.
+    Returns all RateMyProfessor data for a professor associated with the given pUID.
+
     """
     conn = engine.raw_connection()
     cursor = conn.cursor()
@@ -336,7 +342,7 @@ def professorInfo(pUID):
 
 
 @app.route('/prof-courses/<pUID>', methods=['GET', 'POST'])
-def professorCourses(pUID):
+def professor_courses(pUID):
     """
     Returns all courses taught by a professor associated with the given pUID.
     """

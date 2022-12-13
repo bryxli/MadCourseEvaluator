@@ -1,3 +1,8 @@
+__author__ = "Jarvis Jia"
+__credits__ = ["Peter Bryant", "Jarvis Jia", "Bryan Li", "Swathi Annamaneni", "Aidan Shine"]
+__version__ = "1.0.0"
+__maintainer__ = "Jarvis Jia"
+
 import json
 from fetch import ScrapeCourses
 def ScrapeCoursesTest():

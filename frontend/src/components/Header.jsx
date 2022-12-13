@@ -11,11 +11,13 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { LinkContainer } from "react-router-bootstrap";
 
-// header: white bar with Madger Courses text that links back to homepage
-//    contains search bar on left
-// this component is used by Course, Instructor and Home
+/**
+ * header: white bar with Madger Courses text that links back to homepage
+ * contains search bar on left
+ * this component is used by Course, Instructor and Home
+ * @returns Header React element
+ */
 const Header = () => {
-
   return (
     <Container className="full">
       <Row>

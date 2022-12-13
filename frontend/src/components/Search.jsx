@@ -11,8 +11,11 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useNavigate } from "react-router-dom";
 
-// Search: search bar for users to search by course or instructor
-// This component is used by Home and Header
+/**
+ * Search: search bar for users to search by course or instructor
+ * This component is used by Home and Course (previously also Header)
+ * @returns Search React element
+ */
 const Search = () => {
   const navigate = useNavigate(); // useNavigate hook which is used to navigate to a different route
 
@@ -32,13 +35,14 @@ const Search = () => {
           const code = json[key].cCode;
           const name = json[key].cName;
           const id = json[key].cUID;
+          // concatenate class code and name so that either can be used in search
           const classFull = {
             result: code.concat(" - " + name), // Course code is modified to be displayed in Bootstrap Typeahead
             id: id,
           };
           classes.push(classFull); // push the new object to the classes list
         }
-        setClassList(classes);
+        setClassList(classes); // set the class state as the classes array
       })
     );
 
@@ -56,7 +60,7 @@ const Search = () => {
           };
           professors.push(professorFull); // push the new object to the professors list
         }
-        setProfList(professors);
+        setProfList(professors); // set the professorList state as the profList array
       })
     );
   }, []);

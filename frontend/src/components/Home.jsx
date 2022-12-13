@@ -4,9 +4,12 @@ import Row from "react-bootstrap/Row";
 import Header from "./Header";
 import Search from "./Search";
 
-// Home: This component is the homepage for Madger Course, with a large title
-//    and search bar where users can search by course or instructor. It also
-//    uses the Header component at the top.
+/**
+ * Home: This component is the homepage for Madger Course, with a large title,
+ * search bar, and blurb about the service.
+ * uses the Header component at the top.
+ * @returns Home React element
+ */
 const Home = () => {
   return (
     <Container className="full">
@@ -23,13 +26,9 @@ const Home = () => {
         <Row>
           {/* Search bar */}
           <div class="rbt-home">
+            {/* Search component */}
             <Search />
           </div>
-
-          {/** This is placeholder text to ensure that the row is constrained to the correct width */}
-          <p class="hidden">
-            aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-          </p>
         </Row>
       </Container>
     </Container>

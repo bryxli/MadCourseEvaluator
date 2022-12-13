@@ -16,8 +16,12 @@ import {
   Bar,
 } from "recharts";
 
-// GPAGraph: displays a BAR graph based on info passed in through graphInfo
-// This component is used by Course
+/**
+ * GPAGraph: displays a BAR graph based on info passed in through graphInfo
+ * This component is used by Course
+ * @param {*} graphInfo data to be displayed in graph, determined in Course
+ * @returns GPAGraph React element
+ */
 const GPAGraph = ({ graphInfo }) => {
   // graphInfo set in Course component
   return (

@@ -15,9 +15,14 @@ import GPAGraph from "./GPAGraph";
 import Reddit from "./Reddit";
 import ProfessorList from "./ProfessorList";
 
-// Course: displays Header and all course info: basic course info,
-//    cumulative GPA graph, list of reddit comments, and info on instructors
-//    that teach that course.
+/**
+ * Course: displays Header and all course info: basic course info, cumulative
+ * GPA graph, list of reddit comments, and info on instructors that teach that
+ * course.
+ * when in course page, pssing in a new search parameter does not rerender the
+ * data (also applies to professor page)
+ * @returns Course React element
+ */
 const Course = () => {
   const courseID = useParams().id; // get the value of the id param
 
@@ -86,7 +91,9 @@ const Course = () => {
       .then((response) =>
         response.json().then((json) => {
           var professors = [];
-          // for each professor in the json response, create a new object with the professor name, rate my professor rating, department, overall score (bad / good), and the graph properties
+          // For professor course in the json response, create a new object with
+          // the professor name, rate my professor rating, department, rate my
+          // professor rating class, and professor ID
           for (var key in json) {
             const name = json[key].name;
             const RMPRating = json[key].RMPRating;
@@ -94,11 +101,11 @@ const Course = () => {
             const RMPRatingClass = json[key].RMPRatingClass;
             const id = key;
 
-            let graph = {};
+            let graph = {}; // populate professor graph with prof-specific GPA's
             if (profGraphInfo.hasOwnProperty(id)) {
               const temp = profGraphInfo[id];
-              // if the graph is empty
               if (
+                // if no prof graph info exists, make an empty graph
                 temp.aCount === 0 &&
                 temp.abCount === 0 &&
                 temp.bCount === 0 &&
@@ -108,6 +115,7 @@ const Course = () => {
                 temp.fCount === 0
               )
                 graph = [];
+              // otherwise, set the values of graph to
               else
                 graph = [
                   { name: "A", grade: temp.aCount ?? 0 },
@@ -129,7 +137,7 @@ const Course = () => {
               graph,
             });
           }
-          setProfessorList(professors);
+          setProfessorList(professors); //set the ProfessorList state as the professors array
         })
       )
       .catch((e) => console.log("error while calling course-profs API", e));
@@ -154,7 +162,7 @@ const Course = () => {
             // Sorting in descending order based on upvotes
             return b.votes - a.votes;
           });
-          setRedditList(comments);
+          setRedditList(comments); // set the RedditList state as the comments array
         })
       )
       .catch((e) => console.log("error while loading reddit threads ", e));
@@ -243,12 +251,13 @@ const Course = () => {
 
         {/* Cumulative Course GPA Graph */}
         <Row>
-          {graphInfo &&
+          {graphInfo && // if there is graph data and reddit data, make a row to
+          // hold them
           graphInfo.length > 0 &&
           redditList &&
           redditList.length > 0 ? (
             <Col>
-              {graphInfo && graphInfo.length > 0 ? (
+              {graphInfo && graphInfo.length > 0 ? ( // if there is graph data, display the graph
                 <div xs={12} lg={6} className="graph-box">
                   <GPAGraph graphInfo={graphInfo} />
                 </div>
@@ -256,7 +265,7 @@ const Course = () => {
                 <></>
               )}
 
-              {redditList && redditList.length > 0 ? (
+              {redditList && redditList.length > 0 ? ( // if there is reddit infoo display reddit comments
                 <Row xs={12} md={6} className="reddit-box">
                   <Reddit redditList={redditList} />
                 </Row>
@@ -279,6 +288,7 @@ const Course = () => {
               </Row>
             </Col>
           ) : (
+            // if there is no prof info, tell the user
             <>
               <h5 className="heading-style">
                 No Intructor Info found for this course

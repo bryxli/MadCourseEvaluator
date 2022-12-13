@@ -38,7 +38,6 @@ import json
 # Custom Scripts
 # Custom MadGrades Script for Grade Distributions
 import madgrades as mg
-import populate_db
 import config                           # Application Configuration
 
 db_uri = 'mysql://' + config.user + ':' + config.password + '@' + config.host + '/' + config.database

@@ -249,8 +249,7 @@ def grade_distribution(cUID):
     conn = engine.raw_connection()
     cursor = conn.cursor()
 
-    cursor.execute("SELECT cCode FROM courses WHERE cUID = %s",
-                   (cUID,))  # Get the course code for the course
+    cursor.execute("SELECT cCode FROM courses WHERE cUID = %s", (cUID,))  # Get the course code for the course
     # Fetch the course code and strip the whitespace
     cCode = cursor.fetchall()[0][0]
 
@@ -322,6 +321,12 @@ def professor_info(pUID):
     """
     Returns all RateMyProfessor data for a professor associated with the given pUID.
 
+    Args:
+        pUID (str): The pUID of the professor whose data is to be returned.
+    
+    Returns:
+        professor_data (dict): A dictionary containing all RateMyProfessor data for the professor associated with the given pUID.
+
     """
     conn = engine.raw_connection()
     cursor = conn.cursor()
@@ -344,7 +349,13 @@ def professor_info(pUID):
 @app.route('/prof-courses/<pUID>', methods=['GET', 'POST'])
 def professor_courses(pUID):
     """
-    Returns all courses taught by a professor associated with the given pUID.
+    Returns all courses (with their data) taught by a professor associated with the given pUID.
+
+    Args:
+        pUID (str): The pUID of the professor whose courses are to be returned.
+
+    Returns:
+        full_course_data_json (dict): A dictionary containing all courses (with their data) taught by the professor associated with the given pUID.
     """
     conn = engine.raw_connection()
     cursor = conn.cursor()
@@ -391,4 +402,4 @@ def professor_courses(pUID):
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    app.run(port=5000)

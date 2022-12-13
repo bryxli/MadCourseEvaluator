@@ -257,7 +257,7 @@ def grade_distribution(cUID):
         return {'error': 'No courses found for route /grade-distribution/' + cUID + '.'}
 
     # Get grade distribution for the course using the course code
-    grade_distribution = mg.MadGrades(cCode)
+    grade_distribution = mg.mad_grades(cCode)
 
     # Get the cumulative grade distribution for each professor
     grade_distribution['professor_cumulative_grade_distribution'] = {}

@@ -243,7 +243,7 @@ def pop_teaches(testing=False):
         cUID = course[0]
         cCode = course[1]
         # Get the grade distribution for the course from MadGrades.com
-        grade_distributions = mg.MadGrades(cCode)
+        grade_distributions = mg.mad_grades(cCode)
 
         # Make sure MadGrades returns a dictionary of grade distribution data for each course
         if (grade_distributions is None):

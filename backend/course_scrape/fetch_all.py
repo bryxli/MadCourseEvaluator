@@ -9,10 +9,10 @@ from bs4 import BeautifulSoup
 from pprint import pprint
 import re
 
-def ScrapeCourses():
+def scrape_courses():
     """
-    Function to scrape the courses from UW-Madison course guide page
-
+    Function to scrape the courses from UW-Madison course guide page and store them in the all-courses.json file
+    within the parent directory.
     """
 
     # Set up the url from UW-Madison course guide page 
@@ -120,5 +120,5 @@ def ScrapeCourses():
 
 
 if __name__ == '__main__':
-    ScrapeCourses()
+    scrape_courses()
     

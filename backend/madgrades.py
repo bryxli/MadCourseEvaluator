@@ -8,7 +8,7 @@ auth_header = {'Authorization': 'Token ' + madgrades_api_token} # Authorization 
 # URL Constants
 madGrades_query_url = 'https://api.madgrades.com/v1/courses/?query='
 
-def MadGrades(courseCode):
+def mad_grades(courseCode):
     """
     Pulls grade distribution data for a course corresponding to a courseCode offered at UW-Madison.
     Example Course Code: "COMP SCI 577"

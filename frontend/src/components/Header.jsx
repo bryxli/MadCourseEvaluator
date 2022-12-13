@@ -5,27 +5,16 @@
  * Version: 1.0.0
  */
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Search from "./Search";
 import { LinkContainer } from "react-router-bootstrap";
-import { useLocation } from "react-router-dom";
 
 // header: white bar with Madger Courses text that links back to homepage
 //    contains search bar on left
 // this component is used by Course, Instructor and Home
 const Header = () => {
-  let location = useLocation();
-  const [isHome, setIsHome] = useState(location);
-
-  useEffect(() => {
-    // Google Analytics
-    console.log(location.pathname);
-    if (location.pathname === "/") setIsHome(true);
-    else setIsHome(false);
-  }, [location]);
 
   return (
     <Container className="full">
@@ -37,13 +26,6 @@ const Header = () => {
             <h3 className="header-text"> UW </h3>
           </Col>
         </LinkContainer>
-
-        {/** Search bar render on other pages, commented to ease number of endpoint calls */}
-        {/**!isHome && (
-          <Col>
-            <Search />
-          </Col>
-        )*/}
       </Row>
     </Container>
   );

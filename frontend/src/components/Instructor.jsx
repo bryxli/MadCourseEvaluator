@@ -25,27 +25,36 @@ const Instructor = () => {
   // fetch professor info and professor courses for a particular professorID
   useEffect(() => {
     // fetch the professor RMP data
-    fetch("http://3.145.22.97/prof-info/" + professorID).then((response) =>
-      response.json().then((json) => {
-        setProfessor(json);
-      })
-    );
+    fetch("http://3.145.22.97/prof-info/" + professorID)
+      .then((response) =>
+        response.json().then((json) => {
+          setProfessor(json);
+        })
+      )
+      .catch((e) =>
+        console.log("error loading professor info from backend ", e)
+      );
 
     // fetch the courses RMP data
     fetch("http://3.145.22.97/prof-courses/" + professorID).then((response) =>
-      response.json().then((json) => {
-        var classes = [];
-        // for each course in the json response, create a new object with the course code and the course name
-        for (var key in json) {
-          const classFull = {
-            code: json[key].cCode,
-            name: json[key].cName,
-            id: key,
-          };
-          classes.push(classFull); // push the new object to the classes list
-        }
-        setCourses(classes);
-      })
+      response
+        .json()
+        .then((json) => {
+          var classes = [];
+          // for each course in the json response, create a new object with the course code and the course name
+          for (var key in json) {
+            const classFull = {
+              code: json[key].cCode,
+              name: json[key].cName,
+              id: key,
+            };
+            classes.push(classFull); // push the new object to the classes list
+          }
+          setCourses(classes);
+        })
+        .catch((e) =>
+          console.log("error loading professor courses info from backend ", e)
+        )
     );
   }, [professorID]);
 

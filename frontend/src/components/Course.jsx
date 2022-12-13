@@ -30,23 +30,53 @@ const Course = () => {
   // fetch course info for a particular courseID
   useEffect(() => {
     fetch("http://3.145.22.97/course-info/" + courseID).then((response) =>
-      response.json().then((json) => {
-        setCourseInfo(json);
-      })
+      response
+        .json()
+        .then((json) => {
+          setCourseInfo(json);
+        })
+        .catch((e) => console.log("error loading courses from backend ", e))
     );
   }, [courseID]);
 
   // fetch professor graph info for a particular courseInfo, courseID to be used in fetching from /course-profs
+  // fetch overall gpa graph info for a particular courseInfo, courseID
+  // The returned gpa graph distribution for this course is converted into the
+  //    required format for our graph API
   useEffect(() => {
     fetch("http://3.145.22.97/grade-distribution/" + courseID)
-      .then((response) =>
-        response.json().then((json) => {
-          if (json && json["professor_cumulative_grade_distribution"]) {
-            // if the response is valid
-            setProfGraphInfo(json["professor_cumulative_grade_distribution"]);
-          } else setProfGraphInfo({});
-        })
-      )
+      .then((response) => response.json())
+      .then((json) => {
+        // if the response is valid
+        if (json && json["professor_cumulative_grade_distribution"])
+          setProfGraphInfo(json["professor_cumulative_grade_distribution"]);
+        else setProfGraphInfo({});
+
+        // if the graph is not empty
+        if (
+          json &&
+          json.cumulative &&
+          !(
+            json.cumulative.aCount === 0 &&
+            json.cumulative.abCount === 0 &&
+            json.cumulative.bCount === 0 &&
+            json.cumulative.bcCount === 0 &&
+            json.cumulative.cCount === 0 &&
+            json.cumulative.dCount === 0 &&
+            json.cumulative.fCount === 0
+          )
+        )
+          setGraphInfo([
+            { name: "A", grade: json.cumulative.aCount },
+            { name: "AB", grade: json.cumulative.abCount },
+            { name: "B", grade: json.cumulative.bCount },
+            { name: "BC", grade: json.cumulative.bcCount },
+            { name: "C", grade: json.cumulative.cCount },
+            { name: "D", grade: json.cumulative.dCount },
+            { name: "F", grade: json.cumulative.fCount },
+          ]);
+        else setGraphInfo([]);
+      })
       .catch((e) => console.log("error while calling grade-distribution API"));
   }, [courseInfo, courseID]);
 
@@ -107,59 +137,27 @@ const Course = () => {
 
   // fetch Reddit comments for a particular courseInfo, courseID to be used in Reddit component, sorting by popularity
   useEffect(() => {
-    fetch("http://3.145.22.97/reddit-comments/" + courseID).then((response) =>
-      response.json().then((json) => {
-        var comments = [];
-        // for each comment in the json response, create a new object with the comment body, comment link, and number of votes
-        for (var key in json) {
-          const id = key;
-          const body = json[key].comBody;
-          const link = json[key].comLink;
-          const votes = json[key].comVotes;
-
-          comments.push({ id, body, link, votes }); // push the new object to the comments list
-        }
-        comments.sort((a, b) => {
-          // Sorting in descending order based on upvotes
-          return b.votes - a.votes;
-        });
-        setRedditList(comments);
-      })
-    );
-  }, [courseInfo, courseID]);
-
-  // fetch overall gpa graph info for a particular courseInfo, courseID
-  // The returned gpa graph distribution for this course is converted into the
-  //    required format for our graph API
-  useEffect(() => {
-    fetch("http://3.145.22.97/grade-distribution/" + courseID).then(
-      (response) =>
+    fetch("http://3.145.22.97/reddit-comments/" + courseID)
+      .then((response) =>
         response.json().then((json) => {
-          if (json && json.cumulative) {
-            // if the graph is empty
-            if (
-              json.cumulative.aCount === 0 &&
-              json.cumulative.abCount === 0 &&
-              json.cumulative.bCount === 0 &&
-              json.cumulative.bcCount === 0 &&
-              json.cumulative.cCount === 0 &&
-              json.cumulative.dCount === 0 &&
-              json.cumulative.fCount === 0
-            )
-              setGraphInfo([]);
-            else
-              setGraphInfo([
-                { name: "A", grade: json.cumulative.aCount },
-                { name: "AB", grade: json.cumulative.abCount },
-                { name: "B", grade: json.cumulative.bCount },
-                { name: "BC", grade: json.cumulative.bcCount },
-                { name: "C", grade: json.cumulative.cCount },
-                { name: "D", grade: json.cumulative.dCount },
-                { name: "F", grade: json.cumulative.fCount },
-              ]);
-          } else setGraphInfo([]);
+          var comments = [];
+          // for each comment in the json response, create a new object with the comment body, comment link, and number of votes
+          for (var key in json) {
+            const id = key;
+            const body = json[key].comBody;
+            const link = json[key].comLink;
+            const votes = json[key].comVotes;
+
+            comments.push({ id, body, link, votes }); // push the new object to the comments list
+          }
+          comments.sort((a, b) => {
+            // Sorting in descending order based on upvotes
+            return b.votes - a.votes;
+          });
+          setRedditList(comments);
         })
-    );
+      )
+      .catch((e) => console.log("error while loading reddit threads ", e));
   }, [courseInfo, courseID]);
 
   return (
@@ -169,53 +167,79 @@ const Course = () => {
       </Row>
 
       <Container className="grey-box full">
-        {/* Course Name */}
-        <Row>
-          <h3 className="bold-heading-style">{courseInfo.cName}</h3>
-        </Row>
-
-        {/* Course Code */}
-        <Row className="heading-style">
-          <h3>{courseInfo.cCode}</h3>
-        </Row>
-
-        {/* Course Subject */}
-        <Row>
-          <Col>
+        {
+          /* Course Name */
+          courseInfo.cName && (
             <Row>
-              <h5 className="bold-heading-style">Subject</h5>
+              <h3 className="bold-heading-style">{courseInfo.cName}</h3>
             </Row>
-            <Row>
-              <h5 className="heading-style">{courseInfo.cSubject}</h5>
-            </Row>
-          </Col>
+          )
+        }
 
-          {/* Course Credits */}
-          <Col>
-            <Row>
-              <h5 className="bold-heading-style">Credits</h5>
+        {
+          /* Course Code */
+          courseInfo.cCode && (
+            <Row className="heading-style">
+              <h3>{courseInfo.cCode}</h3>
             </Row>
-            <Row>
-              <h5 className="heading-style">{courseInfo.cCredits}</h5>
-            </Row>
-          </Col>
+          )
+        }
+
+        <Row>
+          {
+            /* Course Subject */
+            courseInfo.cSubject && (
+              <Col>
+                <Row>
+                  <h5 className="bold-heading-style">Subject</h5>
+                </Row>
+                <Row>
+                  <h5 className="heading-style">{courseInfo.cSubject}</h5>
+                </Row>
+              </Col>
+            )
+          }
+
+          {
+            /* Course Credits */
+            courseInfo.cSubject && (
+              <Col>
+                <Row>
+                  <h5 className="bold-heading-style">Credits</h5>
+                </Row>
+                <Row>
+                  <h5 className="heading-style">{courseInfo.cCredits}</h5>
+                </Row>
+              </Col>
+            )
+          }
         </Row>
 
-        {/* Course Description */}
-        <Row>
-          <h5 className="bold-heading-style">Description</h5>
-        </Row>
-        <Row>
-          <h5 className="heading-style">{courseInfo.cDescription}</h5>
-        </Row>
+        {
+          /* Course Description */
+          courseInfo.cSubject && (
+            <>
+              <Row>
+                <h5 className="bold-heading-style">Description</h5>
+              </Row>
+              <Row>
+                <h5 className="heading-style">{courseInfo.cDescription}</h5>
+              </Row>
+            </>
+          )
+        }
 
-        {/* Course Requisites */}
-        <Row>
-          <h5 className="heading-style">
-            <b>Requisites</b>
-            {": " + courseInfo.cReq}
-          </h5>
-        </Row>
+        {
+          /* Course Requisites */
+          courseInfo.cReq && (
+            <Row>
+              <h5 className="heading-style">
+                <b>Requisites</b>
+                {": " + courseInfo.cReq}
+              </h5>
+            </Row>
+          )
+        }
 
         {/* Cumulative Course GPA Graph */}
         <Row>

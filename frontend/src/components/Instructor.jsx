@@ -14,7 +14,7 @@ import { useParams, useNavigate } from "react-router-dom";
 
 /**
  * Instructor: component that shows instructor info as well as a list of all
- * classes taught by the instructor(and links to each one)
+ * classes taught by the instructor (and links to each one).
  * @returns Instructor React element
  *
  * @component

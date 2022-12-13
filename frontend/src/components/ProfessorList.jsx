@@ -23,8 +23,8 @@ import {
 /**
  * ProfessorList: Contains each instructor that teaches a particular course, as
  * well as their department, rate my professor rating, average GPA, and a graph
- * showing their average grade distribution for the class (GPAGraph)
- * This component is used by Course
+ * showing their average grade distribution for the class (GPAGraph).
+ * This component is used by Course.
  * @param {*} professorList list containing name, RMPRating, dept,
  * RMPRatingClass, id, and GPAgraph info for each professor that teaches a
  * certain course--determined in Course

@@ -12,8 +12,8 @@ import Button from "react-bootstrap/Button";
 import { useNavigate } from "react-router-dom";
 
 /**
- * Search: search bar for users to search by course or instructor
- * This component is used by Home and Course (previously also Header)
+ * Search: search bar for users to search by course or instructor.
+ * This component is used by Home and Course.
  * @returns Search React element
  *
  * @component

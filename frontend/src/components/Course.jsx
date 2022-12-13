@@ -19,8 +19,6 @@ import ProfessorList from "./ProfessorList";
  * Course: displays Header and all course info: basic course info, cumulative
  * GPA graph, list of reddit comments, and info on instructors that teach that
  * course.
- * when in course page, passing in a new search parameter does not rerender the
- * data (also applies to professor page)
  * @returns Course React element
  *
  * @component

@@ -10,8 +10,8 @@ import Row from "react-bootstrap/Row";
 
 /**
  * Reddit: This component shows Reddit comments about a certain class, using
- * comment specified by redditList
- * This component is used by Course
+ * comment specified by redditList.
+ * This component is used by Course.
  * @param {*} redditList contains the id, body, link, and number of votes for
  * the Reddit comments about a certain class
  * @returns Reddit React element

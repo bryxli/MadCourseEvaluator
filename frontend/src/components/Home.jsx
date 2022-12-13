@@ -7,7 +7,6 @@ import Search from "./Search";
 /**
  * Home: This component is the homepage for Madger Course, with a large title,
  * search bar, and blurb about the service.
- * uses the Header component at the top.
  * @returns Home React element
  *
  * @component

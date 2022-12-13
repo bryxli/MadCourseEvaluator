@@ -216,16 +216,21 @@ def pop_reddit_comments(testing=False):
     pass
 
 
-def PopTeaches(testing=False):
+def pop_teaches(testing=False):
     """
-    Function to populate the teaches table with cUIDs and pUIDs for each course. Defining what courses each professor teaches.
+    Function to populate the teaches table with cUIDs and pUIDs for each course which defines what courses each professor teaches. Entries contain a tUID
+    (auto-incremented), the course's cUID, and the professor's pUID. Professor data scraped from MadGrades.com per execution of the script.
 
-    Data: Professor data scraped from MadGrades per course.
+    Args:
+        testing (bool, optional): Whether or not to print runtime. Defaults to False.
+
+    Returns:
+        None: Populates the teaches table with cUIDs and pUIDs for each course which defines what courses each professor teaches.
     """
     if testing:
         # Start a timer to measure the time it takes to populate the professors table
         start = time.time()
-        print("----------PopTeaches----------")
+        print("----------pop_teaches----------")
 
     cursor = conn.cursor()
     # Get the cUID, and cCode of all courses
@@ -297,33 +302,39 @@ def PopTeaches(testing=False):
 
     cursor.close()
     if testing:
-        print("PopTeaches Runtime: ", time.time() - start, " seconds.")
+        print("pop_teaches' Runtime: ", time.time() - start, " seconds.")
     pass
 
 
-def PopDB(testing=False):
+def pop_db(testing=False):
     """
-    Function that populated the entire database by calling all Pop Functions.
+    Function that populates the entire database by calling all pop-functions.
+
+    Args:
+        testing (bool, optional): Whether or not to print runtime. Defaults to False.
+
+    Returns:
+        None: Populates the entire database by calling all pop-functions.
     """
     if testing:
         start = time.time()
-        print("-------------PopDB-------------")
+        print("-------------pop_db-------------")
         print("Populating Database...")
 
     pop_courses(testing)
     pop_professors(testing)
     pop_reddit_comments(testing)
-    PopTeaches(testing)
+    pop_teaches(testing)
 
     if testing:
         print("-------------------------------")
         print("Database Populated.")
-        print("PopDB Runtime: ", time.time() - start, " seconds.")
+        print("pop_db's Runtime: ", time.time() - start, " seconds.")
         print("-------------------------------")
     pass
 
 
 if __name__ == '__main__':
-    PopDB(testing=True)  # Run all Pop Functions
+    pop_db(testing=True)  # Run all Pop Functions
     # PopDB(testing = False) # Run all Pop Functions
     conn.close()

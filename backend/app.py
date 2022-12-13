@@ -160,7 +160,13 @@ def courseInfo(cUID):
 @app.route('/course-profs/<cUID>', methods=['GET', 'POST'])
 def courseProfs(cUID):
     """
-    Returns all professors who have taught the course recently.
+    Returns all professors who have taught the a course corresponding to the given cUID. 
+
+    Args:
+        cUID (str): Course Unique ID
+
+    Returns:
+        all_prof_json_data (dict): Dictionary mapping pUID to pData for all professors who have taught the course corresponding to the given cUID.
     """
     conn = engine.raw_connection()
     cursor = conn.cursor()
@@ -190,7 +196,17 @@ def courseProfs(cUID):
 @app.route('/reddit-comments/<cUID>', methods=['GET', 'POST'])
 def redditComments(cUID):
     """
-    Returns all Reddit comments associated with the course.
+    Returns all Reddit comments associated with the course corresponding to the given cUID.
+
+    Args:
+        cUID (str): Course Unique ID
+    
+    Returns:
+        all_rc_json_data (dict): Dictionary mapping rcUID to rcData for all Reddit comments associated with the course corresponding to the given cUID.
+    
+    Notes:
+        - At the moment, the script is restricted to only scrape comments for Statistics, Mathematics, and Computer Science courses.
+            -> This is to reduce the runtime of the script and to avoid paying hosting fees for a larger database.
     """
     conn = engine.raw_connection()
     cursor = conn.cursor()

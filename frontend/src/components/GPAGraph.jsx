@@ -23,6 +23,16 @@ import {
  * @returns GPAGraph React element
  *
  * @component
+ * @example
+ * graphInfo = [
+ *  { name: "A", grade: 0 },
+ *  { name: "AB", grade: 0 },
+ *  { name: "B", grade: 0 },
+ *  { name: "BC", grade: 0 },
+ *  { name: "C", grade: 0 },
+ *  { name: "D", grade: 0 },
+ *  { name: "F", grade: 0 }]
+ * <GPAGraph graphInfo={graphInfo} />
  */
 const GPAGraph = ({ graphInfo }) => {
   // graphInfo set in Course component

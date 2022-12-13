@@ -24,7 +24,7 @@ const Search = () => {
   // fetch class and professor lists
   useEffect(() => {
     // fetch the course list
-    fetch("http://3.145.22.97/all-courses").then((response) =>
+    fetch("https://3.145.22.97/all-courses").then((response) =>
       response.json().then((json) => {
         var classes = [];
         // for each course in the json response, create a new object with the course code and the course name
@@ -43,7 +43,7 @@ const Search = () => {
     );
 
     // fetch the professor list
-    fetch("http://3.145.22.97/all-profs").then((response) =>
+    fetch("https://3.145.22.97/all-profs").then((response) =>
       response.json().then((json) => {
         var professors = [];
         // for each professor in the json response, create a new object with the professor name

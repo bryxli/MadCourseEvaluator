@@ -29,7 +29,7 @@ const Course = () => {
 
   // fetch course info for a particular courseID
   useEffect(() => {
-    fetch("http://3.145.22.97/course-info/" + courseID).then((response) =>
+    fetch("https://3.145.22.97/course-info/" + courseID).then((response) =>
       response
         .json()
         .then((json) => {
@@ -44,7 +44,7 @@ const Course = () => {
   // The returned gpa graph distribution for this course is converted into the
   //    required format for our graph API
   useEffect(() => {
-    fetch("http://3.145.22.97/grade-distribution/" + courseID)
+    fetch("https://3.145.22.97/grade-distribution/" + courseID)
       .then((response) => response.json())
       .then((json) => {
         // if the response is valid
@@ -82,7 +82,7 @@ const Course = () => {
 
   // fetch professor list and professor GPA info for a particular profGraphInfo, courseID to be used in ProfessorList component
   useEffect(() => {
-    fetch("http://3.145.22.97/course-profs/" + courseID)
+    fetch("https://3.145.22.97/course-profs/" + courseID)
       .then((response) =>
         response.json().then((json) => {
           var professors = [];
@@ -137,7 +137,7 @@ const Course = () => {
 
   // fetch Reddit comments for a particular courseInfo, courseID to be used in Reddit component, sorting by popularity
   useEffect(() => {
-    fetch("http://3.145.22.97/reddit-comments/" + courseID)
+    fetch("https://3.145.22.97/reddit-comments/" + courseID)
       .then((response) =>
         response.json().then((json) => {
           var comments = [];

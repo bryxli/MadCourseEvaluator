@@ -25,7 +25,7 @@ const Instructor = () => {
   // fetch professor info and professor courses for a particular professorID
   useEffect(() => {
     // fetch the professor RMP data
-    fetch("http://3.145.22.97/prof-info/" + professorID)
+    fetch("https://3.145.22.97/prof-info/" + professorID)
       .then((response) =>
         response.json().then((json) => {
           setProfessor(json);
@@ -36,7 +36,7 @@ const Instructor = () => {
       );
 
     // fetch the courses RMP data
-    fetch("http://3.145.22.97/prof-courses/" + professorID).then((response) =>
+    fetch("https://3.145.22.97/prof-courses/" + professorID).then((response) =>
       response
         .json()
         .then((json) => {

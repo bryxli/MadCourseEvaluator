@@ -29,6 +29,11 @@ const Home = () => {
             {/* Search component */}
             <Search />
           </div>
+
+          {/** This is placeholder text to ensure that the row is constrained to the correct width */}
+          <p class="hidden">
+            aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+          </p>
         </Row>
       </Container>
     </Container>

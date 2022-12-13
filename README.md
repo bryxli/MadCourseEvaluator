@@ -1,66 +1,6 @@
 # MadCourseEvaluator
 
-
-
-## Getting started
-
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
-
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
-
-## Add your files
-
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
-
-```
-cd existing_repo
-git remote add origin https://git.doit.wisc.edu/cdis/cs/courses/cs506/madcourseevaluator.git
-git branch -M main
-git push -uf origin main
-```
-
-## Integrate with your tools
-
-- [ ] [Set up project integrations](https://git.doit.wisc.edu/cdis/cs/courses/cs506/madcourseevaluator/-/settings/integrations)
-
-## Collaborate with your team
-
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Automatically merge when pipeline succeeds](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
-
-## Test and Deploy
-
-Use the built-in continuous integration in GitLab.
-
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
-
-# Back End Documentation
-
-# Table of Contents
-
-- [About the Project](#star2-about-the-project)
-  * [Tech Stack](#space_invader-tech-stack)
-  * [Features](#dart-features)
-  * [Environment Variables](#key-environment-variables)
-- [Getting Started](#toolbox-getting-started)
-  * [Prerequisites](#bangbang-prerequisites)
-  * [Installation](#gear-installation)
-  * [Running Tests](#test_tube-running-tests)
-  * [Run Locally](#running-run-locally)
-  * [Deployment](#triangular_flag_on_post-deployment)
-- [Usage](#eyes-usage)
-- [Roadmap](#compass-roadmap)
-- [Acknowledgements](#gem-acknowledgements)
-
-## About the Project
+## Back End Documentation
 
 ### Tech Stack
 
@@ -183,7 +123,7 @@ Function calling every function necessary to populate data into MYSQL relational
 It seems like RateMyProfessor.com has multiple unique ID #'s for UW-Madison associated with different records. These records are not the same, but they may contain overlapping information (i.e. Same professor names, same department, but with different reviews). We want to account for sets of reviews so that we have the most possible, so we use both UIDs ```1256``` and ```18418```
 
 #### 1.1.2.2 RateMyProfessor Public API + Modifications
-This project uses a public API found from <a href="https://github.com/tisuela/ratemyprof-api"> this Github repository<a> which has two files to create a Professor object and another to scrape RateMyProfessor for professor information who taught at a particular school. We have made slight modifications to their code to allow scraping for any school given a RateMyProfessor school ID, allowing us to make an instance of a RateMyProfApi object for each of the RateMyProfessor unique school IDs that contain records of information about professors at UW-Madison. 
+This project uses a public API found from <a href="https://github.com/tisuela/ratemyprof-api"> this Github repository</a> which has two files to create a Professor object and another to scrape RateMyProfessor for professor information who taught at a particular school. We have made slight modifications to their code to allow scraping for any school given a RateMyProfessor school ID, allowing us to make an instance of a RateMyProfApi object for each of the RateMyProfessor unique school IDs that contain records of information about professors at UW-Madison. 
 
 #### 1.1.2.3 Scraping Professors Data
 Here we are scraping all professor data from each of the RateMyProfessor school endpoints associated with UW-Madison, and storing it in a large array object. Where we will use that data to populate our DB in the helper function.
@@ -230,6 +170,11 @@ This returns a JSON of grade distributions from the madgrades API.
 ### 1.5 RMP_professor.py
 This extracts data from the rate my professor API and loads it into JSON format (professor's name, dept, id, rating, total rating, rating class).
 
+Documentation can be found [here](backend/README.md)
+
+## Front End Documentation
+Documentation can be found [here](frontend/README.md)
+
 ## Roadmap
 
 * [ ]  Todo 1
@@ -241,5 +186,3 @@ This extracts data from the rate my professor API and loads it into JSON format 
  - [Awesome README](https://github.com/matiassingers/awesome-readme)
  - [Emoji Cheat Sheet](https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md#travel--places)
  - [Readme Template](https://github.com/othneildrew/Best-README-Template)
-
-

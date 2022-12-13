@@ -1,3 +1,11 @@
+/**
+ * Authors: Aidan Shine, Bryan Li, Jarvis Jia, Peter Bryant, Swathi Annamaneni, Tong Yang
+ * Revision History: 11/01/2022:12/13/2022
+ * Organization: Madgers
+ * Version: 1.0.0
+ */
+
+// Test that routes visit each page successfully
 describe("Router", () => {
   beforeEach(() => {
     cy.visit("localhost:3000/");

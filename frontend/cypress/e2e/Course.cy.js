@@ -1,9 +1,12 @@
-/// <reference types ="cypress" />
+/**
+ * Authors: Aidan Shine, Bryan Li, Jarvis Jia, Peter Bryant, Swathi Annamaneni, Tong Yang
+ * Revision History: 11/01/2022:12/13/2022
+ * Organization: Madgers
+ * Version: 1.0.0
+ */
 
+// Test to make sure that visiting course pages are working
 describe("Test Visiting Courses", () => {
-  /**
-   * Basic testing to make sure that visiting course pages are working
-   */
   it("T1: Visits MATH 221 and displays entire course page information", () => {
     cy.visit("http://localhost:3000/course?id=79922");
   });
@@ -25,6 +28,7 @@ describe("Test Visiting Courses", () => {
   });
 });
 
+// Test to make sure that content on course page is rendered
 describe("Test Contents of Course Page", () => {
   it("T1: Contains Web Page Title", () => {
     cy.visit("http://localhost:3000/course?id=79922");
@@ -85,61 +89,5 @@ describe("Test Contents of Course Page", () => {
   it("T12: Contains Professor List", () => {
     cy.visit("http://localhost:3000/course?id=79922");
     cy.get("[class$=professor-list]");
-  });
-});
-
-describe("Test Visiting Instructor Page", () => {
-  it("T1: Visiting a professor in MATH221 ", () => {
-    cy.visit("http://localhost:3000/instructor?id=152844");
-  });
-
-  it("T2: Visiting a professor in COMPSCI 200 ", () => {
-    cy.visit("http://localhost:3000/instructor?id=152844");
-  });
-
-  it("T3: Visiting a professor in COMPSCI 240 ", () => {
-    cy.visit("http://localhost:3000/instructor?id=149353");
-  });
-
-  it("T4: Visiting a professor in COMPSCI 577 ", () => {
-    cy.visit("http://localhost:3000/instructor?id=149499");
-  });
-
-  it("T5: Visiting a professor in COMPSCI 520 ", () => {
-    cy.visit("http://localhost:3000/instructor?id=149519");
-  });
-});
-
-describe("Test Contents of Instructor Page", () => {
-  it("T1: Contains Department", () => {
-    cy.visit("http://localhost:3000/instructor?id=149353");
-    cy.get("[class$=bold-heading-style]");
-  });
-
-  it("T1: Contains Rating", () => {
-    cy.visit("http://localhost:3000/instructor?id=149353");
-    cy.get("[class$=bold-heading-style]");
-  });
-
-  it("T1: Contains Professor Name", () => {
-    cy.visit("http://localhost:3000/instructor?id=149353");
-    // cy.wait(5000);
-    cy.get("[style$=font-size:]");
-  });
-});
-
-describe("Test Reddit List Content in Course Page", () => {
-  it("T11: Click content in reddit comments", () => {
-    cy.visit("http://localhost:3000/course?id=79778");
-    // cy.wait(5000);
-    cy.get("[class$=reddit-list-item]");
-  });
-});
-
-describe("Test Professor List Content in Course Page", () => {
-  it("T11: Click content in reddit comments", () => {
-    cy.visit("http://localhost:3000/course?id=79778");
-    // cy.wait(5000);
-    cy.get("[class$=professor-list-item]");
   });
 });

@@ -1,3 +1,9 @@
+__author__ = "Peter Bryant, Jarvis Jia"
+__credits__ = ["Peter Bryant", "Jarvis Jia", "Bryan Li", "Swathi Annamaneni", "Aidan Shine"]
+__version__ = "1.0.0"
+__maintainer__ = "Jarvis Jia"
+__status__ = "Development"
+
 import unittest
 import os
 import sys

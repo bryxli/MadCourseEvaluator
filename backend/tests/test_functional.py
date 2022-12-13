@@ -22,6 +22,9 @@ class TestCourseRoutes(unittest.TestCase):
     Tests for Course Flask API Routes in app.py 
     """
     def test_all_courses(self): 
+        """
+        Test /all-courses endpoint
+        """
         request = app.test_client().get('/all-courses')   # Make a request to the /all-courses endpoint
         self.assertEqual(request.status_code, 200)        # Assert that the request was successful (200)
         self.assertEqual(request is not None, True)       # Assert that the request is not None
@@ -39,6 +42,9 @@ class TestCourseRoutes(unittest.TestCase):
                 break
 
     def test_course_info(self):
+        """
+        Test /course-info endpoint
+        """
         cs577_cUID = test_config.cs577_cUID
         route = '/course-info/'
         full_request = route + cs577_cUID
@@ -63,6 +69,9 @@ class TestCourseRoutes(unittest.TestCase):
         self.assertEqual(len(request.json.keys()), 7)
 
     def test_course_profs(self):
+        """
+        Test /course-profs endpoint
+        """
         cs577_cUID = test_config.cs577_cUID
         route = '/course-profs/'
         full_request = route + cs577_cUID
@@ -98,6 +107,9 @@ class TestCourseRoutes(unittest.TestCase):
         self.assertEqual(contains_eric_bach, True)
 
     def test_course_reddit_comments(self):
+        """
+        Test /reddit-comments endpoint
+        """
         cs577_cUID = test_config.cs577_cUID
         route = '/reddit-comments/'
         full_request = route + cs577_cUID
@@ -128,6 +140,9 @@ class TestCourseRoutes(unittest.TestCase):
             self.assertEqual(link_request.status_code, 200)
 
     def test_course_grade_distribution(self):
+        """
+        Test /grade-distribution endpoint
+        """
         cs577_cUID = test_config.cs577_cUID
         route = '/grade-distribution/'
         full_request = route + cs577_cUID
@@ -170,6 +185,9 @@ class TestProfRoutes(unittest.TestCase):
     Tests for Professor Flask API Routes in app.py 
     """
     def test_all_profs(self): 
+        """
+        Test /all-profs endpoint
+        """
         request = app.test_client().get('/all-profs')     # Make a request to the /all-courses endpoint
         self.assertEqual(request.status_code, 200)        # Assert that the request was successful (200)
         self.assertEqual(request is not None, True)       # Assert that the request is not None
@@ -191,6 +209,9 @@ class TestProfRoutes(unittest.TestCase):
                 break
 
     def test_prof_info(self): 
+        """
+        Test /prof-info endpoint
+        """
         pUID_marc_renault = test_config.marc_renault_pUID
         route = '/prof-info/'
         full_request = route + pUID_marc_renault
@@ -211,6 +232,9 @@ class TestProfRoutes(unittest.TestCase):
         self.assertEqual(request.json['dept'], "Computer Science")
 
     def test_prof_courses(self):
+        """
+        Test /prof-courses endpoint
+        """
         pUID_marc_renault = test_config.marc_renault_pUID
         route = '/prof-courses/'
         full_request = route + pUID_marc_renault

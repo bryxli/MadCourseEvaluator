@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 __author__ = "Peter Bryant, Jarvis Jia"
 __credits__ = ["Peter Bryant", "Jarvis Jia",
-               "Bryan Li", "Swathi Annamaneni", "Aidan Shine"]
+               "Bryan Li", "Swathi Annamaneni", "Aidan Shine", "Tong Yang"]
 __version__ = "1.0.0"
 __maintainer__ = "Peter Bryant"
 __email__ = "pbryant2@wisc.edu"

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 __author__ = "Peter Bryant, Jarvis Jia"
 __credits__ = ["Peter Bryant", "Jarvis Jia",
-               "Bryan Li", "Swathi Annamaneni", "Aidan Shine"]
+               "Bryan Li", "Swathi Annamaneni", "Aidan Shine, Tong Yang"]
 __version__ = "1.0.0"
 __maintainer__ = "Peter Bryant"
 __email__ = "pbryant2@wisc.edu"
@@ -38,6 +38,7 @@ import json
 # Custom Scripts
 # Custom MadGrades Script for Grade Distributions
 import madgrades as mg
+import populate_db
 import config                           # Application Configuration
 
 db_uri = 'mysql://' + config.user + ':' + config.password + '@' + config.host + '/' + config.database
@@ -49,7 +50,6 @@ app.config['CORS_HEADERS'] = 'Content-Type'     # Set CORS header
 app.secret_key = config.secret                  # Set Flask Secret Key
 app.config['SQLALCHEMY_DATABASE_URI'] = db_uri  # Set SQLAlchemy URI
 engine = create_engine(db_uri)                  # Create SQLAlchemy Engine
-
 
 @app.route('/all-courses', methods=['GET', 'POST'])
 def all_courses():

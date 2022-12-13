@@ -77,7 +77,7 @@ class TestUtil(unittest.TestCase):
 
         compsci_577_cCode = 'COMP SCI 577'
         
-        grade_distributions = mg.MadGrades(compsci_577_cCode) # Get grade distributions for COMP SCI 577
+        grade_distributions = mg.mad_grades(compsci_577_cCode) # Get grade distributions for COMP SCI 577
 
         # Test that grade distributions are returned with correct keys
         self.assertIsInstance(grade_distributions, dict)

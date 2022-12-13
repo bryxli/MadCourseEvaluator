@@ -12,6 +12,12 @@ def mad_grades(courseCode):
     """
     Pulls grade distribution data for a course corresponding to a courseCode offered at UW-Madison.
     Example Course Code: "COMP SCI 577"
+
+    Args:
+        courseCode (str): Course code of the course for which grade distribution data is desired (ex. COMP SCI)
+
+    Returns:
+        dict: Dictionary containing grade distribution data for the course
     """
     search = courseCode
     response = requests.get(madGrades_query_url + search, headers=auth_header) # API request to access list of courses matching search query

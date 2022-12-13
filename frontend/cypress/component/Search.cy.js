@@ -7,6 +7,12 @@
 
 import Search from "../../src/components/Search";
 
+/**
+ * Search.cy.js
+ * Component Test: Search.jsx
+ * Tests component render
+ */
+
 describe("Search", () => {
   // Test component rendered on page
   it("Rendered", () => {

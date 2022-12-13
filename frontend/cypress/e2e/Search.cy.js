@@ -7,6 +7,12 @@
 
 /* eslint-disable cypress/no-unnecessary-waiting */
 
+/**
+ * Search.cy.js
+ * End to End Test: Search.jsx
+ * Tests making connection with backend and retrieving data in search bar
+ */
+
 // Test search bar retrieves correct number of courses and professors
 describe("Search", () => {
   it("Search bar successfully retrieves all courses and professors", () => {

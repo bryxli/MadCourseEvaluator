@@ -7,6 +7,12 @@
 
 import GPAGraph from "../../src/components/GPAGraph";
 
+/**
+ * GPAGraph.cy.js
+ * Component Test: GPAGraph.jsx
+ * Tests component render
+ */
+
 describe("GPAGraph", () => {
   // Test component rendered on page
   it("Rendered", () => {

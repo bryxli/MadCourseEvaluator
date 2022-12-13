@@ -15,7 +15,10 @@ import Home from "./components/Home";
 import Course from "./components/Course";
 import Instructor from "./components/Instructor";
 
-// App: stores the router logic of the web application
+/**
+ * App: stores the router logic of the web application
+ * @returns App React element
+ */
 function App() {
   return (
     // Router enables navigation between different React components

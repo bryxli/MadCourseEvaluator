@@ -29,6 +29,12 @@ import {
  * RMPRatingClass, id, and GPAgraph info for each professor that teaches a
  * certain course--determined in Course
  * @returns ProfessorList React element
+ *
+ * @component
+ * @example
+ * professor = { name, RMPRating, dept, RMPRatingClass, id, graph }
+ * professorList = [professor]
+ * <ProfessorList professorList={professorList} />
  */
 const ProfessorList = ({ professorList }) => {
   const navigate = useNavigate(); // useNavigate hook which is used to navigate to a different route

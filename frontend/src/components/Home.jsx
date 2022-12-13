@@ -9,6 +9,8 @@ import Search from "./Search";
  * search bar, and blurb about the service.
  * uses the Header component at the top.
  * @returns Home React element
+ *
+ * @component
  */
 const Home = () => {
   return (

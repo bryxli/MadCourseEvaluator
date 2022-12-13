@@ -15,6 +15,8 @@ import { useNavigate } from "react-router-dom";
  * Search: search bar for users to search by course or instructor
  * This component is used by Home and Course (previously also Header)
  * @returns Search React element
+ *
+ * @component
  */
 const Search = () => {
   const navigate = useNavigate(); // useNavigate hook which is used to navigate to a different route

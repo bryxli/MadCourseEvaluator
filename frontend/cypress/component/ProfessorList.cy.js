@@ -7,7 +7,13 @@
 
 import ProfessorList from "../../src/components/ProfessorList";
 
-describe("GPAGraph", () => {
+/**
+ * ProfessorList.cy.js
+ * Component Test: ProfessorList.jsx
+ * Tests component render
+ */
+
+describe("ProfessorList", () => {
   // Test component rendered on page
   it("Rendered", () => {
     // Test data to pass into ProfessorList

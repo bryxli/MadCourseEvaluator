@@ -15,6 +15,12 @@ import Row from "react-bootstrap/Row";
  * @param {*} redditList contains the id, body, link, and number of votes for
  * the Reddit comments about a certain class
  * @returns Reddit React element
+ *
+ * @component
+ * @example
+ * comment = { id, body, link, votes }
+ * redditList = [comment]
+ * <Reddit redditList={redditList} />
  */
 const Reddit = ({ redditList }) => {
   return (

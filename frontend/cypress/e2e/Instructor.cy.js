@@ -7,6 +7,12 @@
 
 /* eslint-disable cypress/no-unnecessary-waiting */
 
+/**
+ * Instructor.cy.js
+ * End to End Test: Instructor.jsx
+ * Tests making connection with backend and retrieving data in instructor page
+ */
+
 // Test to make sure that visiting instructor pages are working
 describe("Test Visiting Instructor Page", () => {
   it("T1: Visiting Marc Renault ", () => {

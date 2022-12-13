@@ -16,6 +16,8 @@ import { LinkContainer } from "react-router-bootstrap";
  * contains search bar on left
  * this component is used by Course, Instructor and Home
  * @returns Header React element
+ *
+ * @component
  */
 const Header = () => {
   return (

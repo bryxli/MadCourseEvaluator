@@ -5,6 +5,12 @@
  * Version: 1.0.0
  */
 
+/**
+ * Router.cy.js
+ * End to End Test: Router.jsx
+ * Tests connectivity of router
+ */
+
 // Test that routes visit each page successfully
 describe("Router", () => {
   beforeEach(() => {

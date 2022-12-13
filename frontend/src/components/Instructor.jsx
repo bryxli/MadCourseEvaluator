@@ -16,6 +16,8 @@ import { useParams, useNavigate } from "react-router-dom";
  * Instructor: component that shows instructor info as well as a list of all
  * classes taught by the instructor(and links to each one)
  * @returns Instructor React element
+ *
+ * @component
  */
 const Instructor = () => {
   const navigate = useNavigate(); // useNavigate hook which is used to navigate to a different route

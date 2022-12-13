@@ -19,9 +19,11 @@ import ProfessorList from "./ProfessorList";
  * Course: displays Header and all course info: basic course info, cumulative
  * GPA graph, list of reddit comments, and info on instructors that teach that
  * course.
- * when in course page, pssing in a new search parameter does not rerender the
+ * when in course page, passing in a new search parameter does not rerender the
  * data (also applies to professor page)
  * @returns Course React element
+ *
+ * @component
  */
 const Course = () => {
   const courseID = useParams().id; // get the value of the id param
@@ -249,7 +251,7 @@ const Course = () => {
           )
         }
 
-        {/* Cumulative Course GPA Graph */}
+        {/* Cumulative Course GPA Graph and Reddit*/}
         <Row>
           {graphInfo && // if there is graph data and reddit data, make a row to
           // hold them
@@ -265,7 +267,7 @@ const Course = () => {
                 <></>
               )}
 
-              {redditList && redditList.length > 0 ? ( // if there is reddit infoo display reddit comments
+              {redditList && redditList.length > 0 ? ( // if there is reddit info display reddit comments
                 <Row xs={12} md={6} className="reddit-box">
                   <Reddit redditList={redditList} />
                 </Row>

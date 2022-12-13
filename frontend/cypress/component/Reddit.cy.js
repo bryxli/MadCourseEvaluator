@@ -7,6 +7,12 @@
 
 import Reddit from "../../src/components/Reddit";
 
+/**
+ * Reddit.cy.js
+ * Component Test: Reddit.jsx
+ * Tests component render
+ */
+
 describe("Reddit", () => {
   // Test component rendered on page
   it("Rendered", () => {

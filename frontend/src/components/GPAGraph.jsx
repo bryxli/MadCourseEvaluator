@@ -21,6 +21,8 @@ import {
  * This component is used by Course
  * @param {*} graphInfo data to be displayed in graph, determined in Course
  * @returns GPAGraph React element
+ *
+ * @component
  */
 const GPAGraph = ({ graphInfo }) => {
   // graphInfo set in Course component

@@ -5,6 +5,12 @@
  * Version: 1.0.0
  */
 
+/**
+ * Course.cy.js
+ * End to End Test: Course.jsx
+ * Tests making connection with backend and retrieving data in course page
+ */
+
 // Test to make sure that visiting course pages are working
 describe("Test Visiting Courses", () => {
   it("T1: Visits MATH 221 and displays entire course page information", () => {

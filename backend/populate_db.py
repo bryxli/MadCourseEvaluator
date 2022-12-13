@@ -10,7 +10,7 @@ __status__ = "Development"
 
 """
 Script to populate the database whose connection is defined in config.py.
-- Database is MySQL DB hosted on AWS RDS
+- Database: MySQL DB hosted on AWS RDS
 - Tables: courses, professors, rc (reddit comments), and teaches
 - Static File Dependencies: config.py, all-courses.json, all-professors.json
 - Function/Script Dependencies: madgrades.py, rmp_scrape/fetch_all.py, course_scrape/fetch_all.py
@@ -212,7 +212,8 @@ def pop_reddit_comments(testing=False):
 
     cursor.close()
     if testing:
-        print("pop_reddit_comments' Runtime: ", time.time() - start, " seconds.")
+        print("pop_reddit_comments' Runtime: ",
+              time.time() - start, " seconds.")
     pass
 
 
